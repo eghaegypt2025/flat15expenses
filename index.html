@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>حاسبة ومتابع مصاريف تجهيز وفرش الشقة</title>
 
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مصاريف الشقة">
+    <meta name="application-name" content="مصاريف الشقة">
+    <meta name="description" content="تطبيق لحساب ومتابعة مصاريف تجهيز وفرش الشقة بالكامل وحفظها محلياً على جهازك">
+
+    <!-- Embedded PWA Web App Manifest (Data URI) -->
+    <link rel="manifest" href='data:application/manifest+json;utf-8,%7B%22name%22%3A%22%D8%AD%D8%A7%D8%B3%D8%A8%D8%A9%20%D9%88%D9%85%D8%AA%D8%A7%D8%A8%D8%B9%20%D9%85%D8%B5%D8%A7%D8%B1%D9%8A%D9%81%20%D8%A7%D9%84%D8%B4%D9%82%D8%A9%22%2C%22short_name%22%3A%22%D9%85%D8%B5%D8%A7%D8%B1%D9%8A%D9%81%20%D8%A7%D9%84%D8%B4%D9%82%D8%A9%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%234f46e5%22%2C%22orientation%22%3A%22portrait-primary%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27128%27%20fill%3D%27%234f46e5%27%2F%3E%3Cpath%20d%3D%27M256%2096L80%20240h48v176h256V240h48z%27%20fill%3D%27%23ffffff%27%2F%3E%3Cpath%20d%3D%27M208%20288h96v128h-96z%27%20fill%3D%27%23cbd5e1%27%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%20512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D'>
+
+    <!-- App Favicon & Apple Touch Icon (SVG) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%234f46e5'/><path d='M50 20 L20 48 H28 V80 H72 V48 H80 Z' fill='white'/></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%234f46e5'/><path d='M50 20 L20 48 H28 V80 H72 V48 H80 Z' fill='white'/></svg>">
+
     <!-- Google Fonts: Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,22 +114,19 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
                 
-                <!-- Logo & Brand -->
+                <!-- Logo & Brand (Clean, without PWA badge) -->
                 <div class="flex items-center gap-3 min-w-0">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-primary-700 via-primary-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-primary-500/30 flex-shrink-0">
                         <i class="fa-solid fa-house-chimney-window text-lg sm:text-2xl"></i>
                     </div>
                     <div class="truncate">
-                        <div class="flex items-center gap-2">
-                            <h1 class="text-base sm:text-xl font-black text-slate-800 tracking-tight truncate">مصاريف الشقة</h1>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">حفظ تلقائي</span>
-                        </div>
+                        <h1 class="text-base sm:text-xl font-black text-slate-800 tracking-tight truncate">مصاريف الشقة</h1>
                         <p class="text-xs text-slate-500 hidden sm:block truncate">متابعة إيجار، تأمين، تشطيب، وتجهيز الشقة بالكامل على جهازك</p>
                     </div>
                 </div>
 
-                <!-- Header Actions: Drawer Menu Button -->
-                <div class="flex items-center gap-2.5 flex-shrink-0">
+                <!-- Header Actions: Drawer Menu Button Only -->
+                <div class="flex items-center gap-2 flex-shrink-0">
                     <button id="sidebarToggleBtn" onclick="toggleSidebar()" type="button" class="px-3.5 py-2 sm:px-4 sm:py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-bold rounded-xl border border-slate-200 transition-all flex items-center gap-2 text-xs sm:text-sm cursor-pointer shadow-xs" title="فتح قائمة الخيارات">
                         <i class="fa-solid fa-bars text-primary-600 text-base sm:text-lg"></i>
                         <span class="hidden md:inline">القائمة والخيارات</span>
@@ -141,7 +154,7 @@
             </button>
         </div>
 
-        <!-- Drawer Content Menu -->
+        <!-- Drawer Content Menu (Clean: Budget, PDF, Export, Import, Print, Reset) -->
         <div class="flex-1 overflow-y-auto p-4 space-y-3 text-sm">
             
             <!-- Budget setting -->
@@ -557,6 +570,60 @@
         </div>
     </div>
 
+    <!-- One-Time First-Visit PWA Install Prompt Modal -->
+    <div id="firstTimePwaModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-6 text-center transform transition-all animate-bounce-short">
+            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-primary-600 to-indigo-500 text-white flex items-center justify-center mx-auto mb-3 text-2xl shadow-lg shadow-primary-500/30">
+                <i class="fa-solid fa-house-chimney-window"></i>
+            </div>
+            <h3 class="font-extrabold text-slate-800 text-base sm:text-lg mb-1">تثبيت التطبيق على جهازك</h3>
+            <p class="text-xs text-slate-600 mb-3 leading-relaxed">
+                يمكنك تثبيت حاسبة مصاريف الشقة لتعمل كتطبيق هاتف سريع ومستقل بالكامل بدون إنترنت.
+            </p>
+            <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-2.5 text-[11px] text-indigo-700 font-semibold mb-4 flex items-center gap-2 text-right">
+                <i class="fa-solid fa-circle-check text-sm flex-shrink-0 text-indigo-600"></i>
+                <span>يتم التثبيت لمرة واحدة فقط ولن يظهر هذا التنبيه مجدداً.</span>
+            </div>
+            <div class="flex flex-col gap-2">
+                <button type="button" onclick="acceptFirstTimePWAInstall()" class="w-full py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-md shadow-primary-500/25 transition-all cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i>
+                    <span>تثبيت التطبيق الآن</span>
+                </button>
+                <button type="button" onclick="dismissFirstTimePWAModal()" class="w-full py-2 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all cursor-pointer">
+                    متابعة في المتصفح وتخطي
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- iOS PWA Install Guidance Modal -->
+    <div id="iosInstallModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3 text-2xl">
+                <i class="fa-brands fa-apple"></i>
+            </div>
+            <h3 class="font-extrabold text-slate-800 text-base mb-1">تثبيت التطبيق على آيفون / آيباد</h3>
+            <p class="text-xs text-slate-600 mb-4 leading-relaxed">
+                لتثبيت التطبيق على جهازك بنظام iOS:
+            </p>
+            <div class="bg-slate-50 rounded-2xl p-3 text-xs text-slate-700 text-right space-y-2 mb-4 border border-slate-200">
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold">1</span>
+                    <span>اضغط على زر المشاركة <i class="fa-solid fa-arrow-up-from-bracket text-primary-600 mx-1"></i> في أسفل المتصفح.</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold">2</span>
+                    <span>اختر <strong>"إضافة إلى الشاشة الرئيسية" (Add to Home Screen)</strong>.</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold">3</span>
+                    <span>اضغط على <strong>"إضافة" (Add)</strong> في الزاوية العلوية.</span>
+                </div>
+            </div>
+            <button type="button" onclick="closeIosInstallModal()" class="w-full py-2.5 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 shadow-xs cursor-pointer">حسناً، فهمت</button>
+        </div>
+    </div>
+
     <!-- Custom Confirmation Modal (No Browser Confirm) -->
     <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center">
@@ -582,6 +649,7 @@
         // Storage Keys
         const STORAGE_EXPENSES = 'apartment_expenses_list_v4';
         const STORAGE_SETTINGS = 'apartment_settings_info_v4';
+        const STORAGE_PWA_NOTIFIED = 'apartment_pwa_installed_or_dismissed_v1';
 
         // State
         let expenses = [];
@@ -594,12 +662,14 @@
         let confirmationCallback = null;
         let categoryChartInstance = null;
         let roomChartInstance = null;
+        let deferredPrompt = null;
 
         // Startup
         window.addEventListener('DOMContentLoaded', () => {
             loadStoredData();
             initTodayDate();
             renderAll();
+            initPWA();
         });
 
         function initTodayDate() {
@@ -617,7 +687,6 @@
                 if (savedExpenses) {
                     expenses = JSON.parse(savedExpenses);
                 } else {
-                    // Fallback to check prior versions if available
                     const oldV3 = localStorage.getItem('apartment_expenses_list_v3');
                     if (oldV3) {
                         expenses = JSON.parse(oldV3);
@@ -650,6 +719,138 @@
             } catch (err) {
                 console.error('Error saving data:', err);
                 showToast('حدث خطأ أثناء حفظ البيانات محلياً', 'error');
+            }
+        }
+
+        // Initialize PWA Service Worker & Install Flow
+        function initPWA() {
+            // Register an inline Service Worker via Blob
+            if ('serviceWorker' in navigator) {
+                const swScript = `
+                    const CACHE_NAME = 'expenses-cache-v1';
+                    self.addEventListener('install', (e) => {
+                        self.skipWaiting();
+                    });
+                    self.addEventListener('activate', (e) => {
+                        e.waitUntil(clients.claim());
+                    });
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(
+                            fetch(e.request).catch(() => caches.match(e.request))
+                        );
+                    });
+                `;
+                try {
+                    const blob = new Blob([swScript], { type: 'text/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    navigator.serviceWorker.register(swUrl).catch(err => {
+                        console.log('SW Note:', err);
+                    });
+                } catch (e) {
+                    console.log('SW not supported in this frame', e);
+                }
+            }
+
+            // Capture install prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                checkAndShowFirstTimePWAModal();
+            });
+
+            // App already installed listener
+            window.addEventListener('appinstalled', () => {
+                deferredPrompt = null;
+                localStorage.setItem(STORAGE_PWA_NOTIFIED, 'true');
+                closeFirstTimePWAModal();
+                showToast('تم تثبيت التطبيق بنجاح على جهازك!', 'success');
+            });
+
+            // Check after a brief delay for iOS/devices where beforeinstallprompt might not fire
+            setTimeout(() => {
+                checkAndShowFirstTimePWAModal();
+            }, 1200);
+        }
+
+        function isRunningStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || 
+                   window.navigator.standalone || 
+                   document.referrer.includes('android-app://');
+        }
+
+        function checkAndShowFirstTimePWAModal() {
+            // If already installed as standalone or already dismissed once by the user, do not show
+            if (isRunningStandalone() || localStorage.getItem(STORAGE_PWA_NOTIFIED) === 'true') {
+                return;
+            }
+
+            const modal = document.getElementById('firstTimePwaModal');
+            if (modal && modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeFirstTimePWAModal() {
+            const modal = document.getElementById('firstTimePwaModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function dismissFirstTimePWAModal() {
+            localStorage.setItem(STORAGE_PWA_NOTIFIED, 'true');
+            closeFirstTimePWAModal();
+        }
+
+        function acceptFirstTimePWAInstall() {
+            localStorage.setItem(STORAGE_PWA_NOTIFIED, 'true');
+            closeFirstTimePWAModal();
+            triggerPWAInstall();
+        }
+
+        function triggerPWAInstall() {
+            // Check if native install prompt is available (Android / Chrome / Desktop)
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('جاري تثبيت التطبيق...', 'success');
+                    }
+                    deferredPrompt = null;
+                });
+                return;
+            }
+
+            // Detect iOS Safari
+            const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+            if (isRunningStandalone()) {
+                showToast('التطبيق مثبت بالفعل ويعمل كـ PWA على جهازك', 'info');
+                return;
+            }
+
+            if (isIos) {
+                openIosInstallModal();
+            } else {
+                showToast('لتثبيت التطبيق: افتح خيارات المتصفح (⋮) واختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية"', 'info');
+            }
+        }
+
+        function openIosInstallModal() {
+            const modal = document.getElementById('iosInstallModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeIosInstallModal() {
+            const modal = document.getElementById('iosInstallModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }
         }
 
@@ -1321,7 +1522,7 @@
 
         function exportDataToFile() {
             const backupObject = {
-                version: '4.0',
+                version: '4.5',
                 exportDate: new Date().toISOString(),
                 settings: appSettings,
                 expenses: expenses
