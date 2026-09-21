@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -805,8 +806,9 @@
 
             // Filter List
             const filtered = expenses.filter(item => {
+                const displayName = item.category || item.title || '';
                 const matchesSearch = !searchVal || 
-                    (item.title && item.title.toLowerCase().includes(searchVal)) ||
+                    displayName.toLowerCase().includes(searchVal) ||
                     (item.vendor && item.vendor.toLowerCase().includes(searchVal)) ||
                     (item.notes && item.notes.toLowerCase().includes(searchVal));
                 
@@ -832,18 +834,15 @@
                 const paid = parseFloat(item.paidAmount) || 0;
                 const rem = Math.max(0, cost - paid);
                 const isPaidFull = rem <= 0;
+                const displayName = item.category || item.title || 'مصروف عام';
 
                 return `
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="py-3 px-4">
-                            <div class="font-bold text-slate-900">${escapeHtml(item.title)}</div>
+                            <div class="font-bold text-slate-900">${escapeHtml(displayName)}</div>
+                            ${item.notes ? `<div class="text-[11px] text-slate-600 font-medium">${escapeHtml(item.notes)}</div>` : ''}
                             ${item.vendor ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-store ml-1 text-slate-300"></i>${escapeHtml(item.vendor)}</div>` : ''}
                             ${item.date ? `<div class="text-[10px] text-slate-400">${item.date}</div>` : ''}
-                        </td>
-                        <td class="py-3 px-4">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                                ${escapeHtml(item.category)}
-                            </span>
                         </td>
                         <td class="py-3 px-4">
                             <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
@@ -884,15 +883,16 @@
                 const paid = parseFloat(item.paidAmount) || 0;
                 const rem = Math.max(0, cost - paid);
                 const isPaidFull = rem <= 0;
+                const displayName = item.category || item.title || 'مصروف عام';
 
                 return `
                     <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
                         <div class="flex items-start justify-between gap-2">
                             <div>
-                                <h4 class="font-black text-slate-900 text-sm">${escapeHtml(item.title)}</h4>
+                                <h4 class="font-black text-slate-900 text-sm">${escapeHtml(displayName)}</h4>
                                 <div class="flex flex-wrap items-center gap-1.5 mt-1">
-                                    <span class="inline-block text-[10px] font-bold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md border border-slate-200">${escapeHtml(item.category)}</span>
-                                    <span class="inline-block text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-100">${escapeHtml(item.room)}</span>
+                                    <span class="inline-block text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-100"><i class="fa-solid fa-door-open ml-1 text-[9px]"></i>${escapeHtml(item.room)}</span>
+                                    ${item.vendor ? `<span class="inline-block text-[10px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md"><i class="fa-solid fa-store ml-1 text-[9px]"></i>${escapeHtml(item.vendor)}</span>` : ''}
                                 </div>
                             </div>
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${isPaidFull ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">
@@ -915,10 +915,9 @@
                             </div>
                         </div>
 
-                        ${item.vendor || item.notes ? `
-                            <p class="text-[11px] text-slate-500 truncate">
-                                ${item.vendor ? `<span class="font-bold ml-1">${escapeHtml(item.vendor)}:</span>` : ''}
-                                ${escapeHtml(item.notes || '')}
+                        ${item.notes ? `
+                            <p class="text-[11px] text-slate-600 font-medium truncate">
+                                ${escapeHtml(item.notes)}
                             </p>
                         ` : ''}
 
@@ -1002,7 +1001,7 @@
                             <div class="space-y-1">
                                 ${data.items.slice(0, 3).map(it => `
                                     <div class="flex items-center justify-between text-[11px] text-slate-600">
-                                        <span class="truncate">${escapeHtml(it.title)}</span>
+                                        <span class="truncate font-medium">${escapeHtml(it.category || it.title)} ${it.notes ? `(${escapeHtml(it.notes)})` : ''}</span>
                                         <span class="font-bold">${formatMoney(it.totalCost)} ج.م</span>
                                     </div>
                                 `).join('')}
@@ -1040,15 +1039,16 @@
                 const cost = parseFloat(item.totalCost) || 0;
                 const paid = parseFloat(item.paidAmount) || 0;
                 const rem = cost - paid;
+                const displayName = item.category || item.title || 'مصروف عام';
 
                 return `
                     <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                         <div>
                             <div class="flex items-center gap-2">
-                                <h4 class="font-black text-slate-900 text-sm">${escapeHtml(item.title)}</h4>
-                                <span class="text-[10px] bg-amber-50 text-amber-700 font-bold px-2 py-0.5 rounded border border-amber-200">${escapeHtml(item.category)}</span>
+                                <h4 class="font-black text-slate-900 text-sm">${escapeHtml(displayName)}</h4>
                                 <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">${escapeHtml(item.room)}</span>
                             </div>
+                            ${item.notes ? `<div class="text-xs text-slate-600 mt-0.5 font-medium">${escapeHtml(item.notes)}</div>` : ''}
                             <div class="text-xs text-slate-500 mt-1">
                                 الإجمالي: <strong class="text-slate-800">${formatMoney(cost)} ج.م</strong> | المدفوع: <strong class="text-emerald-600">${formatMoney(paid)} ج.م</strong>
                                 ${item.vendor ? ` | الجهة: <strong>${escapeHtml(item.vendor)}</strong>` : ''}
@@ -1179,7 +1179,7 @@
             const modal = document.getElementById('expenseModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            setTimeout(() => document.getElementById('itemTitle').focus(), 50);
+            setTimeout(() => document.getElementById('itemTotalCost').focus(), 50);
         }
 
         // Open Modal for Edit
@@ -1189,11 +1189,10 @@
 
             document.getElementById('editExpenseId').value = item.id;
             document.getElementById('modalTitle').innerText = 'تعديل المصروف';
-            document.getElementById('itemTitle').value = item.title || '';
             document.getElementById('itemCategory').value = item.category || 'مواد بناء وتأسيس';
             document.getElementById('itemRoom').value = item.room || 'عام للشقة';
-            document.getElementById('itemTotalCost').value = item.totalCost || 0;
-            document.getElementById('itemPaidAmount').value = item.paidAmount || 0;
+            document.getElementById('itemTotalCost').value = item.totalCost || '';
+            document.getElementById('itemPaidAmount').value = item.paidAmount || '';
             document.getElementById('itemDate').value = item.date || '';
             document.getElementById('itemVendor').value = item.vendor || '';
             document.getElementById('itemNotes').value = item.notes || '';
@@ -1212,11 +1211,11 @@
         }
 
         // Quick Preset Addition
-        function quickAddPreset(title, category, room) {
+        function quickAddPreset(category, room, note = '') {
             openExpenseModal();
-            document.getElementById('itemTitle').value = title;
             document.getElementById('itemCategory').value = category;
             document.getElementById('itemRoom').value = room;
+            if (note) document.getElementById('itemNotes').value = note;
             setTimeout(() => document.getElementById('itemTotalCost').focus(), 100);
         }
 
@@ -1229,24 +1228,19 @@
             if (elem) elem.innerText = `${formatMoney(remaining)} ج.م`;
         }
 
-        // Handle Save Form
+        // Handle Save Form (No strict requirements, completely flexible)
         function handleSaveExpense(event) {
             event.preventDefault();
 
             const editId = document.getElementById('editExpenseId').value;
-            const title = document.getElementById('itemTitle').value.trim();
-            const category = document.getElementById('itemCategory').value;
-            const room = document.getElementById('itemRoom').value;
+            const category = document.getElementById('itemCategory').value || 'أخرى';
+            const room = document.getElementById('itemRoom').value || 'عام للشقة';
             const totalCost = parseFloat(document.getElementById('itemTotalCost').value) || 0;
             const paidAmount = parseFloat(document.getElementById('itemPaidAmount').value) || 0;
-            const date = document.getElementById('itemDate').value;
+            const date = document.getElementById('itemDate').value || '';
             const vendor = document.getElementById('itemVendor').value.trim();
             const notes = document.getElementById('itemNotes').value.trim();
-
-            if (!title) {
-                showToast('يرجى كتابة اسم البند أو المصروف', 'error');
-                return;
-            }
+            const title = category;
 
             if (editId) {
                 // Update
@@ -1281,7 +1275,7 @@
 
             showConfirmModal(
                 'حذف المصروف',
-                `هل أنت متأكد من حذف بند "${item.title}" نهائياً؟`,
+                `هل أنت متأكد من حذف بند "${item.category || item.title}" نهائياً؟`,
                 () => {
                     expenses = expenses.filter(x => x.id !== id);
                     persistData();
@@ -1483,13 +1477,12 @@
                     <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: right; margin-bottom: 20px;">
                         <thead>
                             <tr style="background-color: #f1f5f9; color: #334155; border-bottom: 1px solid #cbd5e1;">
-                                <th style="padding: 8px 10px;">البند</th>
-                                <th style="padding: 8px 10px;">الفئة</th>
+                                <th style="padding: 8px 10px;">الفئة والتصنيف</th>
                                 <th style="padding: 8px 10px;">المكان</th>
                                 <th style="padding: 8px 10px;">التكلفة</th>
                                 <th style="padding: 8px 10px;">المدفوع</th>
                                 <th style="padding: 8px 10px;">المتبقي</th>
-                                <th style="padding: 8px 10px;">المورد/ملاحظات</th>
+                                <th style="padding: 8px 10px;">المورد والملاحظات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1500,8 +1493,7 @@
                                 const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
                                 return `
                                     <tr style="background-color: ${bg}; border-bottom: 1px solid #e2e8f0;">
-                                        <td style="padding: 8px 10px; font-weight: bold;">${escapeHtml(item.title)}</td>
-                                        <td style="padding: 8px 10px;">${escapeHtml(item.category)}</td>
+                                        <td style="padding: 8px 10px; font-weight: bold;">${escapeHtml(item.category || item.title)}</td>
                                         <td style="padding: 8px 10px;">${escapeHtml(item.room)}</td>
                                         <td style="padding: 8px 10px; font-weight: bold; color: #1e293b;">${formatMoney(c)} ج.م</td>
                                         <td style="padding: 8px 10px; color: #059669;">${formatMoney(p)} ج.م</td>
@@ -1513,7 +1505,7 @@
                         </tbody>
                         <tfoot>
                             <tr style="background-color: #f1f5f9; font-weight: 900; border-top: 2px solid #94a3b8;">
-                                <td style="padding: 10px;" colspan="3">الإجمالي العام لجميع البنود:</td>
+                                <td style="padding: 10px;" colspan="2">الإجمالي العام لجميع البنود:</td>
                                 <td style="padding: 10px; color: #1e293b;">${formatMoney(totalCost)} ج.م</td>
                                 <td style="padding: 10px; color: #059669;">${formatMoney(totalPaid)} ج.م</td>
                                 <td style="padding: 10px; color: #d97706;">${formatMoney(totalRemaining)} ج.م</td>
@@ -1600,3 +1592,4 @@
     </script>
 </body>
 </html>
+```
