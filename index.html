@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1519,53 +1520,197 @@
             confirmationCallback = null;
         }
 
-        function exportDataToFile() {
+        // Export Modals and Handlers
+        function openExportModal() {
+            const modal = document.getElementById('exportModal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeExportModal() {
+            const modal = document.getElementById('exportModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function getBackupPayloadString() {
             const backupObject = {
-                version: '4.5',
+                version: '4.6',
                 exportDate: new Date().toISOString(),
                 settings: appSettings,
                 expenses: expenses
             };
+            return JSON.stringify(backupObject, null, 2);
+        }
 
-            const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(backupObject, null, 2));
-            const downloadAnchor = document.createElement('a');
-            const dateStr = new Date().toISOString().split('T')[0];
-            downloadAnchor.setAttribute('href', dataStr);
-            downloadAnchor.setAttribute('download', `apartment_expenses_backup_${dateStr}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+        function triggerFileDownload() {
+            try {
+                const dataString = getBackupPayloadString();
+                const blob = new Blob([dataString], { type: 'application/json;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const dateStr = new Date().toISOString().split('T')[0];
+                const downloadAnchor = document.createElement('a');
+                
+                downloadAnchor.href = url;
+                downloadAnchor.download = `apartment_expenses_backup_${dateStr}.json`;
+                document.body.appendChild(downloadAnchor);
+                downloadAnchor.click();
+                
+                setTimeout(() => {
+                    document.body.removeChild(downloadAnchor);
+                    URL.revokeObjectURL(url);
+                }, 200);
 
-            showToast('تم تحميل ملف النسخة الاحتياطية بنجاح', 'success');
+                showToast('تم بدء تنزيل ملف النسخة الاحتياطية', 'success');
+            } catch (err) {
+                console.error('File export error:', err);
+                copyBackupToClipboard();
+            }
+        }
+
+        function copyBackupToClipboard() {
+            try {
+                const dataString = getBackupPayloadString();
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = dataString;
+                tempTextArea.style.position = 'fixed';
+                tempTextArea.style.left = '-9999px';
+                tempTextArea.style.top = '0';
+                document.body.appendChild(tempTextArea);
+                tempTextArea.focus();
+                tempTextArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempTextArea);
+                showToast('تم نسخ كود النسخة الاحتياطية للحافظة بنجاح!', 'success');
+            } catch (err) {
+                console.error('Copy error:', err);
+                showToast('تعذر النسخ التلقائي للحافظة', 'error');
+            }
+        }
+
+        // Import Modals and Handlers
+        function openImportModal() {
+            const modal = document.getElementById('importModal');
+            const textarea = document.getElementById('importTextarea');
+            if (textarea) textarea.value = '';
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeImportModal() {
+            const modal = document.getElementById('importModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function applyImportedData(rawContent) {
+            if (!rawContent || typeof rawContent !== 'string') {
+                throw new Error('المحتوى فارغ');
+            }
+
+            // Remove UTF-8 BOM if present from mobile file downloads
+            let cleanContent = rawContent.trim();
+            if (cleanContent.charCodeAt(0) === 0xFEFF) {
+                cleanContent = cleanContent.slice(1);
+            }
+
+            let parsed = JSON.parse(cleanContent);
+            if (typeof parsed === 'string') {
+                parsed = JSON.parse(parsed);
+            }
+
+            let importedExpenses = null;
+            let importedSettings = null;
+
+            if (Array.isArray(parsed)) {
+                importedExpenses = parsed;
+            } else if (parsed && typeof parsed === 'object') {
+                if (Array.isArray(parsed.expenses)) {
+                    importedExpenses = parsed.expenses;
+                } else if (Array.isArray(parsed.data)) {
+                    importedExpenses = parsed.data;
+                } else if (Array.isArray(parsed.items)) {
+                    importedExpenses = parsed.items;
+                }
+                if (parsed.settings && typeof parsed.settings === 'object') {
+                    importedSettings = parsed.settings;
+                }
+            }
+
+            if (!importedExpenses || !Array.isArray(importedExpenses)) {
+                throw new Error('هيكل الملف غير صالح أو لا يحتوي على بنود مصاريف صحيحة');
+            }
+
+            // Sanitize expenses
+            expenses = importedExpenses.map((it, idx) => ({
+                id: it.id || ('exp_' + Date.now() + '_' + idx),
+                category: it.category || it.title || 'مصروف عام',
+                room: it.room || 'عام للشقة',
+                totalCost: parseFloat(it.totalCost) || 0,
+                paidAmount: parseFloat(it.paidAmount) || 0,
+                date: it.date || '',
+                vendor: it.vendor || '',
+                notes: it.notes || '',
+                createdAt: it.createdAt || new Date().toISOString()
+            }));
+
+            if (importedSettings) {
+                appSettings = {
+                    budget: parseFloat(importedSettings.budget) || 0,
+                    currency: importedSettings.currency || 'ج.م'
+                };
+            }
+
+            persistData();
+            renderAll();
+            closeImportModal();
+            showToast(`تم استعادة ${expenses.length} بند بنجاح!`, 'success');
         }
 
         function importDataFromFile(event) {
-            const file = event.target.files[0];
+            const file = event.target.files && event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
-                    const parsed = JSON.parse(e.target.result);
-                    if (Array.isArray(parsed.expenses)) {
-                        expenses = parsed.expenses;
-                        if (parsed.settings) appSettings = parsed.settings;
-                    } else if (Array.isArray(parsed)) {
-                        expenses = parsed;
-                    } else {
-                        throw new Error('صيغة ملف غير صالحة');
-                    }
-
-                    persistData();
-                    renderAll();
-                    showToast('تم استعادة البيانات بنجاح', 'success');
+                    const text = e.target.result;
+                    applyImportedData(text);
                 } catch (err) {
-                    console.error('Import error:', err);
-                    showToast('الملف غير صالح أو تالف', 'error');
+                    console.error('Import parse error:', err);
+                    showToast('الملف غير متوافق أو تالف، يمكنك تجربة لصق النص مباشرة', 'error');
                 }
                 event.target.value = '';
             };
-            reader.readAsText(file);
+            reader.onerror = () => {
+                showToast('تعذر قراءة الملف من هاتفك، يرجى المحاولة بطريقة لصق النص', 'error');
+                event.target.value = '';
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function importFromPastedText() {
+            const textarea = document.getElementById('importTextarea');
+            const text = (textarea ? textarea.value : '').trim();
+            if (!text) {
+                showToast('يرجى لصق نص النسخة الاحتياطية أولاً', 'error');
+                return;
+            }
+
+            try {
+                applyImportedData(text);
+            } catch (err) {
+                console.error('Text import error:', err);
+                showToast('النص الملصق غير صالح، تأكد من نسخه بالكامل', 'error');
+            }
         }
 
         function generatePDFReport() {
