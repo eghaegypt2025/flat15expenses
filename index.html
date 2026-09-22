@@ -114,7 +114,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
                 
-                <!-- Logo & Brand (Clean, without PWA badge) -->
+                <!-- Logo & Brand -->
                 <div class="flex items-center gap-3 min-w-0">
                     <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-primary-700 via-primary-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-primary-500/30 flex-shrink-0">
                         <i class="fa-solid fa-house-chimney-window text-lg sm:text-2xl"></i>
@@ -154,7 +154,7 @@
             </button>
         </div>
 
-        <!-- Drawer Content Menu (Clean: Budget, PDF, Export, Import, Print, Reset) -->
+        <!-- Drawer Content Menu -->
         <div class="flex-1 overflow-y-auto p-4 space-y-3 text-sm">
             
             <!-- Budget setting -->
@@ -173,17 +173,16 @@
             </button>
 
             <!-- Export Backup -->
-            <button onclick="exportDataToFile(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
+            <button onclick="openExportModal(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
                 <i class="fa-solid fa-cloud-arrow-down text-emerald-600 text-lg"></i>
-                <span class="text-xs sm:text-sm">تصدير نسخة احتياطية (JSON)</span>
+                <span class="text-xs sm:text-sm">تصدير وحفظ نسخة احتياطية</span>
             </button>
 
             <!-- Import Backup -->
-            <label class="w-full p-3.5 rounded-2xl bg-amber-50/80 hover:bg-amber-100 text-amber-900 border border-amber-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
+            <button onclick="openImportModal(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-amber-50/80 hover:bg-amber-100 text-amber-900 border border-amber-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
                 <i class="fa-solid fa-cloud-arrow-up text-amber-600 text-lg"></i>
-                <span class="text-xs sm:text-sm">استيراد ملف نسخة سابقة</span>
-                <input type="file" id="importFileInput" accept=".json" class="hidden" onchange="importDataFromFile(event); closeSidebar();">
-            </label>
+                <span class="text-xs sm:text-sm">استيراد نسخة سابقة</span>
+            </button>
 
             <!-- Print View -->
             <button onclick="window.print(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-3 transition-all font-semibold cursor-pointer">
@@ -206,6 +205,9 @@
             <span>البيانات مخزنة بأمان على جهازك محلياً</span>
         </div>
     </aside>
+
+    <!-- Global Independent Hidden File Input (Outside Drawer for Full Mobile File Access) -->
+    <input type="file" id="globalFileInput" accept=".json,.txt,*/*" class="hidden" onchange="handleGlobalFileSelected(event)">
 
     <!-- Floating Action Button (FAB) for Quick Addition -->
     <button onclick="openExpenseModal()" class="fixed bottom-6 left-6 z-40 bg-gradient-to-r from-primary-600 via-indigo-600 to-primary-700 hover:from-primary-700 hover:to-indigo-800 text-white px-5 py-3.5 rounded-full shadow-xl shadow-primary-600/40 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 font-black text-sm no-print cursor-pointer" title="إضافة مصروف جديد">
@@ -357,7 +359,7 @@
                         <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-2.5 text-slate-400 text-xs"></i>
                     </div>
 
-                    <!-- Category Filter with 'مواد بناء وتأسيس' -->
+                    <!-- Category Filter -->
                     <select id="categoryFilter" onchange="applyFilters()" class="flex-1 sm:w-auto px-2.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-700 font-medium">
                         <option value="">كل الفئات</option>
                         <option value="مواد بناء وتأسيس">مواد بناء وتأسيس</option>
@@ -371,7 +373,7 @@
                         <option value="أخرى">أخرى ونثريات</option>
                     </select>
 
-                    <!-- Room Filter with 'غرفة 1' and 'غرفة 2' -->
+                    <!-- Room Filter -->
                     <select id="roomFilter" onchange="applyFilters()" class="flex-1 sm:w-auto px-2.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-700 font-medium">
                         <option value="">كل الغرف والأماكن</option>
                         <option value="عام للشقة">عام للشقة</option>
@@ -389,7 +391,7 @@
             </div>
         </section>
 
-        <!-- Dynamic Content Display: Table View, Room Cards View, and Pending View -->
+        <!-- Dynamic Content Display -->
         <section id="contentContainer" class="w-full">
             
             <!-- Table Container (Desktop Table + Mobile Cards) -->
@@ -447,7 +449,7 @@
         </section>
     </main>
 
-    <!-- Add / Edit Expense Modal Dialog (All Fields Flexible & Optional, No Title Field) -->
+    <!-- Add / Edit Expense Modal Dialog -->
     <div id="expenseModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4 overflow-y-auto no-print">
         <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all my-8">
             
@@ -462,7 +464,7 @@
                 </button>
             </div>
 
-            <!-- Expense Form: Completely Flexible, Non-Mandatory -->
+            <!-- Expense Form -->
             <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="p-6 space-y-4">
                 <input type="hidden" id="editExpenseId">
 
@@ -570,9 +572,71 @@
         </div>
     </div>
 
+    <!-- Dedicated Export Modal (Download or Copy Code) -->
+    <div id="exportModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center transform transition-all">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-2xl">
+                <i class="fa-solid fa-cloud-arrow-down"></i>
+            </div>
+            <h3 class="font-extrabold text-slate-800 text-base mb-1">تصدير نسخة احتياطية</h3>
+            <p class="text-xs text-slate-500 mb-4">اختر طريقة حفظ نسختك على الهاتف أو جهازك:</p>
+            
+            <div class="space-y-2.5">
+                <button type="button" onclick="triggerFileDownload()" class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-file-arrow-down text-sm"></i>
+                    <span>تنزيل ملف النسخة الاحتياطية (.json)</span>
+                </button>
+                
+                <button type="button" onclick="copyBackupToClipboard()" class="w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-copy text-sm text-slate-500"></i>
+                    <span>نسخ نص النسخة للحافظة (Copy)</span>
+                </button>
+            </div>
+
+            <button type="button" onclick="closeExportModal()" class="mt-4 w-full py-2 text-xs font-bold text-slate-400 hover:text-slate-600 rounded-xl cursor-pointer">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- Dedicated Import Modal (File Picker + Paste Text Alternative) -->
+    <div id="importModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 p-5 transform transition-all">
+            <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-sm sm:text-base">استيراد نسخة سابقة</h3>
+                </div>
+                <button onclick="closeImportModal()" class="text-slate-400 hover:text-slate-600 cursor-pointer">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-500 mb-3">يمكنك اختيار ملف النسخة من هاتفك أو لصق محتواه مباشرة أدناه:</p>
+
+            <!-- Option 1: File Pick -->
+            <div class="mb-4 p-3 bg-slate-50 rounded-2xl border border-slate-200 text-center">
+                <button type="button" onclick="triggerGlobalFilePick()" class="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-folder-open text-sm"></i>
+                    <span>اختيار ملف من الهاتف / الجهاز</span>
+                </button>
+                <span class="block text-[11px] text-slate-400 mt-1.5 font-medium">يدعم جميع صيغ النسخ الاحتياطية (.json أو .txt)</span>
+            </div>
+
+            <!-- Option 2: Paste Content -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-700">أو الصق كود / نص النسخة هنا مباشرة:</label>
+                <textarea id="importTextarea" rows="3" placeholder="افتح ملف النسخة، انسخ النص كاملاً، وألصقه هنا..." class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:bg-white focus:outline-none font-mono text-slate-700"></textarea>
+                <button type="button" onclick="importFromPastedText()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">
+                    استعادة البيانات من النص الملصق
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- One-Time First-Visit PWA Install Prompt Modal -->
     <div id="firstTimePwaModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-6 text-center transform transition-all animate-bounce-short">
+        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-6 text-center transform transition-all">
             <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-primary-600 to-indigo-500 text-white flex items-center justify-center mx-auto mb-3 text-2xl shadow-lg shadow-primary-500/30">
                 <i class="fa-solid fa-house-chimney-window"></i>
             </div>
@@ -624,7 +688,7 @@
         </div>
     </div>
 
-    <!-- Custom Confirmation Modal (No Browser Confirm) -->
+    <!-- Custom Confirmation Modal -->
     <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
         <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center">
             <div id="confirmIconContainer" class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3 text-2xl">
@@ -724,7 +788,6 @@
 
         // Initialize PWA Service Worker & Install Flow
         function initPWA() {
-            // Register an inline Service Worker via Blob
             if ('serviceWorker' in navigator) {
                 const swScript = `
                     const CACHE_NAME = 'expenses-cache-v1';
@@ -766,7 +829,7 @@
                 showToast('تم تثبيت التطبيق بنجاح على جهازك!', 'success');
             });
 
-            // Check after a brief delay for iOS/devices where beforeinstallprompt might not fire
+            // Check after a brief delay for iOS / devices where beforeinstallprompt might not fire
             setTimeout(() => {
                 checkAndShowFirstTimePWAModal();
             }, 1200);
@@ -779,7 +842,6 @@
         }
 
         function checkAndShowFirstTimePWAModal() {
-            // If already installed as standalone or already dismissed once by the user, do not show
             if (isRunningStandalone() || localStorage.getItem(STORAGE_PWA_NOTIFIED) === 'true') {
                 return;
             }
@@ -811,7 +873,6 @@
         }
 
         function triggerPWAInstall() {
-            // Check if native install prompt is available (Android / Chrome / Desktop)
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
@@ -823,7 +884,6 @@
                 return;
             }
 
-            // Detect iOS Safari
             const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
             if (isRunningStandalone()) {
@@ -1539,7 +1599,7 @@
 
         function getBackupPayloadString() {
             const backupObject = {
-                version: '4.6',
+                version: '4.9',
                 exportDate: new Date().toISOString(),
                 settings: appSettings,
                 expenses: expenses
@@ -1563,9 +1623,10 @@
                 setTimeout(() => {
                     document.body.removeChild(downloadAnchor);
                     URL.revokeObjectURL(url);
-                }, 200);
+                }, 250);
 
-                showToast('تم بدء تنزيل ملف النسخة الاحتياطية', 'success');
+                closeExportModal();
+                showToast('تم بدء تنزيل ملف النسخة الاحتياطية بنجاح', 'success');
             } catch (err) {
                 console.error('File export error:', err);
                 copyBackupToClipboard();
@@ -1585,6 +1646,7 @@
                 tempTextArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(tempTextArea);
+                closeExportModal();
                 showToast('تم نسخ كود النسخة الاحتياطية للحافظة بنجاح!', 'success');
             } catch (err) {
                 console.error('Copy error:', err);
@@ -1611,12 +1673,48 @@
             }
         }
 
+        function triggerGlobalFilePick() {
+            const input = document.getElementById('globalFileInput');
+            if (input) {
+                input.value = ''; // Reset input to guarantee firing event even on same file
+                input.click();
+            }
+        }
+
+        function handleGlobalFileSelected(event) {
+            const file = event.target.files && event.target.files[0];
+            if (!file) return;
+
+            showToast('جاري قراءة ملف النسخة...', 'info');
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const text = e.target.result;
+                    applyImportedData(text);
+                } catch (err) {
+                    console.error('Import parse error:', err);
+                    showToast('الملف غير متوافق، يمكنك فتح الملف ونسخ نصه ولصقه في الخانة أدناه', 'error');
+                    const textarea = document.getElementById('importTextarea');
+                    if (textarea && e.target.result) {
+                        textarea.value = e.target.result;
+                    }
+                }
+                event.target.value = '';
+            };
+            reader.onerror = () => {
+                showToast('تعذر قراءة الملف من الهاتف، يرجى تجربة طريقة لصق النص', 'error');
+                event.target.value = '';
+            };
+            reader.readAsText(file, 'UTF-8');
+        }
+
         function applyImportedData(rawContent) {
             if (!rawContent || typeof rawContent !== 'string') {
                 throw new Error('المحتوى فارغ');
             }
 
-            // Remove UTF-8 BOM if present from mobile file downloads
+            // Strip UTF-8 Byte Order Mark (BOM) if present from phone text editors
             let cleanContent = rawContent.trim();
             if (cleanContent.charCodeAt(0) === 0xFEFF) {
                 cleanContent = cleanContent.slice(1);
@@ -1627,81 +1725,65 @@
                 parsed = JSON.parse(parsed);
             }
 
-            let importedExpenses = null;
-            let importedSettings = null;
+            let rawList = null;
 
             if (Array.isArray(parsed)) {
-                importedExpenses = parsed;
+                rawList = parsed;
             } else if (parsed && typeof parsed === 'object') {
                 if (Array.isArray(parsed.expenses)) {
-                    importedExpenses = parsed.expenses;
+                    rawList = parsed.expenses;
                 } else if (Array.isArray(parsed.data)) {
-                    importedExpenses = parsed.data;
+                    rawList = parsed.data;
                 } else if (Array.isArray(parsed.items)) {
-                    importedExpenses = parsed.items;
+                    rawList = parsed.items;
+                } else if (Array.isArray(parsed.list)) {
+                    rawList = parsed.list;
+                } else {
+                    const values = Object.values(parsed);
+                    if (values.length > 0 && Array.isArray(values[0])) {
+                        rawList = values[0];
+                    }
                 }
+
+                // Parse Settings/Budget
                 if (parsed.settings && typeof parsed.settings === 'object') {
-                    importedSettings = parsed.settings;
+                    appSettings = {
+                        budget: parseFloat(parsed.settings.budget) || 0,
+                        currency: parsed.settings.currency || 'ج.م'
+                    };
+                } else if (parsed.budget !== undefined) {
+                    appSettings.budget = parseFloat(parsed.budget) || 0;
                 }
             }
 
-            if (!importedExpenses || !Array.isArray(importedExpenses)) {
-                throw new Error('هيكل الملف غير صالح أو لا يحتوي على بنود مصاريف صحيحة');
+            if (!rawList || !Array.isArray(rawList)) {
+                throw new Error('هيكل الملف غير صالح أو لا يحتوي على قائمة مصاريف');
             }
 
-            // Sanitize expenses
-            expenses = importedExpenses.map((it, idx) => ({
+            // Resilient mapping across all schema versions
+            expenses = rawList.map((it, idx) => ({
                 id: it.id || ('exp_' + Date.now() + '_' + idx),
-                category: it.category || it.title || 'مصروف عام',
-                room: it.room || 'عام للشقة',
-                totalCost: parseFloat(it.totalCost) || 0,
-                paidAmount: parseFloat(it.paidAmount) || 0,
-                date: it.date || '',
-                vendor: it.vendor || '',
-                notes: it.notes || '',
+                category: it.category || it.title || it.name || 'مواد بناء وتأسيس',
+                room: it.room || it.place || 'عام للشقة',
+                totalCost: parseFloat(it.totalCost !== undefined ? it.totalCost : (it.cost !== undefined ? it.cost : (it.amount || 0))) || 0,
+                paidAmount: parseFloat(it.paidAmount !== undefined ? it.paidAmount : (it.paid !== undefined ? it.paid : 0)) || 0,
+                date: it.date || it.expenseDate || '',
+                vendor: it.vendor || it.supplier || '',
+                notes: it.notes || it.details || it.description || '',
                 createdAt: it.createdAt || new Date().toISOString()
             }));
-
-            if (importedSettings) {
-                appSettings = {
-                    budget: parseFloat(importedSettings.budget) || 0,
-                    currency: importedSettings.currency || 'ج.م'
-                };
-            }
 
             persistData();
             renderAll();
             closeImportModal();
-            showToast(`تم استعادة ${expenses.length} بند بنجاح!`, 'success');
-        }
-
-        function importDataFromFile(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const text = e.target.result;
-                    applyImportedData(text);
-                } catch (err) {
-                    console.error('Import parse error:', err);
-                    showToast('الملف غير متوافق أو تالف، يمكنك تجربة لصق النص مباشرة', 'error');
-                }
-                event.target.value = '';
-            };
-            reader.onerror = () => {
-                showToast('تعذر قراءة الملف من هاتفك، يرجى المحاولة بطريقة لصق النص', 'error');
-                event.target.value = '';
-            };
-            reader.readAsText(file, 'UTF-8');
+            showToast(`تمت استعادة ${expenses.length} بند بنجاح!`, 'success');
         }
 
         function importFromPastedText() {
             const textarea = document.getElementById('importTextarea');
             const text = (textarea ? textarea.value : '').trim();
             if (!text) {
-                showToast('يرجى لصق نص النسخة الاحتياطية أولاً', 'error');
+                showToast('يرجى لصق نص النسخة الاحتياطية أولاً في المربع', 'error');
                 return;
             }
 
@@ -1709,7 +1791,7 @@
                 applyImportedData(text);
             } catch (err) {
                 console.error('Text import error:', err);
-                showToast('النص الملصق غير صالح، تأكد من نسخه بالكامل', 'error');
+                showToast('النص الملصق غير صالح، يرجى التأكد من نسخه بالكامل', 'error');
             }
         }
 
