@@ -1658,7 +1658,12 @@
         function openImportModal() {
             const modal = document.getElementById('importModal');
             const textarea = document.getElementById('importTextarea');
+            const statusBox = document.getElementById('importStatusBox');
             if (textarea) textarea.value = '';
+            if (statusBox) {
+                statusBox.className = 'hidden';
+                statusBox.innerHTML = '';
+            }
             if (modal) {
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
@@ -1673,54 +1678,92 @@
             }
         }
 
-        function triggerGlobalFilePick() {
-            const input = document.getElementById('globalFileInput');
-            if (input) {
-                input.value = ''; // Reset input to guarantee firing event even on same file
-                input.click();
+        function showImportStatus(message, type = 'info') {
+            const statusBox = document.getElementById('importStatusBox');
+            if (!statusBox) return;
+
+            statusBox.classList.remove('hidden', 'bg-blue-50', 'text-blue-700', 'border-blue-200', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200', 'bg-rose-50', 'text-rose-700', 'border-rose-200');
+
+            if (type === 'success') {
+                statusBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
+                statusBox.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-base text-emerald-600"></i><span>${message}</span></div>`;
+            } else if (type === 'error') {
+                statusBox.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
+                statusBox.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-base text-rose-600"></i><span>${message}</span></div>`;
+            } else {
+                statusBox.classList.add('bg-blue-50', 'text-blue-800', 'border', 'border-blue-200');
+                statusBox.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-base text-blue-600"></i><span>${message}</span></div>`;
             }
         }
 
-        function handleGlobalFileSelected(event) {
+        async function handleDirectFileImport(event) {
             const file = event.target.files && event.target.files[0];
-            if (!file) return;
+            if (!file) {
+                showImportStatus('لم يتم اختيار أي ملف من الهاتف.', 'error');
+                return;
+            }
 
-            showToast('جاري قراءة ملف النسخة...', 'info');
+            showImportStatus(`تم اختيار: "${file.name}" (${(file.size / 1024).toFixed(1)} ك.ب) - جاري القراءة والاستعادة...`, 'info');
 
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const text = e.target.result;
-                    applyImportedData(text);
-                } catch (err) {
-                    console.error('Import parse error:', err);
-                    showToast('الملف غير متوافق، يمكنك فتح الملف ونسخ نصه ولصقه في الخانة أدناه', 'error');
-                    const textarea = document.getElementById('importTextarea');
-                    if (textarea && e.target.result) {
-                        textarea.value = e.target.result;
-                    }
+            try {
+                let fileText = '';
+                // Modern, ultra-reliable direct text reading on mobile Chrome / Android
+                if (typeof file.text === 'function') {
+                    fileText = await file.text();
+                } else {
+                    fileText = await new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => resolve(e.target.result);
+                        reader.onerror = (e) => reject(new Error('فشل قراءة الملف عبر FileReader'));
+                        reader.readAsText(file, 'UTF-8');
+                    });
                 }
+
+                if (!fileText || fileText.trim().length === 0) {
+                    throw new Error('الملف فارغ تماماً');
+                }
+
+                applyImportedData(fileText);
+                showImportStatus(`نجحت العملية! تم استرداد ${expenses.length} بند وميزانية ${formatMoney(appSettings.budget)} ج.م`, 'success');
+                
+                setTimeout(() => {
+                    closeImportModal();
+                }, 1400);
+
+            } catch (err) {
+                console.error('Mobile import error:', err);
+                showImportStatus(`خطأ في قراءة الملف: ${err.message || 'صيغة غير متوافقة'}. يمكنك نسخ النص ولصقه بالأسفل.`, 'error');
+                
+                // If text was obtained, put it in textarea for user convenience
+                const textarea = document.getElementById('importTextarea');
+                if (textarea && err.rawContent) {
+                    textarea.value = err.rawContent;
+                }
+            } finally {
                 event.target.value = '';
-            };
-            reader.onerror = () => {
-                showToast('تعذر قراءة الملف من الهاتف، يرجى تجربة طريقة لصق النص', 'error');
-                event.target.value = '';
-            };
-            reader.readAsText(file, 'UTF-8');
+            }
         }
 
         function applyImportedData(rawContent) {
             if (!rawContent || typeof rawContent !== 'string') {
-                throw new Error('المحتوى فارغ');
+                throw new Error('محتوى البيانات فارغ');
             }
 
-            // Strip UTF-8 Byte Order Mark (BOM) if present from phone text editors
-            let cleanContent = rawContent.trim();
-            if (cleanContent.charCodeAt(0) === 0xFEFF) {
-                cleanContent = cleanContent.slice(1);
+            // Strip UTF-8 Byte Order Mark (BOM) & clean whitespace
+            let cleanContent = rawContent.replace(/^\uFEFF/, '').trim();
+
+            let parsed;
+            try {
+                parsed = JSON.parse(cleanContent);
+            } catch (jsonErr) {
+                // If wrapped in outer quotes
+                if (cleanContent.startsWith('"') && cleanContent.endsWith('"')) {
+                    parsed = JSON.parse(JSON.parse(cleanContent));
+                } else {
+                    throw new Error('محتوى الملف ليس بتنسيق JSON صحيح');
+                }
             }
 
-            let parsed = JSON.parse(cleanContent);
             if (typeof parsed === 'string') {
                 parsed = JSON.parse(parsed);
             }
@@ -1739,13 +1782,14 @@
                 } else if (Array.isArray(parsed.list)) {
                     rawList = parsed.list;
                 } else {
-                    const values = Object.values(parsed);
-                    if (values.length > 0 && Array.isArray(values[0])) {
-                        rawList = values[0];
+                    // Try looking for any array property inside the object
+                    const arrayProp = Object.values(parsed).find(val => Array.isArray(val));
+                    if (arrayProp) {
+                        rawList = arrayProp;
                     }
                 }
 
-                // Parse Settings/Budget
+                // Parse Settings & Budget
                 if (parsed.settings && typeof parsed.settings === 'object') {
                     appSettings = {
                         budget: parseFloat(parsed.settings.budget) || 0,
@@ -1757,10 +1801,10 @@
             }
 
             if (!rawList || !Array.isArray(rawList)) {
-                throw new Error('هيكل الملف غير صالح أو لا يحتوي على قائمة مصاريف');
+                throw new Error('الملف لا يحتوي على قائمة مصاريف معترف بها');
             }
 
-            // Resilient mapping across all schema versions
+            // Safe property mapping for every item
             expenses = rawList.map((it, idx) => ({
                 id: it.id || ('exp_' + Date.now() + '_' + idx),
                 category: it.category || it.title || it.name || 'مواد بناء وتأسيس',
@@ -1775,7 +1819,6 @@
 
             persistData();
             renderAll();
-            closeImportModal();
             showToast(`تمت استعادة ${expenses.length} بند بنجاح!`, 'success');
         }
 
@@ -1783,15 +1826,39 @@
             const textarea = document.getElementById('importTextarea');
             const text = (textarea ? textarea.value : '').trim();
             if (!text) {
-                showToast('يرجى لصق نص النسخة الاحتياطية أولاً في المربع', 'error');
+                showImportStatus('يرجى لصق نص النسخة الاحتياطية أولاً في المربع أدناه.', 'error');
                 return;
             }
 
             try {
                 applyImportedData(text);
+                showImportStatus(`نجحت العملية! تم استرداد ${expenses.length} بند وميزانية ${formatMoney(appSettings.budget)} ج.م`, 'success');
+                setTimeout(() => {
+                    closeImportModal();
+                }, 1200);
             } catch (err) {
                 console.error('Text import error:', err);
-                showToast('النص الملصق غير صالح، يرجى التأكد من نسخه بالكامل', 'error');
+                showImportStatus(`خطأ في النص الملصق: ${err.message}`, 'error');
+            }
+        }
+
+        async function pasteFromClipboardDirectly() {
+            try {
+                if (navigator.clipboard && navigator.clipboard.readText) {
+                    const text = await navigator.clipboard.readText();
+                    if (text) {
+                        document.getElementById('importTextarea').value = text;
+                        showToast('تم لصق النص من الحافظة', 'info');
+                    } else {
+                        showToast('الحافظة فارغة', 'error');
+                    }
+                } else {
+                    document.getElementById('importTextarea').focus();
+                    showToast('اضغط مطولاً داخل المربع واختر "لصق"', 'info');
+                }
+            } catch (e) {
+                document.getElementById('importTextarea').focus();
+                showToast('اضغط مطولاً داخل المربع واختر "لصق"', 'info');
             }
         }
 
