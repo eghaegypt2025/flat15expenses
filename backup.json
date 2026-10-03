@@ -1,10 +1,21 @@
 {
   "app": "apartment_expenses_pro",
-  "exportDate": "2026-10-03T18:23:21.506Z",
+  "exportDate": "2026-10-03T18:37:10.356Z",
   "settings": {
     "budget": 0
   },
   "expenses": [
+    {
+      "id": "exp_1791052619149_hmf34",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 1500,
+      "paidAmount": 1500,
+      "vendor": "ابراهم ناجي",
+      "date": "2026-10-03",
+      "notes": "تركيب السخانات",
+      "createdAt": 1791052619149
+    },
     {
       "id": "exp_1791029296327_bxm9d",
       "category": "مواد بناء وتأسيس",
