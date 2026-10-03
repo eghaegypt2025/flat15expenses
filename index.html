@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -6,47 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>حاسبة ومتابع مصاريف تجهيز وفرش الشقة</title>
 
-    <!-- PWA & Mobile Web App Meta Tags -->
+    <!-- PWA & Mobile Web Capabilities -->
     <meta name="theme-color" content="#4f46e5">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="مصاريف الشقة">
-    <meta name="application-name" content="مصاريف الشقة">
-    <meta name="description" content="تطبيق لحساب ومتابعة مصاريف تجهيز وفرش الشقة بالكامل وحفظها محلياً على جهازك">
 
-    <!-- Embedded PWA Web App Manifest (Data URI) -->
-    <link rel="manifest" href='data:application/manifest+json;utf-8,%7B%22name%22%3A%22%D8%AD%D8%A7%D8%B3%D8%A8%D8%A9%20%D9%88%D9%85%D8%AA%D8%A7%D8%A8%D8%B9%20%D9%85%D8%B5%D8%A7%D8%B1%D9%8A%D9%81%20%D8%A7%D9%84%D8%B4%D9%82%D8%A9%22%2C%22short_name%22%3A%22%D9%85%D8%B5%D8%A7%D8%B1%D9%8A%D9%81%20%D8%A7%D9%84%D8%B4%D9%82%D8%A9%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23f8fafc%22%2C%22theme_color%22%3A%22%234f46e5%22%2C%22orientation%22%3A%22portrait-primary%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20512%20512%27%3E%3Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27128%27%20fill%3D%27%234f46e5%27%2F%3E%3Cpath%20d%3D%27M256%2096L80%20240h48v176h256V240h48z%27%20fill%3D%27%23ffffff%27%2F%3E%3Cpath%20d%3D%27M208%20288h96v128h-96z%27%20fill%3D%27%23cbd5e1%27%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%20512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D'>
-
-    <!-- App Favicon & Apple Touch Icon (SVG) -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%234f46e5'/><path d='M50 20 L20 48 H28 V80 H72 V48 H80 Z' fill='white'/></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%234f46e5'/><path d='M50 20 L20 48 H28 V80 H72 V48 H80 Z' fill='white'/></svg>">
-
-    <!-- Google Fonts: Cairo -->
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
                         sans: ['Cairo', 'sans-serif'],
                     },
                     colors: {
-                        primary: {
+                        brand: {
                             50: '#eef2ff',
                             100: '#e0e7ff',
-                            200: '#c7d2fe',
-                            300: '#a5b4fc',
-                            400: '#818cf8',
                             500: '#6366f1',
                             600: '#4f46e5',
                             700: '#4338ca',
@@ -59,646 +43,614 @@
         }
     </script>
 
-    <!-- Chart.js CDN -->
+    <!-- Chart.js & html2pdf.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- html2pdf.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         * {
             font-family: 'Cairo', sans-serif;
-            -webkit-tap-highlight-color: transparent;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
-        
+
         body {
             background-color: #f8fafc;
-            color: #1e293b;
+            color: #0f172a;
             overflow-x: hidden;
             width: 100%;
         }
 
-        /* Custom scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
         }
-        ::-webkit-scrollbar-track {
+        .custom-scrollbar::-webkit-scrollbar-track {
             background: #f1f5f9;
         }
-        ::-webkit-scrollbar-thumb {
+        .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 9999px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
 
-        /* Print styles */
         @media print {
             .no-print {
                 display: none !important;
             }
             body {
                 background: white !important;
-                color: black !important;
             }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-primary-500 selection:text-white pb-24">
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased overflow-x-hidden">
 
-    <!-- Top Header Navigation -->
-    <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-40 shadow-xs no-print w-full">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
-                
-                <!-- Logo & Brand -->
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-primary-700 via-primary-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-primary-500/30 flex-shrink-0">
-                        <i class="fa-solid fa-house-chimney-window text-lg sm:text-2xl"></i>
+    <!-- Main Top Header -->
+    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+            
+            <div class="flex items-center gap-3">
+                <button type="button" onclick="openSidebar()" aria-label="فتح القائمة" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition active:scale-95 focus:outline-none">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center shadow-md shadow-indigo-100">
+                        <i class="fa-solid fa-house-chimney text-base"></i>
                     </div>
-                    <div class="truncate">
-                        <h1 class="text-base sm:text-xl font-black text-slate-800 tracking-tight truncate">مصاريف الشقة</h1>
-                        <p class="text-xs text-slate-500 hidden sm:block truncate">متابعة إيجار، تأمين، تشطيب، وتجهيز الشقة بالكامل على جهازك</p>
+                    <div>
+                        <h1 class="text-base sm:text-lg font-black text-slate-900 leading-tight">مصاريف تجهيز الشقة</h1>
+                        <p class="text-[11px] text-slate-500 hidden sm:block">تتبع كاش وأقساط التجهيز والفرش</p>
                     </div>
-                </div>
-
-                <!-- Header Actions: Drawer Menu Button Only -->
-                <div class="flex items-center gap-2 flex-shrink-0">
-                    <button id="sidebarToggleBtn" onclick="toggleSidebar()" type="button" class="px-3.5 py-2 sm:px-4 sm:py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-700 font-bold rounded-xl border border-slate-200 transition-all flex items-center gap-2 text-xs sm:text-sm cursor-pointer shadow-xs" title="فتح قائمة الخيارات">
-                        <i class="fa-solid fa-bars text-primary-600 text-base sm:text-lg"></i>
-                        <span class="hidden md:inline">القائمة والخيارات</span>
-                    </button>
                 </div>
             </div>
+
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openBudgetModal()" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-wallet text-indigo-600"></i>
+                    <span>الميزانية:</span>
+                    <span id="headerBudgetDisplay" class="font-black text-indigo-900">0 ج.م</span>
+                </button>
+            </div>
+
         </div>
     </header>
 
-    <!-- Slide-over Drawer Overlay -->
-    <div id="sidebarOverlay" onclick="closeSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden transition-opacity duration-300 no-print"></div>
-
-    <!-- Slide-over Drawer -->
-    <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 w-80 max-w-[85vw] bg-white shadow-2xl z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col no-print border-r border-slate-200">
-        <!-- Sidebar Header -->
-        <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
-            <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-xl bg-primary-100 text-primary-700 flex items-center justify-center font-bold">
+    <!-- Sidebar Drawer (Backdrop & Content) -->
+    <div id="sidebarBackdrop" onclick="closeSidebar()" class="fixed inset-0 bg-slate-900/40 z-40 backdrop-blur-xs transition-opacity duration-300 opacity-0 pointer-events-none no-print"></div>
+    <aside id="sidebarDrawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 translate-x-full no-print">
+        <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
                     <i class="fa-solid fa-sliders text-sm"></i>
                 </div>
-                <h3 class="font-extrabold text-slate-800 text-base">خيارات التطبيق</h3>
+                <h2 class="font-extrabold text-slate-900 text-base">خيارات وإدارة البيانات</h2>
             </div>
-            <button type="button" onclick="closeSidebar()" class="w-8 h-8 rounded-xl flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-200 transition-colors">
+            <button type="button" onclick="closeSidebar()" class="w-8 h-8 rounded-lg hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
 
-        <!-- Drawer Content Menu -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-3 text-sm">
+        <div class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
             
-            <!-- Budget setting -->
-            <button onclick="openBudgetModal(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-slate-50 hover:bg-primary-50 text-slate-800 border border-slate-200 flex items-center justify-between transition-all group cursor-pointer">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-wallet text-primary-600 text-lg group-hover:scale-110 transition-transform"></i>
-                    <span class="font-bold text-xs sm:text-sm">الميزانية التقديرية</span>
+            <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-xl">
+                <div class="text-xs font-bold text-indigo-800 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-calculator"></i>
+                    <span>الميزانية الإجمالية</span>
                 </div>
-                <span id="navBudgetBadge" class="font-black text-primary-700 text-xs sm:text-sm bg-primary-100/60 px-2.5 py-1 rounded-lg">0 ج.م</span>
+                <div class="text-lg font-black text-indigo-950" id="drawerBudgetValue">0 ج.م</div>
+                <button type="button" onclick="closeSidebar(); openBudgetModal();" class="mt-2 w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    تعديل الميزانية
+                </button>
+            </div>
+
+            <button type="button" onclick="closeSidebar(); generatePDFReport();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-rose-50 border border-slate-100 hover:border-rose-200 text-slate-700 hover:text-rose-700 transition group text-right">
+                <div class="w-9 h-9 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-105 transition">
+                    <i class="fa-solid fa-file-pdf"></i>
+                </div>
+                <div>
+                    <div class="text-sm font-bold text-slate-800 group-hover:text-rose-700">تنزيل تقرير PDF</div>
+                    <div class="text-[11px] text-slate-400">كشف مالي كامل وجاهز للطباعة</div>
+                </div>
             </button>
 
-            <!-- PDF Report Button -->
-            <button onclick="generatePDFReport(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
-                <i class="fa-solid fa-file-pdf text-rose-600 text-lg"></i>
-                <span class="text-xs sm:text-sm">تنزيل تقرير PDF شامل</span>
+            <button type="button" onclick="closeSidebar(); openExportModal();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 text-slate-700 hover:text-emerald-700 transition group text-right">
+                <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                </div>
+                <div>
+                    <div class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">تصدير نسخة احتياطية</div>
+                    <div class="text-[11px] text-slate-400">حفظ ملف البيانات على الهاتف</div>
+                </div>
             </button>
 
-            <!-- Export Backup -->
-            <button onclick="openExportModal(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-emerald-50/80 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
-                <i class="fa-solid fa-cloud-arrow-down text-emerald-600 text-lg"></i>
-                <span class="text-xs sm:text-sm">تصدير وحفظ نسخة احتياطية</span>
+            <button type="button" onclick="closeSidebar(); openImportModal();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-amber-50 border border-slate-100 hover:border-amber-200 text-slate-700 hover:text-amber-700 transition group text-right">
+                <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center group-hover:scale-105 transition">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <div>
+                    <div class="text-sm font-bold text-slate-800 group-hover:text-amber-700">استيراد نسخة سابقة</div>
+                    <div class="text-[11px] text-slate-400">استرجاع ملف من ذاكرة الجهاز</div>
+                </div>
             </button>
 
-            <!-- Import Backup -->
-            <button onclick="openImportModal(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-amber-50/80 hover:bg-amber-100 text-amber-900 border border-amber-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
-                <i class="fa-solid fa-cloud-arrow-up text-amber-600 text-lg"></i>
-                <span class="text-xs sm:text-sm">استيراد نسخة سابقة</span>
+            <button type="button" onclick="window.print();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 border border-slate-100 text-slate-700 transition group text-right">
+                <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center group-hover:scale-105 transition">
+                    <i class="fa-solid fa-print"></i>
+                </div>
+                <div>
+                    <div class="text-sm font-bold text-slate-800">طباعة عادية</div>
+                    <div class="text-[11px] text-slate-400">إرسال مباشر للطابعة</div>
+                </div>
             </button>
 
-            <!-- Print View -->
-            <button onclick="window.print(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-3 transition-all font-semibold cursor-pointer">
-                <i class="fa-solid fa-print text-sky-600 text-lg"></i>
-                <span class="text-xs sm:text-sm">طباعة كشف المصاريف</span>
-            </button>
+            <div class="pt-4 border-t border-slate-200">
+                <button type="button" onclick="closeSidebar(); confirmResetAll();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 border border-red-100 text-red-600 transition group text-right">
+                    <div class="w-9 h-9 rounded-lg bg-red-100 text-red-600 flex items-center justify-center group-hover:scale-105 transition">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold">تصفير كافة البيانات</div>
+                        <div class="text-[11px] text-red-400">حذف المصاريف والبدء من جديد</div>
+                    </div>
+                </button>
+            </div>
 
-            <div class="border-t border-slate-200 my-3"></div>
-
-            <!-- Reset Application -->
-            <button onclick="confirmResetAll(); closeSidebar();" class="w-full p-3.5 rounded-2xl bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 flex items-center gap-3 transition-all font-bold cursor-pointer">
-                <i class="fa-solid fa-trash-can text-red-500 text-lg"></i>
-                <span class="text-xs sm:text-sm">تصفير كافة البيانات ومسح السجل</span>
-            </button>
         </div>
 
-        <!-- Sidebar Footer -->
-        <div class="p-4 border-t border-slate-100 bg-slate-50 text-xs text-slate-500 text-center flex items-center justify-center gap-2">
-            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
-            <span>البيانات مخزنة بأمان على جهازك محلياً</span>
+        <div class="p-3 border-t border-slate-100 text-center text-[11px] text-slate-400 bg-slate-50/50">
+            تطبيق محلي يحفظ البيانات على جهازك مباشرة
         </div>
     </aside>
 
-    <!-- Global Independent Hidden File Input (Outside Drawer for Full Mobile File Access) -->
-    <input type="file" id="globalFileInput" accept=".json,.txt,*/*" class="hidden" onchange="handleGlobalFileSelected(event)">
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
 
-    <!-- Floating Action Button (FAB) for Quick Addition -->
-    <button onclick="openExpenseModal()" class="fixed bottom-6 left-6 z-40 bg-gradient-to-r from-primary-600 via-indigo-600 to-primary-700 hover:from-primary-700 hover:to-indigo-800 text-white px-5 py-3.5 rounded-full shadow-xl shadow-primary-600/40 hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center gap-2 font-black text-sm no-print cursor-pointer" title="إضافة مصروف جديد">
-        <i class="fa-solid fa-plus text-base"></i>
-        <span>إضافة مصروف</span>
-    </button>
-
-    <!-- Main Application Wrapper -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
-
-        <!-- Quick Template Presets for Instant Addition -->
-        <section class="mb-6 no-print">
-            <div class="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-                <div class="flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-800">
-                    <i class="fa-solid fa-bolt-lightning text-amber-500"></i>
-                    <span>إدخال سريع لبنود شائعة:</span>
-                </div>
-                <div class="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
-                    <button onclick="quickAddPreset('مواد بناء وتأسيس', 'عام للشقة', 'أسمنت / طوب / سباكة')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">مواد بناء وتأسيس</button>
-                    <button onclick="quickAddPreset('عقد وإيجار وتأمين', 'عام للشقة', 'تأمين مسترد')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">تأمين الشقة</button>
-                    <button onclick="quickAddPreset('عقد وإيجار وتأمين', 'عام للشقة', 'إيجار شهر مقدم')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">إيجار مقدم</button>
-                    <button onclick="quickAddPreset('تشطيبات وصيانة', 'عام للشقة', 'دهانات ونقاشة')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">نقاشة ودهان</button>
-                    <button onclick="quickAddPreset('أجهزة كهربائية', 'المطبخ', 'ثلاجة')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">ثلاجة</button>
-                    <button onclick="quickAddPreset('أجهزة كهربائية', 'غرفة المعيشة والصالة', 'تكييف صالة')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">تكييف</button>
-                    <button onclick="quickAddPreset('أثاث وموبيليات', 'غرفة النوم الرئيسية', 'غرفة نوم ماستر')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">غرفة نوم</button>
-                    <button onclick="quickAddPreset('أثاث وموبيليات', 'غرفة 1', 'فرش غرفة 1')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">غرفة 1</button>
-                    <button onclick="quickAddPreset('أثاث وموبيليات', 'غرفة 2', 'فرش غرفة 2')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">غرفة 2</button>
-                    <button onclick="quickAddPreset('نقل وتركيب', 'عام للشقة', 'نقل عفش وتركيب')" class="px-2.5 py-1 text-xs bg-slate-100 hover:bg-primary-50 hover:text-primary-700 text-slate-700 rounded-lg transition-colors border border-slate-200 font-medium cursor-pointer">نقل العفش</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Summary KPI Cards -->
-        <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+        <!-- Stat Cards Grid -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             
-            <!-- Card 1: Total Cost -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs sm:text-sm font-bold text-slate-500">إجمالي التكلفة</span>
-                    <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center text-sm sm:text-base">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold">إجمالي التكلفة</span>
+                    <span class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">
                         <i class="fa-solid fa-coins"></i>
                     </span>
                 </div>
-                <div class="mt-2">
-                    <div class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight" id="statTotalCost">0 ج.م</div>
-                    <span class="text-[11px] text-slate-400 font-medium" id="statItemCount">0 بنود مسجلة</span>
+                <div>
+                    <div id="statTotalCost" class="text-lg sm:text-2xl font-black text-slate-900">0 ج.م</div>
+                    <div class="text-[10px] text-slate-400 mt-1 font-semibold" id="statItemsCount">0 بند مسجل</div>
                 </div>
-                <div class="absolute bottom-0 left-0 right-0 h-1 bg-primary-500"></div>
             </div>
 
-            <!-- Card 2: Total Paid -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs sm:text-sm font-bold text-slate-500">المدفوع فعلياً</span>
-                    <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm sm:text-base">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-emerald-600 mb-2">
+                    <span class="text-xs font-bold text-slate-500">المدفوع كاش</span>
+                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs">
                         <i class="fa-solid fa-circle-check"></i>
                     </span>
                 </div>
-                <div class="mt-2">
-                    <div class="text-lg sm:text-2xl font-black text-emerald-600 tracking-tight" id="statTotalPaid">0 ج.م</div>
-                    <span class="text-[11px] text-emerald-700 font-medium" id="statPaidPercent">0% تم دفعه كاش</span>
+                <div>
+                    <div id="statTotalPaid" class="text-lg sm:text-2xl font-black text-emerald-600">0 ج.م</div>
+                    <div class="text-[10px] text-emerald-500 mt-1 font-bold" id="statPaidPercent">0% تم دفعه</div>
                 </div>
-                <div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>
             </div>
 
-            <!-- Card 3: Total Remaining -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs sm:text-sm font-bold text-slate-500">متبقي كأقساط</span>
-                    <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm sm:text-base">
-                        <i class="fa-solid fa-hourglass-half"></i>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-amber-600 mb-2">
+                    <span class="text-xs font-bold text-slate-500">المتبقي (أقساط)</span>
+                    <span class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
                     </span>
                 </div>
-                <div class="mt-2">
-                    <div class="text-lg sm:text-2xl font-black text-amber-600 tracking-tight" id="statTotalRemaining">0 ج.م</div>
-                    <span class="text-[11px] text-amber-700 font-medium" id="statPendingCount">0 بنود معلقة</span>
+                <div>
+                    <div id="statTotalRemaining" class="text-lg sm:text-2xl font-black text-amber-600">0 ج.م</div>
+                    <div class="text-[10px] text-amber-500 mt-1 font-bold" id="statPendingCount">0 بنود متبقية</div>
                 </div>
-                <div class="absolute bottom-0 left-0 right-0 h-1 bg-amber-500"></div>
             </div>
 
-            <!-- Card 4: Budget Balance -->
-            <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs relative overflow-hidden">
-                <div class="flex items-center justify-between">
-                    <span class="text-xs sm:text-sm font-bold text-slate-500">المتبقي من الميزانية</span>
-                    <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm sm:text-base cursor-pointer hover:bg-indigo-100 transition-colors" onclick="openBudgetModal()" title="تعديل الميزانية">
-                        <i class="fa-solid fa-pen-to-square"></i>
+            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                <div class="flex items-center justify-between text-slate-500 mb-2">
+                    <span class="text-xs font-bold">حالة الميزانية</span>
+                    <span class="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-chart-pie"></i>
                     </span>
                 </div>
-                <div class="mt-2">
-                    <div class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight" id="statBudgetRemaining">0 ج.م</div>
-                    <span class="text-[11px] text-slate-400 font-medium" id="statBudgetStatus">الميزانية غير محددة</span>
-                </div>
-                <div class="absolute bottom-0 left-0 right-0 h-1 bg-indigo-500" id="budgetProgressBar"></div>
-            </div>
-        </section>
-
-        <!-- Interactive Analytics Charts -->
-        <section class="mb-6">
-            <div class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs">
-                <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-chart-pie text-primary-600 text-lg"></i>
-                        <h2 class="font-extrabold text-slate-800 text-sm sm:text-base">تحليل ومخطط المصاريف</h2>
-                    </div>
-                    <span class="text-xs text-slate-400 font-medium">تحديث فوري تلقائي</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Category Chart -->
-                    <div class="flex flex-col items-center">
-                        <h4 class="text-xs font-bold text-slate-600 mb-2">توزيع المصاريف حسب التصنيف</h4>
-                        <div class="relative w-full h-56 flex items-center justify-center">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
-                    <!-- Room Chart -->
-                    <div class="flex flex-col items-center">
-                        <h4 class="text-xs font-bold text-slate-600 mb-2">توزيع المصاريف حسب الغرف والأماكن</h4>
-                        <div class="relative w-full h-56 flex items-center justify-center">
-                            <canvas id="roomChart"></canvas>
-                        </div>
-                    </div>
+                <div>
+                    <div id="statBudgetStatus" class="text-lg sm:text-2xl font-black text-slate-900">0 ج.م</div>
+                    <div class="text-[10px] text-slate-400 mt-1 font-semibold" id="statBudgetPercent">حدد ميزانيتك للمقارنة</div>
                 </div>
             </div>
-        </section>
 
-        <!-- Views Navigation & Filters Bar -->
-        <section class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs mb-6">
-            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
-                
-                <!-- View Tabs -->
-                <div class="flex items-center bg-slate-100 p-1 rounded-xl gap-1 self-start sm:self-auto w-full sm:w-auto overflow-x-auto">
-                    <button onclick="switchView('table')" id="tabBtnTable" class="flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-primary-700 bg-white shadow-xs cursor-pointer">
-                        <i class="fa-solid fa-list-check ml-1.5"></i>جدول المصاريف
-                    </button>
-                    <button onclick="switchView('rooms')" id="tabBtnRooms" class="flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer">
-                        <i class="fa-solid fa-door-open ml-1.5"></i>تقسيم الغرف
-                    </button>
-                    <button onclick="switchView('pending')" id="tabBtnPending" class="flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer">
-                        <i class="fa-solid fa-clock-rotate-left ml-1.5"></i>الأقساط المتبقية
-                    </button>
+        </div>
+
+        <!-- Quick Presets -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+            <div class="flex items-center justify-between mb-3">
+                <div class="text-xs font-extrabold text-slate-700 flex items-center gap-1.5">
+                    <i class="fa-solid fa-bolt text-amber-500"></i>
+                    <span>إضافة سريعة لبنود شائعة</span>
                 </div>
+                <span class="text-[11px] text-slate-400">انقر لتعبئة الفئة فوراً</span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="quickFillCategory('مواد بناء وتأسيس', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-trowel-bricks text-amber-600"></i> مواد بناء وتأسيس
+                </button>
+                <button type="button" onclick="quickFillCategory('تأمين الإيجار (مسترد)', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-shield-halved text-blue-600"></i> تأمين الإيجار
+                </button>
+                <button type="button" onclick="quickFillCategory('إيجار مقدم', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-money-bill-wave text-emerald-600"></i> إيجار مقدم
+                </button>
+                <button type="button" onclick="quickFillCategory('تشطيبات وصيانة', 'الصالة والريسبشن')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-paint-roller text-violet-600"></i> دهانات وتشطيبات
+                </button>
+                <button type="button" onclick="quickFillCategory('أجهزة كهربائية', 'المطبخ')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-plug text-cyan-600"></i> أجهزة كهربائية
+                </button>
+                <button type="button" onclick="quickFillCategory('أثاث وموبيليات', 'غرفة 1')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-couch text-rose-600"></i> أثاث غرفة 1
+                </button>
+                <button type="button" onclick="quickFillCategory('أثاث وموبيليات', 'غرفة 2')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-bed text-indigo-600"></i> أثاث غرفة 2
+                </button>
+                <button type="button" onclick="quickFillCategory('نقل وشحن وتركيب', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
+                    <i class="fa-solid fa-truck-moving text-slate-600"></i> نقل وشحن
+                </button>
+            </div>
+        </div>
 
-                <!-- Filters & Search Toolbar -->
-                <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:w-auto">
-                    <!-- Search Input -->
-                    <div class="relative w-full sm:w-56">
-                        <input type="text" id="searchInput" oninput="applyFilters()" placeholder="بحث في المصاريف أو الملاحظات..." class="w-full pr-8 pl-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:bg-white text-slate-800 placeholder-slate-400">
-                        <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-2.5 text-slate-400 text-xs"></i>
-                    </div>
-
-                    <!-- Category Filter -->
-                    <select id="categoryFilter" onchange="applyFilters()" class="flex-1 sm:w-auto px-2.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-700 font-medium">
+        <!-- Controls: Search & Filters -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
+            <div class="flex flex-col md:flex-row gap-3">
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                    <input type="text" id="searchInput" oninput="renderExpenses()" placeholder="ابحث في التصنيف، الملاحظات، أو التاجر..." class="w-full pr-9 pl-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                </div>
+                <div class="grid grid-cols-2 sm:flex gap-2">
+                    <select id="filterCategory" onchange="renderExpenses()" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
                         <option value="">كل الفئات</option>
                         <option value="مواد بناء وتأسيس">مواد بناء وتأسيس</option>
-                        <option value="عقد وإيجار وتأمين">عقد وإيجار وتأمين</option>
+                        <option value="تأمين الإيجار (مسترد)">تأمين الإيجار (مسترد)</option>
+                        <option value="إيجار مقدم">إيجار مقدم</option>
+                        <option value="عمولة السمسار / وسيط">عمولة السمسار / وسيط</option>
                         <option value="تشطيبات وصيانة">تشطيبات وصيانة</option>
                         <option value="أجهزة كهربائية">أجهزة كهربائية</option>
                         <option value="أثاث وموبيليات">أثاث وموبيليات</option>
-                        <option value="أدوات ومفروشات">أدوات ومفروشات</option>
-                        <option value="ديكور وإضاءة">ديكور وإضاءة</option>
-                        <option value="نقل وتركيب">نقل وتركيب</option>
-                        <option value="أخرى">أخرى ونثريات</option>
+                        <option value="إضاءة وكهرباء">إضاءة وكهرباء</option>
+                        <option value="مفروشات وسجاد وستائر">مفروشات وسجاد وستائر</option>
+                        <option value="مستلزمات مطبخ وحمام">مستلزمات مطبخ وحمام</option>
+                        <option value="نقل وشحن وتركيب">نقل وشحن وتركيب</option>
+                        <option value="مصاريف أخرى">مصاريف أخرى</option>
                     </select>
-
-                    <!-- Room Filter -->
-                    <select id="roomFilter" onchange="applyFilters()" class="flex-1 sm:w-auto px-2.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 text-slate-700 font-medium">
-                        <option value="">كل الغرف والأماكن</option>
+                    
+                    <select id="filterRoom" onchange="renderExpenses()" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
+                        <option value="">كل الغرف</option>
                         <option value="عام للشقة">عام للشقة</option>
                         <option value="غرفة النوم الرئيسية">غرفة النوم الرئيسية</option>
                         <option value="غرفة 1">غرفة 1</option>
                         <option value="غرفة 2">غرفة 2</option>
-                        <option value="غرفة المعيشة والصالة">غرفة المعيشة والصالة</option>
+                        <option value="الصالة والريسبشن">الصالة والريسبشن</option>
                         <option value="المطبخ">المطبخ</option>
-                        <option value="الحمام الرئيسي">الحمام الرئيسي</option>
-                        <option value="حمام الضيوف">حمام الضيوف</option>
-                        <option value="الشرفة / البلكونة">الشرفة / البلكونة</option>
-                        <option value="المدخل والممرات">المدخل والممرات</option>
+                        <option value="الحمام">الحمام</option>
+                        <option value="المدخل والبلكونة">المدخل والبلكونة</option>
+                    </select>
+
+                    <select id="filterStatus" onchange="renderExpenses()" class="col-span-2 sm:col-span-1 py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
+                        <option value="">كل الحالات</option>
+                        <option value="paid">مسدد بالكامل</option>
+                        <option value="pending">متبقي أقساط</option>
                     </select>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Dynamic Content Display -->
-        <section id="contentContainer" class="w-full">
-            
-            <!-- Table Container (Desktop Table + Mobile Cards) -->
-            <div id="tableViewContainer" class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-                
-                <!-- Desktop Table -->
-                <div class="hidden md:block overflow-x-auto">
-                    <table class="w-full text-right border-collapse text-xs sm:text-sm">
-                        <thead>
-                            <tr class="bg-slate-50/80 text-slate-600 border-b border-slate-200 font-bold">
-                                <th class="py-3 px-4">الفئة والتصنيف</th>
-                                <th class="py-3 px-4">المكان / الغرفة</th>
-                                <th class="py-3 px-4">التكلفة</th>
-                                <th class="py-3 px-4">المدفوع</th>
-                                <th class="py-3 px-4">المتبقي</th>
-                                <th class="py-3 px-4">الحالة</th>
-                                <th class="py-3 px-4 text-center">إجراءات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="expensesTableBody" class="divide-y divide-slate-100 text-slate-700">
-                            <!-- Populated dynamically via JS -->
-                        </tbody>
-                    </table>
+        <!-- Expenses List View (Desktop Table & Mobile Cards) -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base">سجل المصاريف والتجهيزات</h3>
                 </div>
-
-                <!-- Mobile Card List View -->
-                <div id="expensesMobileCards" class="md:hidden divide-y divide-slate-100 p-2 space-y-2.5">
-                    <!-- Populated dynamically via JS -->
-                </div>
-
-                <!-- Empty State Message -->
-                <div id="emptyState" class="hidden p-12 text-center">
-                    <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3 text-2xl">
-                        <i class="fa-solid fa-receipt"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-700 mb-1">لا توجد مصاريف مسجلة حتى الآن</h3>
-                    <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">ابدأ بإضافة أول بند أو استخدم شريط الإدخال السريع بالأعلى.</p>
-                    <button onclick="openExpenseModal()" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all inline-flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>إضافة أول مصروف</span>
-                    </button>
-                </div>
+                <div class="text-xs text-slate-400 font-semibold" id="tableRecordCount">0 بند</div>
             </div>
 
-            <!-- Rooms Grouped View Container -->
-            <div id="roomsViewContainer" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <!-- Populated via JS -->
+            <!-- Mobile View: Clean Responsive Cards (No horizontal scroll) -->
+            <div id="mobileCardsContainer" class="block md:hidden p-3 space-y-3">
+                <!-- Injected via JavaScript -->
             </div>
 
-            <!-- Pending Balances View Container -->
-            <div id="pendingViewContainer" class="hidden space-y-3">
-                <!-- Populated via JS -->
+            <!-- Desktop View: Full Table -->
+            <div class="hidden md:block overflow-x-auto custom-scrollbar">
+                <table class="w-full text-right text-xs">
+                    <thead class="bg-slate-50/80 text-slate-500 font-bold border-b border-slate-200">
+                        <tr>
+                            <th class="p-3.5">الفئة والتصنيف</th>
+                            <th class="p-3.5">المكان / الغرفة</th>
+                            <th class="p-3.5">التكلفة الإجمالية</th>
+                            <th class="p-3.5">المدفوع</th>
+                            <th class="p-3.5">المتبقي</th>
+                            <th class="p-3.5">الحالة</th>
+                            <th class="p-3.5">ملاحظات / تاجر</th>
+                            <th class="p-3.5 text-center">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                        <!-- Injected via JavaScript -->
+                    </tbody>
+                </table>
             </div>
 
-        </section>
+            <!-- Empty State Container -->
+            <div id="emptyState" class="p-12 text-center hidden">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center mx-auto mb-3 text-2xl">
+                    <i class="fa-solid fa-folder-open"></i>
+                </div>
+                <h4 class="text-base font-black text-slate-800 mb-1">لا توجد مصاريف مسجلة حتى الآن</h4>
+                <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">ابدأ بإضافة أول بند مثل تأمين الإيجار، دهانات، أو أجهزة الشقة</p>
+                <button type="button" onclick="openExpenseModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-100 transition inline-flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i>
+                    إضافة مصروف الآن
+                </button>
+            </div>
+        </div>
+
     </main>
 
-    <!-- Add / Edit Expense Modal Dialog -->
-    <div id="expenseModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-3 sm:p-4 overflow-y-auto no-print">
-        <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl border border-slate-100 overflow-hidden transform transition-all my-8">
+    <!-- Floating Action Button (FAB) for fast expense entry -->
+    <div class="fixed bottom-6 left-6 z-30 no-print">
+        <button type="button" onclick="openExpenseModal()" class="flex items-center gap-2 px-5 py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black text-sm rounded-full shadow-xl shadow-indigo-300/50 hover:shadow-2xl hover:shadow-indigo-400/60 active:scale-95 transition-all">
+            <i class="fa-solid fa-plus text-base"></i>
+            <span>إضافة مصروف</span>
+        </button>
+    </div>
+
+    <!-- Expense Modal (Add / Edit) - Clean & No Mandatory Fields -->
+    <div id="expenseModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
             
-            <!-- Modal Header -->
-            <div class="px-6 py-4 bg-gradient-to-r from-primary-600 to-indigo-600 text-white flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                    <i class="fa-solid fa-receipt text-base"></i>
-                    <h3 id="modalTitle" class="font-black text-sm sm:text-base">إضافة مصروف</h3>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                        <i class="fa-solid fa-receipt text-sm"></i>
+                    </div>
+                    <h3 id="modalExpenseTitle" class="font-extrabold text-slate-800 text-base">تسجيل مصروف جديد</h3>
                 </div>
-                <button onclick="closeExpenseModal()" type="button" class="text-white/80 hover:text-white text-xl cursor-pointer">
+                <button type="button" onclick="closeExpenseModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="space-y-4 text-xs sm:text-sm">
+                <input type="hidden" id="expenseId">
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1.5">الفئة والتصنيف</label>
+                    <select id="expenseCategory" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-semibold text-slate-800">
+                        <option value="مواد بناء وتأسيس">مواد بناء وتأسيس</option>
+                        <option value="تأمين الإيجار (مسترد)">تأمين الإيجار (مسترد)</option>
+                        <option value="إيجار مقدم">إيجار مقدم</option>
+                        <option value="عمولة السمسار / وسيط">عمولة السمسار / وسيط</option>
+                        <option value="تشطيبات وصيانة">تشطيبات وصيانة</option>
+                        <option value="أجهزة كهربائية">أجهزة كهربائية</option>
+                        <option value="أثاث وموبيليات">أثاث وموبيليات</option>
+                        <option value="إضاءة وكهرباء">إضاءة وكهرباء</option>
+                        <option value="مفروشات وسجاد وستائر">مفروشات وسجاد وستائر</option>
+                        <option value="مستلزمات مطبخ وحمام">مستلزمات مطبخ وحمام</option>
+                        <option value="نقل وشحن وتركيب">نقل وشحن وتركيب</option>
+                        <option value="مصاريف أخرى">مصاريف أخرى</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1.5">المكان / الغرفة</label>
+                    <select id="expenseRoom" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-semibold text-slate-800">
+                        <option value="عام للشقة">عام للشقة</option>
+                        <option value="غرفة النوم الرئيسية">غرفة النوم الرئيسية</option>
+                        <option value="غرفة 1">غرفة 1</option>
+                        <option value="غرفة 2">غرفة 2</option>
+                        <option value="الصالة والريسبشن">الصالة والريسبشن</option>
+                        <option value="المطبخ">المطبخ</option>
+                        <option value="الحمام">الحمام</option>
+                        <option value="المدخل والبلكونة">المدخل والبلكونة</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1.5">التكلفة الإجمالية (ج.م)</label>
+                        <input type="number" step="any" id="expenseTotalCost" oninput="autoCalculateRemaining()" placeholder="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-black text-slate-900">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1.5">المدفوع كاش (ج.م)</label>
+                        <input type="number" step="any" id="expensePaidAmount" oninput="autoCalculateRemaining()" placeholder="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-bold text-emerald-600">
+                    </div>
+                </div>
+
+                <!-- Auto-calculated remaining helper -->
+                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+                    <span class="text-slate-500 font-semibold">المبلغ المتبقي كقسط:</span>
+                    <span id="expenseRemainingPreview" class="font-black text-amber-600">0 ج.م</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1.5">اسم التاجر / المورد</label>
+                        <input type="text" id="expenseVendor" placeholder="مثال: معرض الهدى، الفني أحمد..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-medium">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1.5">التاريخ</label>
+                        <input type="date" id="expenseDate" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-medium text-slate-700">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1.5">ملاحظات إضافية أو تفاصيل البند</label>
+                    <textarea id="expenseNotes" rows="2" placeholder="أي تفاصيل أو بنود فرعية أو شروط ضمان..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-medium"></textarea>
+                </div>
+
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+                    <button type="button" onclick="closeExpenseModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold transition">
+                        إلغاء
+                    </button>
+                    <button type="submit" class="px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md shadow-indigo-100 transition">
+                        حفظ المصروف
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Budget Edit Modal -->
+    <div id="budgetModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-base">تحديد ميزانية الشقة</h3>
+                </div>
+                <button type="button" onclick="closeBudgetModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form onsubmit="handleSaveBudget(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1.5">الميزانية المستهدفة (ج.م)</label>
+                    <input type="number" step="any" id="budgetInputModal" placeholder="0" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-black text-lg text-slate-900">
+                    <p class="text-[11px] text-slate-400 mt-1">تساعدك في مقارنة المصاريف الفعلية مع الحد الأقصى المرصود</p>
+                </div>
+                <div class="flex items-center justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeBudgetModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-100">إلغاء</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">حفظ الميزانية</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Export Modal (Direct File Download + Copy Text fallback) -->
+    <div id="exportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-base">تصدير وحفظ نسخة احتياطية</h3>
+                </div>
+                <button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <button type="button" onclick="downloadBackupFile()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-100 transition active:scale-95">
+                    <i class="fa-solid fa-file-arrow-down text-base"></i>
+                    تنزيل ملف النسخة الاحتياطية (.json)
+                </button>
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-3 text-slate-400 text-xs">أو نسخ الكود مباشرة</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+                <button type="button" onclick="copyBackupToClipboard()" class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95">
+                    <i class="fa-solid fa-copy"></i>
+                    نسخ بيانات النسخة الاحتياطية للحافظة
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal: Mobile-Friendly Native Label & Text Fallback with Diagnostics -->
+    <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
+            
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <h3 class="font-extrabold text-slate-800 text-base">استيراد نسخة احتياطية</h3>
+                </div>
+                <button type="button" onclick="closeImportModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <!-- Expense Form -->
-            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="p-6 space-y-4">
-                <input type="hidden" id="editExpenseId">
-
-                <!-- Category & Room Selection -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">الفئة والتصنيف</label>
-                        <select id="itemCategory" class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none text-slate-800">
-                            <option value="مواد بناء وتأسيس">مواد بناء وتأسيس (أسمنت، طوب، سباكة)</option>
-                            <option value="عقد وإيجار وتأمين">عقد وإيجار وتأمين (المالك/الوسيط)</option>
-                            <option value="تشطيبات وصيانة">تشطيبات وصيانة ونقاشة</option>
-                            <option value="أجهزة كهربائية">أجهزة كهربائية</option>
-                            <option value="أثاث وموبيليات">أثاث وموبيليات</option>
-                            <option value="أدوات ومفروشات">أدوات ومفروشات ومطبخ</option>
-                            <option value="ديكور وإضاءة">ديكور وإضاءة وسجاد</option>
-                            <option value="نقل وتركيب">نقل عفش وخدمات تركيب</option>
-                            <option value="أخرى">أخرى ومصروفات نثرية</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">المكان / الغرفة</label>
-                        <select id="itemRoom" class="w-full px-3 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none text-slate-800">
-                            <option value="عام للشقة">عام للشقة / خارجي</option>
-                            <option value="غرفة النوم الرئيسية">غرفة النوم الرئيسية</option>
-                            <option value="غرفة 1">غرفة 1</option>
-                            <option value="غرفة 2">غرفة 2</option>
-                            <option value="غرفة المعيشة والصالة">غرفة المعيشة والصالة</option>
-                            <option value="المطبخ">المطبخ</option>
-                            <option value="الحمام الرئيسي">الحمام الرئيسي</option>
-                            <option value="حمام الضيوف">حمام الضيوف</option>
-                            <option value="الشرفة / البلكونة">الشرفة / البلكونة</option>
-                            <option value="المدخل والممرات">المدخل والممرات</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Costs: Total Cost & Paid Amount -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">التكلفة الإجمالية (ج.م)</label>
-                        <input type="number" id="itemTotalCost" min="0" step="any" oninput="calculateModalRemaining()" placeholder="0.00" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none font-bold text-slate-900">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">المبلغ المدفوع (ج.م)</label>
-                        <input type="number" id="itemPaidAmount" min="0" step="any" oninput="calculateModalRemaining()" placeholder="0.00" class="w-full px-3.5 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none font-bold text-emerald-600">
-                    </div>
-                </div>
-
-                <!-- Remaining Preview -->
-                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
-                    <span class="font-bold text-slate-600">المبلغ المتبقي كقسط:</span>
-                    <span id="modalRemainingPreview" class="font-black text-amber-600 text-sm">0 ج.م</span>
-                </div>
-
-                <!-- Date & Vendor -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">تاريخ الصرف</label>
-                        <input type="date" id="itemDate" class="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none text-slate-700">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">المورد أو الفني أو المعرض</label>
-                        <input type="text" id="itemVendor" placeholder="مثال: المعلم محمد، كارفور، النساجون" class="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none text-slate-800">
-                    </div>
-                </div>
-
-                <!-- Notes / Details -->
+            <div class="space-y-4">
+                <!-- Native File Picker Label (100% reliable on Android & Xiaomi Downloads) -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">تفاصيل وملاحظات إضافية / الضمان</label>
-                    <textarea id="itemNotes" rows="2" placeholder="تفاصيل الخامات، أرقام التواصل، موعد الاستلام..." class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none text-slate-800"></textarea>
+                    <label for="mobileNativeFileInput" class="w-full flex flex-col items-center justify-center p-5 border-2 border-dashed border-indigo-200 hover:border-indigo-400 bg-indigo-50/50 hover:bg-indigo-50 rounded-2xl cursor-pointer transition text-center group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center mb-2 shadow-md shadow-indigo-100 group-hover:scale-105 transition">
+                            <i class="fa-solid fa-folder-open text-lg"></i>
+                        </div>
+                        <span class="font-bold text-slate-800 text-xs sm:text-sm">انقر لاختيار ملف النسخة من الهاتف</span>
+                        <span class="text-[11px] text-slate-400 mt-0.5">يدعم ملفات JSON و TXT وملفات التنزيلات</span>
+                    </label>
+                    <input type="file" id="mobileNativeFileInput" class="sr-only" accept="*/*,.json,.txt" onchange="handleNativeFileSelect(event)">
                 </div>
 
-                <!-- Modal Actions -->
-                <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
-                    <button type="button" onclick="closeExpenseModal()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 text-xs font-bold transition-all cursor-pointer">إلغاء</button>
-                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white text-xs font-black shadow-md shadow-primary-500/25 transition-all cursor-pointer">حفظ المصروف</button>
-                </div>
-            </form>
-        </div>
-    </div>
+                <!-- Diagnostic Status Box -->
+                <div id="importStatusBox" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
 
-    <!-- Target Budget Modal -->
-    <div id="budgetModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 transform transition-all">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-wallet text-primary-600 text-lg"></i>
-                    <h3 class="font-extrabold text-slate-800 text-base">الميزانية المستهدفة</h3>
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-3 text-slate-400 text-xs font-bold">أو استعادة بنسخ ولصق النص</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
                 </div>
-                <button onclick="closeBudgetModal()" class="text-slate-400 hover:text-slate-600 cursor-pointer">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-            <p class="text-xs text-slate-500 mb-4">حدد السقف المالي لتجهيز وفرش الشقة لمتابعة نسبة الصرف والمتبقي.</p>
-            <form onsubmit="handleSaveBudget(event)" class="space-y-4">
+
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">الميزانية الإجمالية (ج.م)</label>
-                    <input type="number" id="targetBudgetInput" min="0" step="any" placeholder="مثال: 150000" class="w-full px-4 py-3 text-base font-black bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:outline-none text-slate-900">
-                </div>
-                <div class="flex items-center justify-end gap-2">
-                    <button type="button" onclick="closeBudgetModal()" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">إلغاء</button>
-                    <button type="submit" class="px-5 py-2 text-xs font-black bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-xs cursor-pointer">حفظ</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Dedicated Export Modal (Download or Copy Code) -->
-    <div id="exportModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center transform transition-all">
-            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-2xl">
-                <i class="fa-solid fa-cloud-arrow-down"></i>
-            </div>
-            <h3 class="font-extrabold text-slate-800 text-base mb-1">تصدير نسخة احتياطية</h3>
-            <p class="text-xs text-slate-500 mb-4">اختر طريقة حفظ نسختك على الهاتف أو جهازك:</p>
-            
-            <div class="space-y-2.5">
-                <button type="button" onclick="triggerFileDownload()" class="w-full py-2.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-file-arrow-down text-sm"></i>
-                    <span>تنزيل ملف النسخة الاحتياطية (.json)</span>
-                </button>
-                
-                <button type="button" onclick="copyBackupToClipboard()" class="w-full py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 transition-all flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-copy text-sm text-slate-500"></i>
-                    <span>نسخ نص النسخة للحافظة (Copy)</span>
-                </button>
-            </div>
-
-            <button type="button" onclick="closeExportModal()" class="mt-4 w-full py-2 text-xs font-bold text-slate-400 hover:text-slate-600 rounded-xl cursor-pointer">إغلاق</button>
-        </div>
-    </div>
-
-    <!-- Dedicated Import Modal (File Picker + Paste Text Alternative) -->
-    <div id="importModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-100 p-5 transform transition-all">
-            <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="text-xs font-bold text-slate-700">لصق كود النسخة الاحتياطية:</label>
+                        <button type="button" onclick="pasteFromClipboard()" class="text-indigo-600 hover:text-indigo-700 font-bold text-xs flex items-center gap-1">
+                            <i class="fa-solid fa-paste"></i> لصق تلقائي
+                        </button>
                     </div>
-                    <h3 class="font-extrabold text-slate-800 text-sm sm:text-base">استيراد نسخة سابقة</h3>
+                    <textarea id="importTextarea" rows="3" placeholder="الصق محتوى ملف JSON هنا..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-mono text-[11px]"></textarea>
                 </div>
-                <button onclick="closeImportModal()" class="text-slate-400 hover:text-slate-600 cursor-pointer">
-                    <i class="fa-solid fa-xmark text-lg"></i>
+
+                <button type="button" onclick="handleImportFromTextarea()" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-indigo-100 transition active:scale-95">
+                    <i class="fa-solid fa-check"></i>
+                    استعادة وتطبيق البيانات
                 </button>
             </div>
 
-            <p class="text-xs text-slate-500 mb-3">يمكنك اختيار ملف النسخة من هاتفك أو لصق محتواه مباشرة أدناه:</p>
-
-            <!-- Option 1: File Pick -->
-            <div class="mb-4 p-3 bg-slate-50 rounded-2xl border border-slate-200 text-center">
-                <button type="button" onclick="triggerGlobalFilePick()" class="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer">
-                    <i class="fa-solid fa-folder-open text-sm"></i>
-                    <span>اختيار ملف من الهاتف / الجهاز</span>
-                </button>
-                <span class="block text-[11px] text-slate-400 mt-1.5 font-medium">يدعم جميع صيغ النسخ الاحتياطية (.json أو .txt)</span>
-            </div>
-
-            <!-- Option 2: Paste Content -->
-            <div class="space-y-2">
-                <label class="block text-xs font-bold text-slate-700">أو الصق كود / نص النسخة هنا مباشرة:</label>
-                <textarea id="importTextarea" rows="3" placeholder="افتح ملف النسخة، انسخ النص كاملاً، وألصقه هنا..." class="w-full p-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 focus:bg-white focus:outline-none font-mono text-slate-700"></textarea>
-                <button type="button" onclick="importFromPastedText()" class="w-full py-2 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">
-                    استعادة البيانات من النص الملصق
-                </button>
-            </div>
         </div>
     </div>
 
-    <!-- One-Time First-Visit PWA Install Prompt Modal -->
-    <div id="firstTimePwaModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-6 text-center transform transition-all">
-            <div class="w-16 h-16 rounded-3xl bg-gradient-to-tr from-primary-600 to-indigo-500 text-white flex items-center justify-center mx-auto mb-3 text-2xl shadow-lg shadow-primary-500/30">
-                <i class="fa-solid fa-house-chimney-window"></i>
-            </div>
-            <h3 class="font-extrabold text-slate-800 text-base sm:text-lg mb-1">تثبيت التطبيق على جهازك</h3>
-            <p class="text-xs text-slate-600 mb-3 leading-relaxed">
-                يمكنك تثبيت حاسبة مصاريف الشقة لتعمل كتطبيق هاتف سريع ومستقل بالكامل بدون إنترنت.
-            </p>
-            <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-2.5 text-[11px] text-indigo-700 font-semibold mb-4 flex items-center gap-2 text-right">
-                <i class="fa-solid fa-circle-check text-sm flex-shrink-0 text-indigo-600"></i>
-                <span>يتم التثبيت لمرة واحدة فقط ولن يظهر هذا التنبيه مجدداً.</span>
-            </div>
-            <div class="flex flex-col gap-2">
-                <button type="button" onclick="acceptFirstTimePWAInstall()" class="w-full py-2.5 rounded-xl bg-primary-600 hover:bg-primary-700 text-white font-bold text-xs shadow-md shadow-primary-500/25 transition-all cursor-pointer flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-download"></i>
-                    <span>تثبيت التطبيق الآن</span>
-                </button>
-                <button type="button" onclick="dismissFirstTimePWAModal()" class="w-full py-2 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-all cursor-pointer">
-                    متابعة في المتصفح وتخطي
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- iOS PWA Install Guidance Modal -->
-    <div id="iosInstallModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center">
-            <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-3 text-2xl">
-                <i class="fa-brands fa-apple"></i>
-            </div>
-            <h3 class="font-extrabold text-slate-800 text-base mb-1">تثبيت التطبيق على آيفون / آيباد</h3>
-            <p class="text-xs text-slate-600 mb-4 leading-relaxed">
-                لتثبيت التطبيق على جهازك بنظام iOS:
-            </p>
-            <div class="bg-slate-50 rounded-2xl p-3 text-xs text-slate-700 text-right space-y-2 mb-4 border border-slate-200">
-                <div class="flex items-center gap-2">
-                    <span class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold">1</span>
-                    <span>اضغط على زر المشاركة <i class="fa-solid fa-arrow-up-from-bracket text-primary-600 mx-1"></i> في أسفل المتصفح.</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold">2</span>
-                    <span>اختر <strong>"إضافة إلى الشاشة الرئيسية" (Add to Home Screen)</strong>.</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="w-5 h-5 rounded-full bg-primary-600 text-white flex items-center justify-center text-[10px] font-bold">3</span>
-                    <span>اضغط على <strong>"إضافة" (Add)</strong> في الزاوية العلوية.</span>
-                </div>
-            </div>
-            <button type="button" onclick="closeIosInstallModal()" class="w-full py-2.5 rounded-xl bg-primary-600 text-white font-bold text-xs hover:bg-primary-700 shadow-xs cursor-pointer">حسناً، فهمت</button>
-        </div>
-    </div>
-
-    <!-- Custom Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4 no-print">
-        <div class="bg-white rounded-3xl max-w-sm w-full shadow-2xl border border-slate-100 p-5 text-center">
-            <div id="confirmIconContainer" class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-3 text-2xl">
+    <!-- Confirmation Modal (Zero / Reset) -->
+    <div id="confirmModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3 text-xl">
                 <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
-            <h3 id="confirmModalTitle" class="font-extrabold text-slate-800 text-base mb-1">تأكيد الإجراء</h3>
-            <p id="confirmModalMessage" class="text-xs text-slate-500 mb-5">هل أنت متأكد من الاستمرار؟</p>
-            <div class="flex items-center justify-center gap-3">
-                <button type="button" onclick="closeConfirmModal(false)" class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-100 cursor-pointer">تراجع</button>
-                <button type="button" onclick="closeConfirmModal(true)" id="confirmModalActionBtn" class="flex-1 py-2.5 rounded-xl bg-rose-600 text-white font-bold text-xs hover:bg-rose-700 shadow-xs cursor-pointer">نعم، تأكيد</button>
+            <h3 class="font-black text-slate-900 text-base mb-1" id="confirmModalTitle">تأكيد الإجراء</h3>
+            <p class="text-xs text-slate-500 mb-5 leading-relaxed" id="confirmModalMessage">هل أنت متأكد من المتابعة؟</p>
+            <div class="flex items-center justify-center gap-2">
+                <button type="button" onclick="closeConfirmModal()" class="flex-1 py-2 px-3 border border-slate-200 rounded-xl text-slate-700 text-xs font-bold hover:bg-slate-100 transition">إلغاء</button>
+                <button type="button" id="confirmModalActionBtn" class="flex-1 py-2 px-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition">نعم، متأكد</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- One-Time PWA Installation Modal -->
+    <div id="pwaOneTimeModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100 text-center">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+            </div>
+            <h3 class="font-black text-slate-900 text-base mb-1">تثبيت التطبيق على جهازك</h3>
+            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+                يمكنك تثبيت هذا التطبيق ليعمل كأي تطبيق رسمي على هاتفك بدون متجر وبسرعة فائقة ودون الحاجة لإنترنت. (هذا الإشعار يظهر لمرة واحدة فقط).
+            </p>
+            <div class="space-y-2">
+                <button type="button" onclick="triggerPwaInstall()" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black shadow-md shadow-indigo-100 transition active:scale-95">
+                    تثبيت التطبيق الآن
+                </button>
+                <button type="button" onclick="dismissPwaModal()" class="w-full py-2 px-4 border border-slate-200 hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-bold transition">
+                    المتابعة في المتصفح وتخطي
+                </button>
             </div>
         </div>
     </div>
@@ -706,275 +658,59 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-5 left-5 z-50 flex flex-col gap-2 pointer-events-none no-print"></div>
 
-    <!-- Hidden Container for PDF Rendering -->
-    <div id="pdfPrintableReport" class="hidden"></div>
+    <!-- Container for PDF Rendering (Off-screen with fixed A4 width so html2canvas renders full content and never a blank page) -->
+    <div id="pdfPrintableReport" style="position: fixed; left: -9999px; top: 0; width: 780px; min-height: 200px; background: #ffffff; z-index: -999; pointer-events: none; overflow: visible;"></div>
 
     <script>
         // Storage Keys
-        const STORAGE_EXPENSES = 'apartment_expenses_list_v4';
-        const STORAGE_SETTINGS = 'apartment_settings_info_v4';
-        const STORAGE_PWA_NOTIFIED = 'apartment_pwa_installed_or_dismissed_v1';
+        const STORAGE_EXPENSES_KEY = 'apartment_expenses_data_v2';
+        const STORAGE_SETTINGS_KEY = 'apartment_settings_data_v2';
+        const STORAGE_PWA_KEY = 'apartment_pwa_dismissed_v1';
 
         // State
         let expenses = [];
-        let appSettings = {
-            budget: 0,
-            currency: 'ج.م'
-        };
+        let appSettings = { budget: 0 };
+        let deferredPwaPrompt = null;
+        let pendingConfirmCallback = null;
 
-        let currentView = 'table';
-        let confirmationCallback = null;
-        let categoryChartInstance = null;
-        let roomChartInstance = null;
-        let deferredPrompt = null;
-
-        // Startup
-        window.addEventListener('DOMContentLoaded', () => {
-            loadStoredData();
-            initTodayDate();
+        // Initialize App on DOM Load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            setupPwaPrompt();
             renderAll();
-            initPWA();
         });
 
-        function initTodayDate() {
-            const dateInput = document.getElementById('itemDate');
-            if (dateInput) {
-                dateInput.value = new Date().toISOString().split('T')[0];
-            }
-        }
-
-        function loadStoredData() {
+        function loadSavedData() {
             try {
-                const savedExpenses = localStorage.getItem(STORAGE_EXPENSES);
-                const savedSettings = localStorage.getItem(STORAGE_SETTINGS);
-
-                if (savedExpenses) {
-                    expenses = JSON.parse(savedExpenses);
-                } else {
-                    const oldV3 = localStorage.getItem('apartment_expenses_list_v3');
-                    if (oldV3) {
-                        expenses = JSON.parse(oldV3);
-                    } else {
-                        expenses = [];
-                    }
-                }
-
-                if (savedSettings) {
-                    appSettings = JSON.parse(savedSettings);
-                } else {
-                    const oldSettingsV3 = localStorage.getItem('apartment_settings_info_v3');
-                    if (oldSettingsV3) {
-                        appSettings = JSON.parse(oldSettingsV3);
-                    } else {
-                        appSettings = { budget: 0, currency: 'ج.م' };
-                    }
-                }
-            } catch (err) {
-                console.error('Error loading data:', err);
+                const savedExp = localStorage.getItem(STORAGE_EXPENSES_KEY);
+                expenses = savedExp ? JSON.parse(savedExp) : [];
+            } catch (e) {
+                console.error('Error loading expenses:', e);
                 expenses = [];
-                appSettings = { budget: 0, currency: 'ج.م' };
             }
-        }
 
-        function persistData() {
             try {
-                localStorage.setItem(STORAGE_EXPENSES, JSON.stringify(expenses));
-                localStorage.setItem(STORAGE_SETTINGS, JSON.stringify(appSettings));
-            } catch (err) {
-                console.error('Error saving data:', err);
-                showToast('حدث خطأ أثناء حفظ البيانات محلياً', 'error');
+                const savedSet = localStorage.getItem(STORAGE_SETTINGS_KEY);
+                appSettings = savedSet ? JSON.parse(savedSet) : { budget: 0 };
+            } catch (e) {
+                console.error('Error loading settings:', e);
+                appSettings = { budget: 0 };
             }
         }
 
-        // Initialize PWA Service Worker & Install Flow
-        function initPWA() {
-            if ('serviceWorker' in navigator) {
-                const swScript = `
-                    const CACHE_NAME = 'expenses-cache-v1';
-                    self.addEventListener('install', (e) => {
-                        self.skipWaiting();
-                    });
-                    self.addEventListener('activate', (e) => {
-                        e.waitUntil(clients.claim());
-                    });
-                    self.addEventListener('fetch', (e) => {
-                        e.respondWith(
-                            fetch(e.request).catch(() => caches.match(e.request))
-                        );
-                    });
-                `;
-                try {
-                    const blob = new Blob([swScript], { type: 'text/javascript' });
-                    const swUrl = URL.createObjectURL(blob);
-                    navigator.serviceWorker.register(swUrl).catch(err => {
-                        console.log('SW Note:', err);
-                    });
-                } catch (e) {
-                    console.log('SW not supported in this frame', e);
-                }
-            }
-
-            // Capture install prompt
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                checkAndShowFirstTimePWAModal();
-            });
-
-            // App already installed listener
-            window.addEventListener('appinstalled', () => {
-                deferredPrompt = null;
-                localStorage.setItem(STORAGE_PWA_NOTIFIED, 'true');
-                closeFirstTimePWAModal();
-                showToast('تم تثبيت التطبيق بنجاح على جهازك!', 'success');
-            });
-
-            // Check after a brief delay for iOS / devices where beforeinstallprompt might not fire
-            setTimeout(() => {
-                checkAndShowFirstTimePWAModal();
-            }, 1200);
-        }
-
-        function isRunningStandalone() {
-            return window.matchMedia('(display-mode: standalone)').matches || 
-                   window.navigator.standalone || 
-                   document.referrer.includes('android-app://');
-        }
-
-        function checkAndShowFirstTimePWAModal() {
-            if (isRunningStandalone() || localStorage.getItem(STORAGE_PWA_NOTIFIED) === 'true') {
-                return;
-            }
-
-            const modal = document.getElementById('firstTimePwaModal');
-            if (modal && modal.classList.contains('hidden')) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
-        }
-
-        function closeFirstTimePWAModal() {
-            const modal = document.getElementById('firstTimePwaModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function dismissFirstTimePWAModal() {
-            localStorage.setItem(STORAGE_PWA_NOTIFIED, 'true');
-            closeFirstTimePWAModal();
-        }
-
-        function acceptFirstTimePWAInstall() {
-            localStorage.setItem(STORAGE_PWA_NOTIFIED, 'true');
-            closeFirstTimePWAModal();
-            triggerPWAInstall();
-        }
-
-        function triggerPWAInstall() {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showToast('جاري تثبيت التطبيق...', 'success');
-                    }
-                    deferredPrompt = null;
-                });
-                return;
-            }
-
-            const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-            if (isRunningStandalone()) {
-                showToast('التطبيق مثبت بالفعل ويعمل كـ PWA على جهازك', 'info');
-                return;
-            }
-
-            if (isIos) {
-                openIosInstallModal();
-            } else {
-                showToast('لتثبيت التطبيق: افتح خيارات المتصفح (⋮) واختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية"', 'info');
-            }
-        }
-
-        function openIosInstallModal() {
-            const modal = document.getElementById('iosInstallModal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
-        }
-
-        function closeIosInstallModal() {
-            const modal = document.getElementById('iosInstallModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-
-        function toggleSidebar() {
-            const overlay = document.getElementById('sidebarOverlay');
-            const drawer = document.getElementById('sidebarDrawer');
-            if (overlay && drawer) {
-                if (drawer.classList.contains('-translate-x-full')) {
-                    overlay.classList.remove('hidden');
-                    setTimeout(() => drawer.classList.remove('-translate-x-full'), 10);
-                } else {
-                    closeSidebar();
-                }
-            }
-        }
-
-        function closeSidebar() {
-            const overlay = document.getElementById('sidebarOverlay');
-            const drawer = document.getElementById('sidebarDrawer');
-            if (overlay && drawer) {
-                drawer.classList.add('-translate-x-full');
-                setTimeout(() => overlay.classList.add('hidden'), 250);
-            }
-        }
-
-        function switchView(viewName) {
-            currentView = viewName;
-            
-            const btnTable = document.getElementById('tabBtnTable');
-            const btnRooms = document.getElementById('tabBtnRooms');
-            const btnPending = document.getElementById('tabBtnPending');
-
-            [btnTable, btnRooms, btnPending].forEach(btn => {
-                btn.className = 'flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-slate-600 hover:text-slate-900 cursor-pointer';
-            });
-
-            const tableContainer = document.getElementById('tableViewContainer');
-            const roomsContainer = document.getElementById('roomsViewContainer');
-            const pendingContainer = document.getElementById('pendingViewContainer');
-
-            tableContainer.classList.add('hidden');
-            roomsContainer.classList.add('hidden');
-            pendingContainer.classList.add('hidden');
-
-            if (viewName === 'table') {
-                btnTable.className = 'flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-primary-700 bg-white shadow-xs cursor-pointer';
-                tableContainer.classList.remove('hidden');
-            } else if (viewName === 'rooms') {
-                btnRooms.className = 'flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-primary-700 bg-white shadow-xs cursor-pointer';
-                roomsContainer.classList.remove('hidden');
-                renderRoomsView();
-            } else if (viewName === 'pending') {
-                btnPending.className = 'flex-1 sm:flex-initial px-3.5 py-1.5 text-xs font-extrabold rounded-lg transition-all text-primary-700 bg-white shadow-xs cursor-pointer';
-                pendingContainer.classList.remove('hidden');
-                renderPendingView();
+        function saveData() {
+            try {
+                localStorage.setItem(STORAGE_EXPENSES_KEY, JSON.stringify(expenses));
+                localStorage.setItem(STORAGE_SETTINGS_KEY, JSON.stringify(appSettings));
+            } catch (e) {
+                console.error('Error saving data:', e);
+                showToast('خطأ أثناء الحفظ في ذاكرة الجهاز', 'error');
             }
         }
 
         function renderAll() {
-            updateKPIs();
-            renderTable();
-            renderCharts();
-            if (currentView === 'rooms') renderRoomsView();
-            if (currentView === 'pending') renderPendingView();
+            updateStatsAndBudget();
+            renderExpenses();
         }
 
         function formatMoney(amount) {
@@ -982,134 +718,143 @@
             return num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
         }
 
-        function updateKPIs() {
+        function updateStatsAndBudget() {
             let totalCost = 0;
             let totalPaid = 0;
             let totalRemaining = 0;
-            let pendingItemsCount = 0;
+            let pendingCount = 0;
 
             expenses.forEach(item => {
-                const cost = parseFloat(item.totalCost) || 0;
-                const paid = parseFloat(item.paidAmount) || 0;
-                totalCost += cost;
-                totalPaid += paid;
-                const rem = Math.max(0, cost - paid);
+                const c = parseFloat(item.totalCost) || 0;
+                const p = parseFloat(item.paidAmount) || 0;
+                const rem = Math.max(0, c - p);
+
+                totalCost += c;
+                totalPaid += p;
                 totalRemaining += rem;
-                if (rem > 0) pendingItemsCount++;
+
+                if (rem > 0) pendingCount++;
             });
 
+            const budget = parseFloat(appSettings.budget) || 0;
+            const budgetDiff = budget - totalCost;
+            const paidPercent = totalCost > 0 ? Math.round((totalPaid / totalCost) * 100) : 0;
+
+            // DOM Updates
             document.getElementById('statTotalCost').innerText = `${formatMoney(totalCost)} ج.م`;
+            document.getElementById('statItemsCount').innerText = `${expenses.length} بند مسجل`;
+
             document.getElementById('statTotalPaid').innerText = `${formatMoney(totalPaid)} ج.م`;
+            document.getElementById('statPaidPercent').innerText = `${paidPercent}% تم دفعه كاش`;
+
             document.getElementById('statTotalRemaining').innerText = `${formatMoney(totalRemaining)} ج.م`;
-            document.getElementById('statItemCount').innerText = `${expenses.length} بنود مسجلة`;
-            document.getElementById('statPendingCount').innerText = `${pendingItemsCount} بنود معلقة ومتبقية`;
+            document.getElementById('statPendingCount').innerText = `${pendingCount} بنود متبقية`;
 
-            const paidPct = totalCost > 0 ? Math.round((totalPaid / totalCost) * 100) : 0;
-            document.getElementById('statPaidPercent').innerText = `${paidPct}% تم دفعه كاش`;
+            document.getElementById('headerBudgetDisplay').innerText = `${formatMoney(budget)} ج.م`;
+            document.getElementById('drawerBudgetValue').innerText = `${formatMoney(budget)} ج.م`;
 
-            const targetBudget = parseFloat(appSettings.budget) || 0;
-            const navBadge = document.getElementById('navBudgetBadge');
-            if (navBadge) navBadge.innerText = `${formatMoney(targetBudget)} ج.م`;
+            const budgetStatEl = document.getElementById('statBudgetStatus');
+            const budgetPercentEl = document.getElementById('statBudgetPercent');
 
-            const budgetRemainingElem = document.getElementById('statBudgetRemaining');
-            const budgetStatusElem = document.getElementById('statBudgetStatus');
-            const budgetProgressBar = document.getElementById('budgetProgressBar');
-
-            if (targetBudget > 0) {
-                const diff = targetBudget - totalCost;
-                const budgetUsedPct = Math.min(100, Math.round((totalCost / targetBudget) * 100));
-
-                if (diff >= 0) {
-                    budgetRemainingElem.innerText = `${formatMoney(diff)} ج.م`;
-                    budgetRemainingElem.className = 'text-lg sm:text-2xl font-black text-slate-900 tracking-tight';
-                    budgetStatusElem.innerText = `استهلكت ${budgetUsedPct}% من الميزانية`;
-                    budgetProgressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-indigo-500';
+            if (budget > 0) {
+                if (budgetDiff >= 0) {
+                    budgetStatEl.innerText = `${formatMoney(budgetDiff)} ج.م`;
+                    budgetStatEl.className = 'text-lg sm:text-2xl font-black text-emerald-600';
+                    budgetPercentEl.innerText = `فائض متاح بالميزانية (${Math.round((totalCost / budget) * 100)}% مستهلك)`;
+                    budgetPercentEl.className = 'text-[10px] text-emerald-600 mt-1 font-bold';
                 } else {
-                    budgetRemainingElem.innerText = `عجز: ${formatMoney(Math.abs(diff))} ج.م`;
-                    budgetRemainingElem.className = 'text-lg sm:text-2xl font-black text-rose-600 tracking-tight';
-                    budgetStatusElem.innerText = `تجاوزت الميزانية بنسبة ${Math.round((totalCost / targetBudget) * 100)}%`;
-                    budgetProgressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-rose-500';
+                    budgetStatEl.innerText = `${formatMoney(Math.abs(budgetDiff))} ج.م`;
+                    budgetStatEl.className = 'text-lg sm:text-2xl font-black text-red-600';
+                    budgetPercentEl.innerText = `تجاوز وعجز بالميزانية (+${formatMoney(Math.abs(budgetDiff))})`;
+                    budgetPercentEl.className = 'text-[10px] text-red-500 mt-1 font-bold';
                 }
             } else {
-                budgetRemainingElem.innerText = '0 ج.م';
-                budgetStatusElem.innerText = 'الميزانية غير محددة (اضغط لتحديدها)';
-                budgetProgressBar.className = 'absolute bottom-0 left-0 right-0 h-1 bg-slate-300';
+                budgetStatEl.innerText = 'غير محددة';
+                budgetStatEl.className = 'text-lg sm:text-2xl font-black text-slate-400';
+                budgetPercentEl.innerText = 'انقر على الميزانية لتحديدها';
+                budgetPercentEl.className = 'text-[10px] text-slate-400 mt-1 font-semibold';
             }
         }
 
-        function renderTable() {
-            const tableBody = document.getElementById('expensesTableBody');
-            const mobileCards = document.getElementById('expensesMobileCards');
-            const emptyState = document.getElementById('emptyState');
-
-            const searchVal = (document.getElementById('searchInput').value || '').trim().toLowerCase();
-            const catVal = document.getElementById('categoryFilter').value;
-            const roomVal = document.getElementById('roomFilter').value;
+        function renderExpenses() {
+            const search = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+            const filterCat = document.getElementById('filterCategory')?.value || '';
+            const filterRoom = document.getElementById('filterRoom')?.value || '';
+            const filterStatus = document.getElementById('filterStatus')?.value || '';
 
             const filtered = expenses.filter(item => {
-                const displayName = item.category || item.title || '';
-                const matchesSearch = !searchVal || 
-                    displayName.toLowerCase().includes(searchVal) ||
-                    (item.vendor && item.vendor.toLowerCase().includes(searchVal)) ||
-                    (item.notes && item.notes.toLowerCase().includes(searchVal));
-                
-                const matchesCat = !catVal || item.category === catVal;
-                const matchesRoom = !roomVal || item.room === roomVal;
+                const c = parseFloat(item.totalCost) || 0;
+                const p = parseFloat(item.paidAmount) || 0;
+                const rem = Math.max(0, c - p);
+                const isPaid = rem <= 0;
 
-                return matchesSearch && matchesCat && matchesRoom;
+                if (filterCat && item.category !== filterCat) return false;
+                if (filterRoom && item.room !== filterRoom) return false;
+                if (filterStatus === 'paid' && !isPaid) return false;
+                if (filterStatus === 'pending' && isPaid) return false;
+
+                if (search) {
+                    const matchText = `${item.category || ''} ${item.room || ''} ${item.notes || ''} ${item.vendor || ''}`.toLowerCase();
+                    if (!matchText.includes(search)) return false;
+                }
+
+                return true;
             });
 
+            document.getElementById('tableRecordCount').innerText = `${filtered.length} بند`;
+
+            const tbody = document.getElementById('expensesTableBody');
+            const mobileContainer = document.getElementById('mobileCardsContainer');
+            const emptyState = document.getElementById('emptyState');
+
             if (filtered.length === 0) {
-                tableBody.innerHTML = '';
-                mobileCards.innerHTML = '';
+                tbody.innerHTML = '';
+                mobileContainer.innerHTML = '';
                 emptyState.classList.remove('hidden');
                 return;
-            } else {
-                emptyState.classList.add('hidden');
             }
 
-            // Desktop Table Rows
-            tableBody.innerHTML = filtered.map(item => {
-                const cost = parseFloat(item.totalCost) || 0;
-                const paid = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, cost - paid);
-                const isPaidFull = rem <= 0;
-                const displayName = item.category || item.title || 'مصروف عام';
+            emptyState.classList.add('hidden');
+
+            // Render Desktop Table Rows
+            tbody.innerHTML = filtered.map(item => {
+                const c = parseFloat(item.totalCost) || 0;
+                const p = parseFloat(item.paidAmount) || 0;
+                const rem = Math.max(0, c - p);
+                const isPaid = rem <= 0;
 
                 return `
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 px-4">
-                            <div class="font-bold text-slate-900">${escapeHtml(displayName)}</div>
-                            ${item.notes ? `<div class="text-[11px] text-slate-600 font-medium">${escapeHtml(item.notes)}</div>` : ''}
-                            ${item.vendor ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-store ml-1 text-slate-300"></i>${escapeHtml(item.vendor)}</div>` : ''}
-                            ${item.date ? `<div class="text-[10px] text-slate-400">${item.date}</div>` : ''}
+                    <tr class="hover:bg-slate-50/70 transition">
+                        <td class="p-3.5 font-bold text-slate-900">
+                            ${escapeHtml(item.category || 'مصروف عام')}
+                            ${item.date ? `<div class="text-[10px] text-slate-400 font-normal mt-0.5">${item.date}</div>` : ''}
                         </td>
-                        <td class="py-3 px-4">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100">
-                                <i class="fa-solid fa-door-open ml-1 text-[10px]"></i>${escapeHtml(item.room || 'عام للشقة')}
+                        <td class="p-3.5 text-indigo-600 font-semibold">
+                            <span class="inline-flex items-center gap-1 bg-indigo-50/60 px-2 py-0.5 rounded-md">
+                                <i class="fa-solid fa-door-closed text-[10px]"></i>
+                                ${escapeHtml(item.room || 'عام للشقة')}
                             </span>
                         </td>
-                        <td class="py-3 px-4 font-extrabold text-slate-900">${formatMoney(cost)} ج.م</td>
-                        <td class="py-3 px-4 font-bold text-emerald-600">${formatMoney(paid)} ج.م</td>
-                        <td class="py-3 px-4 font-bold ${rem > 0 ? 'text-amber-600' : 'text-slate-400'}">${formatMoney(rem)} ج.م</td>
-                        <td class="py-3 px-4">
-                            ${isPaidFull ? 
-                                '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200"><i class="fa-solid fa-circle-check ml-1 text-[10px]"></i>خالص بالكامل</span>' : 
-                                '<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200"><i class="fa-solid fa-clock ml-1 text-[10px]"></i>متبقي قسط</span>'
-                            }
+                        <td class="p-3.5 font-black text-slate-900">${formatMoney(c)} ج.م</td>
+                        <td class="p-3.5 font-bold text-emerald-600">${formatMoney(p)} ج.م</td>
+                        <td class="p-3.5 font-bold ${rem > 0 ? 'text-amber-600' : 'text-slate-400'}">${formatMoney(rem)} ج.م</td>
+                        <td class="p-3.5">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isPaid ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">
+                                <i class="fa-solid ${isPaid ? 'fa-check' : 'fa-clock'} text-[9px]"></i>
+                                ${isPaid ? 'خالص' : 'متبقي'}
+                            </span>
                         </td>
-                        <td class="py-3 px-4 text-center">
+                        <td class="p-3.5 text-slate-500 text-[11px] max-w-xs truncate" title="${escapeHtml(item.notes || '')}">
+                            ${item.vendor ? `<strong class="text-slate-700">${escapeHtml(item.vendor)}:</strong> ` : ''}
+                            ${escapeHtml(item.notes || '-')}
+                        </td>
+                        <td class="p-3.5 text-center">
                             <div class="flex items-center justify-center gap-1.5">
-                                ${!isPaidFull ? `
-                                    <button onclick="payRemainingDirectly('${item.id}')" class="p-1.5 text-xs text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors cursor-pointer" title="تسديد المتبقي الآن">
-                                        <i class="fa-solid fa-money-bill-check"></i>
-                                    </button>
-                                ` : ''}
-                                <button onclick="editExpense('${item.id}')" class="p-1.5 text-xs text-primary-600 hover:bg-primary-50 rounded-lg transition-colors cursor-pointer" title="تعديل">
-                                    <i class="fa-solid fa-pen"></i>
+                                <button type="button" onclick="editExpense('${item.id}')" title="تعديل" class="w-7 h-7 rounded-lg hover:bg-indigo-50 text-indigo-600 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-                                <button onclick="deleteExpense('${item.id}')" class="p-1.5 text-xs text-rose-500 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer" title="حذف">
-                                    <i class="fa-solid fa-trash-can"></i>
+                                <button type="button" onclick="deleteExpense('${item.id}')" title="حذف" class="w-7 h-7 rounded-lg hover:bg-red-50 text-red-600 flex items-center justify-center transition">
+                                    <i class="fa-solid fa-trash"></i>
                                 </button>
                             </div>
                         </td>
@@ -1117,189 +862,56 @@
                 `;
             }).join('');
 
-            // Mobile Cards View
-            mobileCards.innerHTML = filtered.map(item => {
-                const cost = parseFloat(item.totalCost) || 0;
-                const paid = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, cost - paid);
-                const isPaidFull = rem <= 0;
-                const displayName = item.category || item.title || 'مصروف عام';
+            // Render Mobile Cards (Fully responsive, no horizontal scroll)
+            mobileContainer.innerHTML = filtered.map(item => {
+                const c = parseFloat(item.totalCost) || 0;
+                const p = parseFloat(item.paidAmount) || 0;
+                const rem = Math.max(0, c - p);
+                const isPaid = rem <= 0;
 
                 return `
-                    <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs space-y-2">
+                    <div class="p-3.5 bg-slate-50/60 border border-slate-200 rounded-xl space-y-2.5">
                         <div class="flex items-start justify-between gap-2">
                             <div>
-                                <h4 class="font-black text-slate-900 text-sm">${escapeHtml(displayName)}</h4>
-                                <div class="flex flex-wrap items-center gap-1.5 mt-1">
-                                    <span class="inline-block text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-md border border-indigo-100"><i class="fa-solid fa-door-open ml-1 text-[9px]"></i>${escapeHtml(item.room || 'عام للشقة')}</span>
-                                    ${item.vendor ? `<span class="inline-block text-[10px] font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md"><i class="fa-solid fa-store ml-1 text-[9px]"></i>${escapeHtml(item.vendor)}</span>` : ''}
+                                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm">${escapeHtml(item.category || 'مصروف عام')}</h4>
+                                <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
+                                    <span class="text-indigo-600 font-semibold">${escapeHtml(item.room || 'عام للشقة')}</span>
+                                    ${item.date ? `<span>• ${item.date}</span>` : ''}
                                 </div>
                             </div>
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${isPaidFull ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">
-                                ${isPaidFull ? 'خالص' : 'متبقي'}
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                                ${isPaid ? 'خالص' : 'متبقي'}
                             </span>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-2 py-2 bg-slate-50 rounded-xl px-2 text-center">
+                        <div class="grid grid-cols-3 gap-1.5 p-2 bg-white rounded-lg border border-slate-100 text-center">
                             <div>
-                                <span class="block text-[10px] text-slate-400 font-bold">التكلفة</span>
-                                <span class="font-extrabold text-slate-900 text-xs">${formatMoney(cost)}</span>
+                                <div class="text-[9px] text-slate-400 font-bold">التكلفة</div>
+                                <div class="text-xs font-black text-slate-900 mt-0.5">${formatMoney(c)}</div>
                             </div>
                             <div>
-                                <span class="block text-[10px] text-emerald-500 font-bold">المدفوع</span>
-                                <span class="font-extrabold text-emerald-600 text-xs">${formatMoney(paid)}</span>
+                                <div class="text-[9px] text-emerald-600 font-bold">المدفوع</div>
+                                <div class="text-xs font-black text-emerald-600 mt-0.5">${formatMoney(p)}</div>
                             </div>
                             <div>
-                                <span class="block text-[10px] text-amber-500 font-bold">المتبقي</span>
-                                <span class="font-extrabold ${rem > 0 ? 'text-amber-600' : 'text-slate-400'} text-xs">${formatMoney(rem)}</span>
+                                <div class="text-[9px] text-amber-600 font-bold">المتبقي</div>
+                                <div class="text-xs font-black ${rem > 0 ? 'text-amber-600' : 'text-slate-400'} mt-0.5">${formatMoney(rem)}</div>
                             </div>
                         </div>
 
-                        ${item.notes ? `
-                            <p class="text-[11px] text-slate-600 font-medium truncate">
-                                ${escapeHtml(item.notes)}
-                            </p>
+                        ${(item.vendor || item.notes) ? `
+                            <div class="text-[11px] text-slate-500 bg-white/70 p-2 rounded-lg border border-slate-100">
+                                ${item.vendor ? `<span class="font-bold text-slate-700">المورد: ${escapeHtml(item.vendor)} </span>` : ''}
+                                ${item.notes ? `<span>(${escapeHtml(item.notes)})</span>` : ''}
+                            </div>
                         ` : ''}
 
-                        <div class="flex items-center justify-between pt-1 border-t border-slate-100 text-xs">
-                            <span class="text-[10px] text-slate-400">${item.date || ''}</span>
-                            <div class="flex items-center gap-2">
-                                ${!isPaidFull ? `
-                                    <button onclick="payRemainingDirectly('${item.id}')" class="px-2.5 py-1 text-[11px] font-bold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-lg transition-colors cursor-pointer">
-                                        سداد المتبقي
-                                    </button>
-                                ` : ''}
-                                <button onclick="editExpense('${item.id}')" class="p-1.5 text-primary-600 hover:bg-primary-50 rounded-lg cursor-pointer">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button onclick="deleteExpense('${item.id}')" class="p-1.5 text-rose-500 hover:bg-rose-50 rounded-lg cursor-pointer">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderRoomsView() {
-            const container = document.getElementById('roomsViewContainer');
-            if (!container) return;
-
-            const roomGroups = {};
-            expenses.forEach(item => {
-                const room = item.room || 'عام للشقة';
-                if (!roomGroups[room]) {
-                    roomGroups[room] = { total: 0, paid: 0, items: [] };
-                }
-                const cost = parseFloat(item.totalCost) || 0;
-                const paid = parseFloat(item.paidAmount) || 0;
-                roomGroups[room].total += cost;
-                roomGroups[room].paid += paid;
-                roomGroups[room].items.push(item);
-            });
-
-            if (Object.keys(roomGroups).length === 0) {
-                container.innerHTML = '<div class="col-span-full p-8 text-center text-slate-400 text-xs">لا توجد مصاريف موزعة على الغرف حالياً.</div>';
-                return;
-            }
-
-            container.innerHTML = Object.entries(roomGroups).map(([roomName, data]) => {
-                const rem = Math.max(0, data.total - data.paid);
-                return `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col justify-between">
-                        <div>
-                            <div class="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm">
-                                        <i class="fa-solid fa-door-open"></i>
-                                    </div>
-                                    <h4 class="font-extrabold text-slate-800 text-sm">${escapeHtml(roomName)}</h4>
-                                </div>
-                                <span class="text-[11px] font-bold bg-slate-100 px-2 py-0.5 rounded-md text-slate-600">${data.items.length} بنود</span>
-                            </div>
-
-                            <div class="space-y-1 text-xs mb-3">
-                                <div class="flex justify-between text-slate-600">
-                                    <span>إجمالي الصرف:</span>
-                                    <span class="font-black text-slate-900">${formatMoney(data.total)} ج.م</span>
-                                </div>
-                                <div class="flex justify-between text-emerald-600">
-                                    <span>المدفوع:</span>
-                                    <span class="font-bold">${formatMoney(data.paid)} ج.م</span>
-                                </div>
-                                <div class="flex justify-between text-amber-600">
-                                    <span>المتبقي:</span>
-                                    <span class="font-bold">${formatMoney(rem)} ج.م</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border-t border-slate-100 pt-2.5">
-                            <h5 class="text-[11px] font-bold text-slate-500 mb-1.5">أبرز البنود:</h5>
-                            <div class="space-y-1">
-                                ${data.items.slice(0, 3).map(it => `
-                                    <div class="flex items-center justify-between text-[11px] text-slate-600">
-                                        <span class="truncate font-medium">${escapeHtml(it.category || it.title)} ${it.notes ? `(${escapeHtml(it.notes)})` : ''}</span>
-                                        <span class="font-bold">${formatMoney(it.totalCost)} ج.م</span>
-                                    </div>
-                                `).join('')}
-                                ${data.items.length > 3 ? `<div class="text-[10px] text-slate-400 text-left">+ ${data.items.length - 3} بنود أخرى</div>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderPendingView() {
-            const container = document.getElementById('pendingViewContainer');
-            if (!container) return;
-
-            const pendingItems = expenses.filter(it => {
-                const cost = parseFloat(it.totalCost) || 0;
-                const paid = parseFloat(it.paidAmount) || 0;
-                return (cost - paid) > 0;
-            });
-
-            if (pendingItems.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-8 text-center">
-                        <i class="fa-solid fa-circle-check text-3xl text-emerald-500 mb-2"></i>
-                        <h4 class="font-extrabold text-slate-800 text-sm">رائع! جميع المصاريف مسددة بالكامل</h4>
-                        <p class="text-xs text-slate-400 mt-1">لا توجد أي أقساط أو مبالغ معلقة حالياً.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = pendingItems.map(item => {
-                const cost = parseFloat(item.totalCost) || 0;
-                const paid = parseFloat(item.paidAmount) || 0;
-                const rem = cost - paid;
-                const displayName = item.category || item.title || 'مصروف عام';
-
-                return `
-                    <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <h4 class="font-black text-slate-900 text-sm">${escapeHtml(displayName)}</h4>
-                                <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded">${escapeHtml(item.room || 'عام للشقة')}</span>
-                            </div>
-                            ${item.notes ? `<div class="text-xs text-slate-600 mt-0.5 font-medium">${escapeHtml(item.notes)}</div>` : ''}
-                            <div class="text-xs text-slate-500 mt-1">
-                                الإجمالي: <strong class="text-slate-800">${formatMoney(cost)} ج.م</strong> | المدفوع: <strong class="text-emerald-600">${formatMoney(paid)} ج.م</strong>
-                                ${item.vendor ? ` | الجهة: <strong>${escapeHtml(item.vendor)}</strong>` : ''}
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-0 pt-2 sm:pt-0">
-                            <div class="text-right">
-                                <span class="block text-[10px] text-slate-400 font-bold">المتبقي المطلوب:</span>
-                                <span class="text-base font-black text-amber-600">${formatMoney(rem)} ج.م</span>
-                            </div>
-                            <button onclick="payRemainingDirectly('${item.id}')" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer">
-                                <i class="fa-solid fa-check"></i>
-                                <span>سداد المتبقي</span>
+                        <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-100">
+                            <button type="button" onclick="editExpense('${item.id}')" class="px-3 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1">
+                                <i class="fa-solid fa-pen-to-square text-[10px]"></i> تعديل
+                            </button>
+                            <button type="button" onclick="deleteExpense('${item.id}')" class="px-3 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold transition flex items-center gap-1">
+                                <i class="fa-solid fa-trash text-[10px]"></i> حذف
                             </button>
                         </div>
                     </div>
@@ -1307,628 +919,490 @@
             }).join('');
         }
 
-        function renderCharts() {
-            if (!window.Chart) return;
-
-            const catMap = {};
-            expenses.forEach(it => {
-                const cat = it.category || 'أخرى';
-                catMap[cat] = (catMap[cat] || 0) + (parseFloat(it.totalCost) || 0);
-            });
-
-            const roomMap = {};
-            expenses.forEach(it => {
-                const room = it.room || 'عام للشقة';
-                roomMap[room] = (roomMap[room] || 0) + (parseFloat(it.totalCost) || 0);
-            });
-
-            const catLabels = Object.keys(catMap);
-            const catData = Object.values(catMap);
-
-            const roomLabels = Object.keys(roomMap);
-            const roomData = Object.values(roomMap);
-
-            const chartColors = [
-                '#6366f1', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6',
-                '#06b6d4', '#f97316', '#3b82f6', '#14b8a6', '#64748b'
-            ];
-
-            const catCanvas = document.getElementById('categoryChart');
-            if (catCanvas) {
-                if (categoryChartInstance) categoryChartInstance.destroy();
-
-                categoryChartInstance = new Chart(catCanvas, {
-                    type: 'doughnut',
-                    data: {
-                        labels: catLabels.length ? catLabels : ['لا توجد بيانات'],
-                        datasets: [{
-                            data: catData.length ? catData : [1],
-                            backgroundColor: catData.length ? chartColors.slice(0, catLabels.length) : ['#e2e8f0'],
-                            borderWidth: 2,
-                            borderColor: '#ffffff'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    font: { family: 'Cairo', size: 11 },
-                                    boxWidth: 12
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            const roomCanvas = document.getElementById('roomChart');
-            if (roomCanvas) {
-                if (roomChartInstance) roomChartInstance.destroy();
-
-                roomChartInstance = new Chart(roomCanvas, {
-                    type: 'pie',
-                    data: {
-                        labels: roomLabels.length ? roomLabels : ['لا توجد بيانات'],
-                        datasets: [{
-                            data: roomData.length ? roomData : [1],
-                            backgroundColor: roomData.length ? chartColors.slice(2, 2 + roomLabels.length) : ['#e2e8f0'],
-                            borderWidth: 2,
-                            borderColor: '#ffffff'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    font: { family: 'Cairo', size: 11 },
-                                    boxWidth: 12
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        function applyFilters() {
-            renderTable();
-        }
-
-        function openExpenseModal() {
-            document.getElementById('editExpenseId').value = '';
-            document.getElementById('modalTitle').innerText = 'إضافة مصروف جديد';
-            document.getElementById('expenseForm').reset();
-            initTodayDate();
-            calculateModalRemaining();
-            
+        function openExpenseModal(isEdit = false) {
+            document.getElementById('modalExpenseTitle').innerText = isEdit ? 'تعديل المصروف' : 'تسجيل مصروف جديد';
             const modal = document.getElementById('expenseModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => document.getElementById('itemTotalCost').focus(), 50);
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+        }
+
+        function closeExpenseModal() {
+            const modal = document.getElementById('expenseModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('expenseForm').reset();
+            document.getElementById('expenseId').value = '';
+            document.getElementById('expenseRemainingPreview').innerText = '0 ج.م';
+        }
+
+        function quickFillCategory(category, room) {
+            document.getElementById('expenseForm').reset();
+            document.getElementById('expenseId').value = '';
+            document.getElementById('expenseCategory').value = category;
+            document.getElementById('expenseRoom').value = room;
+            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
+            openExpenseModal(false);
+            setTimeout(() => {
+                document.getElementById('expenseTotalCost').focus();
+            }, 100);
+        }
+
+        function autoCalculateRemaining() {
+            const total = parseFloat(document.getElementById('expenseTotalCost').value) || 0;
+            const paid = parseFloat(document.getElementById('expensePaidAmount').value) || 0;
+            const rem = Math.max(0, total - paid);
+            document.getElementById('expenseRemainingPreview').innerText = `${formatMoney(rem)} ج.م`;
+        }
+
+        function handleSaveExpense(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('expenseId').value;
+            const category = document.getElementById('expenseCategory').value || 'مصروف عام';
+            const room = document.getElementById('expenseRoom').value || 'عام للشقة';
+            const totalCost = parseFloat(document.getElementById('expenseTotalCost').value) || 0;
+            const paidAmount = parseFloat(document.getElementById('expensePaidAmount').value) || 0;
+            const vendor = document.getElementById('expenseVendor').value.trim();
+            const date = document.getElementById('expenseDate').value || new Date().toISOString().split('T')[0];
+            const notes = document.getElementById('expenseNotes').value.trim();
+
+            if (id) {
+                const idx = expenses.findIndex(x => x.id === id);
+                if (idx !== -1) {
+                    expenses[idx] = { ...expenses[idx], category, room, totalCost, paidAmount, vendor, date, notes };
+                    showToast('تم تعديل المصروف بنجاح', 'success');
+                }
+            } else {
+                const newExp = {
+                    id: 'exp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+                    category,
+                    room,
+                    totalCost,
+                    paidAmount,
+                    vendor,
+                    date,
+                    notes,
+                    createdAt: Date.now()
+                };
+                expenses.unshift(newExp);
+                showToast('تمت إضافة المصروف بنجاح', 'success');
+            }
+
+            saveData();
+            closeExpenseModal();
+            renderAll();
         }
 
         function editExpense(id) {
             const item = expenses.find(x => x.id === id);
             if (!item) return;
 
-            document.getElementById('editExpenseId').value = item.id;
-            document.getElementById('modalTitle').innerText = 'تعديل المصروف';
-            document.getElementById('itemCategory').value = item.category || 'مواد بناء وتأسيس';
-            document.getElementById('itemRoom').value = item.room || 'عام للشقة';
-            document.getElementById('itemTotalCost').value = item.totalCost || '';
-            document.getElementById('itemPaidAmount').value = item.paidAmount || '';
-            document.getElementById('itemDate').value = item.date || '';
-            document.getElementById('itemVendor').value = item.vendor || '';
-            document.getElementById('itemNotes').value = item.notes || '';
+            document.getElementById('expenseId').value = item.id;
+            document.getElementById('expenseCategory').value = item.category || 'مواد بناء وتأسيس';
+            document.getElementById('expenseRoom').value = item.room || 'عام للشقة';
+            document.getElementById('expenseTotalCost').value = item.totalCost || '';
+            document.getElementById('expensePaidAmount').value = item.paidAmount || '';
+            document.getElementById('expenseVendor').value = item.vendor || '';
+            document.getElementById('expenseDate').value = item.date || '';
+            document.getElementById('expenseNotes').value = item.notes || '';
 
-            calculateModalRemaining();
-
-            const modal = document.getElementById('expenseModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeExpenseModal() {
-            const modal = document.getElementById('expenseModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function quickAddPreset(category, room, note = '') {
-            openExpenseModal();
-            document.getElementById('itemCategory').value = category;
-            document.getElementById('itemRoom').value = room;
-            if (note) document.getElementById('itemNotes').value = note;
-            setTimeout(() => document.getElementById('itemTotalCost').focus(), 100);
-        }
-
-        function calculateModalRemaining() {
-            const total = parseFloat(document.getElementById('itemTotalCost').value) || 0;
-            const paid = parseFloat(document.getElementById('itemPaidAmount').value) || 0;
-            const remaining = Math.max(0, total - paid);
-            const elem = document.getElementById('modalRemainingPreview');
-            if (elem) elem.innerText = `${formatMoney(remaining)} ج.م`;
-        }
-
-        function handleSaveExpense(event) {
-            event.preventDefault();
-
-            const editId = document.getElementById('editExpenseId').value;
-            const category = document.getElementById('itemCategory').value || 'مواد بناء وتأسيس';
-            const room = document.getElementById('itemRoom').value || 'عام للشقة';
-            const totalCost = parseFloat(document.getElementById('itemTotalCost').value) || 0;
-            const paidAmount = parseFloat(document.getElementById('itemPaidAmount').value) || 0;
-            const date = document.getElementById('itemDate').value || '';
-            const vendor = document.getElementById('itemVendor').value.trim();
-            const notes = document.getElementById('itemNotes').value.trim();
-            const title = category;
-
-            if (editId) {
-                const index = expenses.findIndex(x => x.id === editId);
-                if (index !== -1) {
-                    expenses[index] = {
-                        ...expenses[index],
-                        title, category, room, totalCost, paidAmount, date, vendor, notes
-                    };
-                    showToast('تم تحديث بيانات المصروف بنجاح', 'success');
-                }
-            } else {
-                const newItem = {
-                    id: 'exp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                    title, category, room, totalCost, paidAmount, date, vendor, notes,
-                    createdAt: new Date().toISOString()
-                };
-                expenses.unshift(newItem);
-                showToast('تم إضافة المصروف بنجاح', 'success');
-            }
-
-            persistData();
-            closeExpenseModal();
-            renderAll();
+            autoCalculateRemaining();
+            openExpenseModal(true);
         }
 
         function deleteExpense(id) {
             const item = expenses.find(x => x.id === id);
             if (!item) return;
 
-            showConfirmModal(
+            openConfirmModal(
                 'حذف المصروف',
-                `هل أنت متأكد من حذف بند "${item.category || item.title}"؟`,
+                `هل أنت متأكد من حذف بند "${item.category || 'المصروف'}"؟`,
                 () => {
                     expenses = expenses.filter(x => x.id !== id);
-                    persistData();
+                    saveData();
                     renderAll();
-                    showToast('تم حذف المصروف', 'info');
+                    showToast('تم حذف البند', 'info');
                 }
             );
         }
 
-        function payRemainingDirectly(id) {
-            const index = expenses.findIndex(x => x.id === id);
-            if (index === -1) return;
-
-            const item = expenses[index];
-            const cost = parseFloat(item.totalCost) || 0;
-            item.paidAmount = cost;
-            persistData();
-            renderAll();
-            showToast(`تم تسديد كامل متبقي "${item.category || item.title}" بنجاح`, 'success');
-        }
-
         function openBudgetModal() {
-            document.getElementById('targetBudgetInput').value = appSettings.budget || '';
+            document.getElementById('budgetInputModal').value = appSettings.budget || '';
             const modal = document.getElementById('budgetModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => document.getElementById('targetBudgetInput').focus(), 50);
+            modal.classList.remove('pointer-events-none', 'opacity-0');
         }
 
         function closeBudgetModal() {
             const modal = document.getElementById('budgetModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            modal.classList.add('opacity-0', 'pointer-events-none');
         }
 
         function handleSaveBudget(event) {
             event.preventDefault();
-            const budgetVal = parseFloat(document.getElementById('targetBudgetInput').value) || 0;
-            appSettings.budget = budgetVal;
-            persistData();
+            const val = parseFloat(document.getElementById('budgetInputModal').value) || 0;
+            appSettings.budget = val;
+            saveData();
             closeBudgetModal();
-            updateKPIs();
-            showToast('تم حفظ الميزانية المستهدفة بنجاح', 'success');
+            renderAll();
+            showToast('تم تحديث الميزانية بنجاح', 'success');
         }
 
         function confirmResetAll() {
-            showConfirmModal(
+            openConfirmModal(
                 'تصفير كافة البيانات',
-                'هل أنت متأكد من مسح جميع المصاريف وسجل الشقة وتصفير الميزانية؟ لا يمكن التراجع عن هذه الخطوة!',
+                'تحذير: سيتم مسح كافة المصاريف وإعادة الميزانية لصفر. تأكد من عمل نسخة احتياطية أولاً!',
                 () => {
                     expenses = [];
-                    appSettings.budget = 0;
-                    persistData();
+                    appSettings = { budget: 0 };
+                    saveData();
                     renderAll();
-                    showToast('تم تصفير كافة البيانات ومسح السجل', 'info');
+                    showToast('تم تصفير كافة البيانات بنجاح', 'info');
                 }
             );
         }
 
-        function showConfirmModal(title, message, onConfirm) {
+        function openConfirmModal(title, msg, onConfirm) {
             document.getElementById('confirmModalTitle').innerText = title;
-            document.getElementById('confirmModalMessage').innerText = message;
-            confirmationCallback = onConfirm;
-
+            document.getElementById('confirmModalMessage').innerText = msg;
+            pendingConfirmCallback = onConfirm;
+            const btn = document.getElementById('confirmModalActionBtn');
+            btn.onclick = () => {
+                if (pendingConfirmCallback) pendingConfirmCallback();
+                closeConfirmModal();
+            };
             const modal = document.getElementById('confirmModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
         }
 
-        function closeConfirmModal(isConfirmed) {
+        function closeConfirmModal() {
             const modal = document.getElementById('confirmModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-
-            if (isConfirmed && typeof confirmationCallback === 'function') {
-                confirmationCallback();
-            }
-            confirmationCallback = null;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            pendingConfirmCallback = null;
         }
 
-        // Export Modals and Handlers
+        function openSidebar() {
+            document.getElementById('sidebarBackdrop').classList.remove('opacity-0', 'pointer-events-none');
+            document.getElementById('sidebarDrawer').classList.remove('translate-x-full');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebarBackdrop').classList.add('opacity-0', 'pointer-events-none');
+            document.getElementById('sidebarDrawer').classList.add('translate-x-full');
+        }
+
         function openExportModal() {
             const modal = document.getElementById('exportModal');
-            if (modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
+            modal.classList.remove('pointer-events-none', 'opacity-0');
         }
 
         function closeExportModal() {
             const modal = document.getElementById('exportModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
+            modal.classList.add('opacity-0', 'pointer-events-none');
         }
 
-        function getBackupPayloadString() {
-            const backupObject = {
-                version: '4.9',
+        function generateBackupPayload() {
+            return JSON.stringify({
+                app: 'apartment_expenses_pro',
                 exportDate: new Date().toISOString(),
                 settings: appSettings,
                 expenses: expenses
-            };
-            return JSON.stringify(backupObject, null, 2);
+            }, null, 2);
         }
 
-        function triggerFileDownload() {
+        function downloadBackupFile() {
             try {
-                const dataString = getBackupPayloadString();
-                const blob = new Blob([dataString], { type: 'application/json;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
+                const payload = generateBackupPayload();
+                const blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
                 const dateStr = new Date().toISOString().split('T')[0];
-                const downloadAnchor = document.createElement('a');
-                
-                downloadAnchor.href = url;
-                downloadAnchor.download = `apartment_expenses_backup_${dateStr}.json`;
-                document.body.appendChild(downloadAnchor);
-                downloadAnchor.click();
-                
-                setTimeout(() => {
-                    document.body.removeChild(downloadAnchor);
-                    URL.revokeObjectURL(url);
-                }, 250);
+                const fileName = `apartment_expenses_backup_${dateStr}.json`;
 
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showToast('تم تحميل ملف النسخة الاحتياطية بنجاح', 'success');
                 closeExportModal();
-                showToast('تم بدء تنزيل ملف النسخة الاحتياطية بنجاح', 'success');
             } catch (err) {
-                console.error('File export error:', err);
-                copyBackupToClipboard();
+                console.error('Export error:', err);
+                showToast('تعذر التنزيل المباشر، يمكنك نسخ البيانات يدوياً', 'error');
             }
         }
 
         function copyBackupToClipboard() {
             try {
-                const dataString = getBackupPayloadString();
-                const tempTextArea = document.createElement('textarea');
-                tempTextArea.value = dataString;
-                tempTextArea.style.position = 'fixed';
-                tempTextArea.style.left = '-9999px';
-                tempTextArea.style.top = '0';
-                document.body.appendChild(tempTextArea);
-                tempTextArea.focus();
-                tempTextArea.select();
+                const payload = generateBackupPayload();
+                const tempArea = document.createElement('textarea');
+                tempArea.value = payload;
+                document.body.appendChild(tempArea);
+                tempArea.select();
                 document.execCommand('copy');
-                document.body.removeChild(tempTextArea);
+                document.body.removeChild(tempArea);
+                showToast('تم نسخ كود النسخة الاحتياطية إلى الحافظة', 'success');
                 closeExportModal();
-                showToast('تم نسخ كود النسخة الاحتياطية للحافظة بنجاح!', 'success');
-            } catch (err) {
-                console.error('Copy error:', err);
-                showToast('تعذر النسخ التلقائي للحافظة', 'error');
+            } catch (e) {
+                showToast('تعذر النسخ التلقائي', 'error');
             }
         }
 
-        // Import Modals and Handlers
         function openImportModal() {
             const modal = document.getElementById('importModal');
-            const textarea = document.getElementById('importTextarea');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
             const statusBox = document.getElementById('importStatusBox');
-            if (textarea) textarea.value = '';
-            if (statusBox) {
-                statusBox.className = 'hidden';
-                statusBox.innerHTML = '';
-            }
-            if (modal) {
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
+            statusBox.className = 'hidden';
+            statusBox.innerHTML = '';
+            document.getElementById('importTextarea').value = '';
         }
 
         function closeImportModal() {
             const modal = document.getElementById('importModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            const input = document.getElementById('mobileNativeFileInput');
+            if (input) input.value = '';
         }
 
-        function showImportStatus(message, type = 'info') {
-            const statusBox = document.getElementById('importStatusBox');
-            if (!statusBox) return;
-
-            statusBox.classList.remove('hidden', 'bg-blue-50', 'text-blue-700', 'border-blue-200', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-200', 'bg-rose-50', 'text-rose-700', 'border-rose-200');
-
-            if (type === 'success') {
-                statusBox.classList.add('bg-emerald-50', 'text-emerald-800', 'border', 'border-emerald-200');
-                statusBox.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-base text-emerald-600"></i><span>${message}</span></div>`;
-            } else if (type === 'error') {
-                statusBox.classList.add('bg-rose-50', 'text-rose-800', 'border', 'border-rose-200');
-                statusBox.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-base text-rose-600"></i><span>${message}</span></div>`;
-            } else {
-                statusBox.classList.add('bg-blue-50', 'text-blue-800', 'border', 'border-blue-200');
-                statusBox.innerHTML = `<div class="flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-base text-blue-600"></i><span>${message}</span></div>`;
-            }
-        }
-
-        async function handleDirectFileImport(event) {
+        async function handleNativeFileSelect(event) {
             const file = event.target.files && event.target.files[0];
-            if (!file) {
-                showImportStatus('لم يتم اختيار أي ملف من الهاتف.', 'error');
-                return;
-            }
+            if (!file) return;
 
-            showImportStatus(`تم اختيار: "${file.name}" (${(file.size / 1024).toFixed(1)} ك.ب) - جاري القراءة والاستعادة...`, 'info');
+            const statusBox = document.getElementById('importStatusBox');
+            statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-700 flex items-center gap-2 block';
+            statusBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري قراءة الملف: <strong>${escapeHtml(file.name)}</strong> (${(file.size / 1024).toFixed(1)} KB)...`;
 
             try {
-                let fileText = '';
-                // Modern, ultra-reliable direct text reading on mobile Chrome / Android
-                if (typeof file.text === 'function') {
-                    fileText = await file.text();
+                let content = '';
+                if (file.text) {
+                    content = await file.text();
                 } else {
-                    fileText = await new Promise((resolve, reject) => {
+                    content = await new Promise((resolve, reject) => {
                         const reader = new FileReader();
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.onerror = (e) => reject(new Error('فشل قراءة الملف عبر FileReader'));
-                        reader.readAsText(file, 'UTF-8');
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = () => reject(new Error('فشلت قراءة الملف بواسطة المتصفح'));
+                        reader.readAsText(file, 'utf-8');
                     });
                 }
 
-                if (!fileText || fileText.trim().length === 0) {
-                    throw new Error('الملف فارغ تماماً');
-                }
-
-                applyImportedData(fileText);
-                showImportStatus(`نجحت العملية! تم استرداد ${expenses.length} بند وميزانية ${formatMoney(appSettings.budget)} ج.م`, 'success');
-                
-                setTimeout(() => {
-                    closeImportModal();
-                }, 1400);
-
+                applyImportedJSON(content);
             } catch (err) {
-                console.error('Mobile import error:', err);
-                showImportStatus(`خطأ في قراءة الملف: ${err.message || 'صيغة غير متوافقة'}. يمكنك نسخ النص ولصقه بالأسفل.`, 'error');
-                
-                // If text was obtained, put it in textarea for user convenience
-                const textarea = document.getElementById('importTextarea');
-                if (textarea && err.rawContent) {
-                    textarea.value = err.rawContent;
-                }
-            } finally {
-                event.target.value = '';
+                console.error('File read error:', err);
+                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
+                statusBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> فشل في قراءة الملف. يمكنك نسخ محتواه ولصقه في المربع بالأسفل.`;
             }
         }
 
-        function applyImportedData(rawContent) {
-            if (!rawContent || typeof rawContent !== 'string') {
-                throw new Error('محتوى البيانات فارغ');
-            }
-
-            // Strip UTF-8 Byte Order Mark (BOM) & clean whitespace
-            let cleanContent = rawContent.replace(/^\uFEFF/, '').trim();
-
-            let parsed;
+        function pasteFromClipboard() {
             try {
-                parsed = JSON.parse(cleanContent);
-            } catch (jsonErr) {
-                // If wrapped in outer quotes
-                if (cleanContent.startsWith('"') && cleanContent.endsWith('"')) {
-                    parsed = JSON.parse(JSON.parse(cleanContent));
-                } else {
-                    throw new Error('محتوى الملف ليس بتنسيق JSON صحيح');
-                }
-            }
-
-            if (typeof parsed === 'string') {
-                parsed = JSON.parse(parsed);
-            }
-
-            let rawList = null;
-
-            if (Array.isArray(parsed)) {
-                rawList = parsed;
-            } else if (parsed && typeof parsed === 'object') {
-                if (Array.isArray(parsed.expenses)) {
-                    rawList = parsed.expenses;
-                } else if (Array.isArray(parsed.data)) {
-                    rawList = parsed.data;
-                } else if (Array.isArray(parsed.items)) {
-                    rawList = parsed.items;
-                } else if (Array.isArray(parsed.list)) {
-                    rawList = parsed.list;
-                } else {
-                    // Try looking for any array property inside the object
-                    const arrayProp = Object.values(parsed).find(val => Array.isArray(val));
-                    if (arrayProp) {
-                        rawList = arrayProp;
-                    }
-                }
-
-                // Parse Settings & Budget
-                if (parsed.settings && typeof parsed.settings === 'object') {
-                    appSettings = {
-                        budget: parseFloat(parsed.settings.budget) || 0,
-                        currency: parsed.settings.currency || 'ج.م'
-                    };
-                } else if (parsed.budget !== undefined) {
-                    appSettings.budget = parseFloat(parsed.budget) || 0;
-                }
-            }
-
-            if (!rawList || !Array.isArray(rawList)) {
-                throw new Error('الملف لا يحتوي على قائمة مصاريف معترف بها');
-            }
-
-            // Safe property mapping for every item
-            expenses = rawList.map((it, idx) => ({
-                id: it.id || ('exp_' + Date.now() + '_' + idx),
-                category: it.category || it.title || it.name || 'مواد بناء وتأسيس',
-                room: it.room || it.place || 'عام للشقة',
-                totalCost: parseFloat(it.totalCost !== undefined ? it.totalCost : (it.cost !== undefined ? it.cost : (it.amount || 0))) || 0,
-                paidAmount: parseFloat(it.paidAmount !== undefined ? it.paidAmount : (it.paid !== undefined ? it.paid : 0)) || 0,
-                date: it.date || it.expenseDate || '',
-                vendor: it.vendor || it.supplier || '',
-                notes: it.notes || it.details || it.description || '',
-                createdAt: it.createdAt || new Date().toISOString()
-            }));
-
-            persistData();
-            renderAll();
-            showToast(`تمت استعادة ${expenses.length} بند بنجاح!`, 'success');
-        }
-
-        function importFromPastedText() {
-            const textarea = document.getElementById('importTextarea');
-            const text = (textarea ? textarea.value : '').trim();
-            if (!text) {
-                showImportStatus('يرجى لصق نص النسخة الاحتياطية أولاً في المربع أدناه.', 'error');
-                return;
-            }
-
-            try {
-                applyImportedData(text);
-                showImportStatus(`نجحت العملية! تم استرداد ${expenses.length} بند وميزانية ${formatMoney(appSettings.budget)} ج.م`, 'success');
-                setTimeout(() => {
-                    closeImportModal();
-                }, 1200);
-            } catch (err) {
-                console.error('Text import error:', err);
-                showImportStatus(`خطأ في النص الملصق: ${err.message}`, 'error');
-            }
-        }
-
-        async function pasteFromClipboardDirectly() {
-            try {
-                if (navigator.clipboard && navigator.clipboard.readText) {
-                    const text = await navigator.clipboard.readText();
+                navigator.clipboard.readText().then(text => {
                     if (text) {
                         document.getElementById('importTextarea').value = text;
-                        showToast('تم لصق النص من الحافظة', 'info');
-                    } else {
-                        showToast('الحافظة فارغة', 'error');
+                        showToast('تم اللصق من الحافظة', 'info');
                     }
-                } else {
+                }).catch(() => {
                     document.getElementById('importTextarea').focus();
                     showToast('اضغط مطولاً داخل المربع واختر "لصق"', 'info');
-                }
+                });
             } catch (e) {
                 document.getElementById('importTextarea').focus();
                 showToast('اضغط مطولاً داخل المربع واختر "لصق"', 'info');
             }
         }
 
-        function generatePDFReport() {
+        function handleImportFromTextarea() {
+            const raw = document.getElementById('importTextarea').value.trim();
+            if (!raw) {
+                showToast('يرجى لصق كود النسخة الاحتياطية أولاً', 'error');
+                return;
+            }
+            applyImportedJSON(raw);
+        }
+
+        function applyImportedJSON(jsonString) {
+            const statusBox = document.getElementById('importStatusBox');
+            try {
+                let cleaned = jsonString.trim();
+                // Strip Byte Order Mark (BOM) if present from Windows/Android text readers
+                if (cleaned.charCodeAt(0) === 0xFEFF) {
+                    cleaned = cleaned.substr(1);
+                }
+
+                const data = JSON.parse(cleaned);
+
+                let importedExpenses = [];
+                let importedBudget = 0;
+
+                if (Array.isArray(data)) {
+                    importedExpenses = data;
+                } else if (data && typeof data === 'object') {
+                    if (Array.isArray(data.expenses)) {
+                        importedExpenses = data.expenses;
+                    }
+                    if (data.settings && data.settings.budget !== undefined) {
+                        importedBudget = parseFloat(data.settings.budget) || 0;
+                    } else if (data.budget !== undefined) {
+                        importedBudget = parseFloat(data.budget) || 0;
+                    }
+                } else {
+                    throw new Error('تنسيق الملف غير صالح');
+                }
+
+                // Sanitize items
+                expenses = importedExpenses.map((it, idx) => ({
+                    id: it.id || `imp_${idx}_${Date.now()}`,
+                    category: it.category || it.title || 'مصروف عام',
+                    room: it.room || 'عام للشقة',
+                    totalCost: parseFloat(it.totalCost || it.cost || it.amount) || 0,
+                    paidAmount: parseFloat(it.paidAmount || it.paid) || 0,
+                    vendor: it.vendor || '',
+                    date: it.date || '',
+                    notes: it.notes || '',
+                    createdAt: it.createdAt || Date.now()
+                }));
+
+                if (importedBudget > 0) {
+                    appSettings.budget = importedBudget;
+                }
+
+                saveData();
+                renderAll();
+
+                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 block';
+                statusBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> تم استيراد <strong>${expenses.length}</strong> بنود بنجاح!`;
+
+                showToast(`تم استيراد ${expenses.length} بنود بنجاح`, 'success');
+
+                setTimeout(() => {
+                    closeImportModal();
+                }, 1200);
+
+            } catch (err) {
+                console.error('Import parse error:', err);
+                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
+                statusBox.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ملف غير صالح: تأكد من أن الملف هو ملف نسخة احتياطية سليم.`;
+                showToast('الملف غير صالح أو تالف', 'error');
+            }
+        }
+
+        async function generatePDFReport() {
             if (expenses.length === 0) {
                 showToast('لا توجد مصاريف لتوليد تقرير PDF', 'error');
                 return;
             }
 
-            showToast('جاري إنشاء وتحميل تقرير PDF...', 'info');
+            showToast('جاري تجهيز وتنسيق ملف الـ PDF...', 'info');
 
             let totalCost = 0;
             let totalPaid = 0;
             let totalRemaining = 0;
+            let fullyPaidCount = 0;
+            let pendingCount = 0;
+
+            const categoryTotals = {};
 
             expenses.forEach(item => {
                 const c = parseFloat(item.totalCost) || 0;
                 const p = parseFloat(item.paidAmount) || 0;
+                const rem = Math.max(0, c - p);
+                
                 totalCost += c;
                 totalPaid += p;
-                totalRemaining += Math.max(0, c - p);
+                totalRemaining += rem;
+
+                if (rem <= 0) {
+                    fullyPaidCount++;
+                } else {
+                    pendingCount++;
+                }
+
+                const cat = item.category || 'أخرى';
+                categoryTotals[cat] = (categoryTotals[cat] || 0) + c;
             });
 
             const currentDate = new Date().toLocaleDateString('ar-EG', {
-                year: 'numeric', month: 'long', day: 'numeric'
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
 
             const targetBudget = parseFloat(appSettings.budget) || 0;
+            const budgetDiff = targetBudget - totalCost;
 
             const reportHTML = `
-                <div style="direction: rtl; font-family: 'Cairo', sans-serif; padding: 24px; color: #1e293b; background: #ffffff;">
-                    <div style="border-bottom: 2px solid #4f46e5; padding-bottom: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <div style="direction: rtl; font-family: 'Cairo', Tahoma, Arial, sans-serif; padding: 24px 30px; color: #0f172a; background: #ffffff; line-height: 1.4;">
+                    
+                    <!-- Report Header -->
+                    <div style="border-bottom: 3px solid #4f46e5; padding-bottom: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-end;">
                         <div>
-                            <h1 style="font-size: 22px; font-weight: 900; color: #4338ca; margin: 0;">تقرير مصاريف وتجهيز وفرش الشقة</h1>
-                            <p style="font-size: 12px; color: #64748b; margin: 4px 0 0 0;">كشف مالي تفصيلي بجميع بنود التعاقد والتأسيس والتشطيبات</p>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                <div style="width: 14px; height: 14px; background: #4f46e5; border-radius: 4px; display: inline-block;"></div>
+                                <h1 style="font-size: 22px; font-weight: 900; color: #3730a3; margin: 0;">كشف ومتابعة مصاريف تجهيز وفرش الشقة</h1>
+                            </div>
+                            <p style="font-size: 11px; color: #64748b; margin: 0;">تقرير مالي تفصيلي بجميع بنود التعاقد، التشطيب، الأثاث، والأجهزة</p>
                         </div>
-                        <div style="text-align: left; font-size: 11px; color: #64748b;">
-                            <div>تاريخ التقرير: <strong>${currentDate}</strong></div>
-                            <div>عدد البنود: <strong>${expenses.length} بند</strong></div>
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px;">
-                        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; text-align: center;">
-                            <div style="font-size: 11px; color: #64748b; font-weight: bold;">الميزانية التقديرية</div>
-                            <div style="font-size: 16px; font-weight: 900; color: #1e293b; margin-top: 4px;">${formatMoney(targetBudget)} ج.م</div>
-                        </div>
-                        <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 12px; padding: 12px; text-align: center;">
-                            <div style="font-size: 11px; color: #4338ca; font-weight: bold;">إجمالي التكلفة</div>
-                            <div style="font-size: 16px; font-weight: 900; color: #4338ca; margin-top: 4px;">${formatMoney(totalCost)} ج.م</div>
-                        </div>
-                        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 12px; text-align: center;">
-                            <div style="font-size: 11px; color: #047857; font-weight: bold;">المدفوع كاش</div>
-                            <div style="font-size: 16px; font-weight: 900; color: #047857; margin-top: 4px;">${formatMoney(totalPaid)} ج.م</div>
-                        </div>
-                        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 12px; text-align: center;">
-                            <div style="font-size: 11px; color: #b45309; font-weight: bold;">المتبقي كأقساط</div>
-                            <div style="font-size: 16px; font-weight: 900; color: #b45309; margin-top: 4px;">${formatMoney(totalRemaining)} ج.م</div>
+                        <div style="text-align: left; font-size: 11px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 8px;">
+                            <div>التاريخ: <strong style="color: #0f172a;">${currentDate}</strong></div>
+                            <div style="margin-top: 2px;">إجمالي البنود: <strong style="color: #4f46e5;">${expenses.length} بند مسجل</strong></div>
                         </div>
                     </div>
 
-                    <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: right; margin-bottom: 20px;">
+                    <!-- KPI Statistics Summary Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;">
+                        
+                        <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-top: 3px solid #64748b; border-radius: 8px; padding: 10px; text-align: center;">
+                            <div style="font-size: 10px; color: #64748b; font-weight: bold;">الميزانية المستهدفة</div>
+                            <div style="font-size: 15px; font-weight: 900; color: #1e293b; margin-top: 4px;">${formatMoney(targetBudget)} ج.م</div>
+                            <div style="font-size: 9px; color: ${budgetDiff >= 0 ? '#059669' : '#dc2626'}; font-weight: bold; margin-top: 2px;">
+                                ${targetBudget > 0 ? (budgetDiff >= 0 ? `فائض: ${formatMoney(budgetDiff)} ج.م` : `عجز: ${formatMoney(Math.abs(budgetDiff))} ج.م`) : 'غير محددة'}
+                            </div>
+                        </div>
+
+                        <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-top: 3px solid #4f46e5; border-radius: 8px; padding: 10px; text-align: center;">
+                            <div style="font-size: 10px; color: #4338ca; font-weight: bold;">إجمالي التكلفة الكلية</div>
+                            <div style="font-size: 15px; font-weight: 900; color: #3730a3; margin-top: 4px;">${formatMoney(totalCost)} ج.م</div>
+                            <div style="font-size: 9px; color: #6366f1; font-weight: bold; margin-top: 2px;">100% من المسجل</div>
+                        </div>
+
+                        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-top: 3px solid #10b981; border-radius: 8px; padding: 10px; text-align: center;">
+                            <div style="font-size: 10px; color: #047857; font-weight: bold;">المدفوع كاش فعلياً</div>
+                            <div style="font-size: 15px; font-weight: 900; color: #065f46; margin-top: 4px;">${formatMoney(totalPaid)} ج.م</div>
+                            <div style="font-size: 9px; color: #059669; font-weight: bold; margin-top: 2px;">
+                                ${totalCost > 0 ? Math.round((totalPaid / totalCost) * 100) : 0}% تم دفعه
+                            </div>
+                        </div>
+
+                        <div style="background: #fffbeb; border: 1px solid #fde68a; border-top: 3px solid #f59e0b; border-radius: 8px; padding: 10px; text-align: center;">
+                            <div style="font-size: 10px; color: #b45309; font-weight: bold;">المتبقي كأقساط</div>
+                            <div style="font-size: 15px; font-weight: 900; color: #92400e; margin-top: 4px;">${formatMoney(totalRemaining)} ج.م</div>
+                            <div style="font-size: 9px; color: #d97706; font-weight: bold; margin-top: 2px;">
+                                ${pendingCount} بنود معلقة
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Category Breakdown Snippet -->
+                    <div style="background: #f1f5f9; border-radius: 8px; padding: 8px 12px; margin-bottom: 20px; font-size: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+                        <span style="font-weight: bold; color: #334155;">توزيع النفقات:</span>
+                        ${Object.entries(categoryTotals).map(([cat, val]) => `
+                            <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 6px; color: #475569;">
+                                ${cat}: <strong style="color: #0f172a;">${formatMoney(val)} ج.م</strong>
+                            </span>
+                        `).join('')}
+                    </div>
+
+                    <!-- Main Expenses Detailed Table -->
+                    <table style="width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: right; margin-bottom: 20px;">
                         <thead>
-                            <tr style="background-color: #f1f5f9; color: #334155; border-bottom: 1px solid #cbd5e1;">
-                                <th style="padding: 8px 10px;">الفئة والتصنيف</th>
-                                <th style="padding: 8px 10px;">المكان</th>
-                                <th style="padding: 8px 10px;">التكلفة</th>
-                                <th style="padding: 8px 10px;">المدفوع</th>
-                                <th style="padding: 8px 10px;">المتبقي</th>
-                                <th style="padding: 8px 10px;">الملاحظات والجهة</th>
+                            <tr style="background-color: #312e81; color: #ffffff;">
+                                <th style="padding: 9px 8px; width: 30px; text-align: center; border-radius: 0 6px 0 0;">#</th>
+                                <th style="padding: 9px 8px;">الفئة والتصنيف</th>
+                                <th style="padding: 9px 8px;">المكان / الغرفة</th>
+                                <th style="padding: 9px 8px;">التكلفة</th>
+                                <th style="padding: 9px 8px;">المدفوع</th>
+                                <th style="padding: 9px 8px;">المتبقي</th>
+                                <th style="padding: 9px 8px; text-align: center;">الحالة</th>
+                                <th style="padding: 9px 8px; border-radius: 6px 0 0 0;">المورد والملاحظات</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1936,57 +1410,97 @@
                                 const c = parseFloat(item.totalCost) || 0;
                                 const p = parseFloat(item.paidAmount) || 0;
                                 const r = Math.max(0, c - p);
+                                const isFull = r <= 0;
                                 const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
                                 return `
-                                    <tr style="background-color: ${bg}; border-bottom: 1px solid #e2e8f0;">
-                                        <td style="padding: 8px 10px; font-weight: bold;">${escapeHtml(item.category || item.title)}</td>
-                                        <td style="padding: 8px 10px;">${escapeHtml(item.room || 'عام للشقة')}</td>
-                                        <td style="padding: 8px 10px; font-weight: bold; color: #1e293b;">${formatMoney(c)} ج.م</td>
-                                        <td style="padding: 8px 10px; color: #059669;">${formatMoney(p)} ج.م</td>
-                                        <td style="padding: 8px 10px; color: ${r > 0 ? '#d97706' : '#94a3b8'};">${formatMoney(r)} ج.م</td>
-                                        <td style="padding: 8px 10px; font-size: 10px; color: #64748b;">${escapeHtml(item.vendor || '')} ${item.notes ? `(${escapeHtml(item.notes)})` : ''}</td>
+                                    <tr style="background-color: ${bg}; border-bottom: 1px solid #e2e8f0; page-break-inside: avoid;">
+                                        <td style="padding: 8px; text-align: center; color: #64748b; font-weight: bold;">${idx + 1}</td>
+                                        <td style="padding: 8px; font-weight: bold; color: #0f172a;">
+                                            ${escapeHtml(item.category || item.title || 'مصروف عام')}
+                                            ${item.date ? `<div style="font-size: 8.5px; color: #94a3b8; font-weight: normal; margin-top: 1px;">${item.date}</div>` : ''}
+                                        </td>
+                                        <td style="padding: 8px; color: #4338ca; font-weight: 600;">
+                                            ${escapeHtml(item.room || 'عام للشقة')}
+                                        </td>
+                                        <td style="padding: 8px; font-weight: 800; color: #0f172a;">${formatMoney(c)} ج.م</td>
+                                        <td style="padding: 8px; font-weight: 700; color: #059669;">${formatMoney(p)} ج.م</td>
+                                        <td style="padding: 8px; font-weight: 700; color: ${r > 0 ? '#d97706' : '#94a3b8'};">${formatMoney(r)} ج.م</td>
+                                        <td style="padding: 8px; text-align: center;">
+                                            <span style="display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 9px; font-weight: bold; ${isFull ? 'background: #dcfce7; color: #15803d;' : 'background: #fef3c7; color: #b45309;'}">
+                                                ${isFull ? 'خالص' : 'متبقي'}
+                                            </span>
+                                        </td>
+                                        <td style="padding: 8px; font-size: 9.5px; color: #475569; max-width: 150px; word-break: break-word;">
+                                            ${item.vendor ? `<strong>الجهة:</strong> ${escapeHtml(item.vendor)} ` : ''}
+                                            ${item.notes ? `(${escapeHtml(item.notes)})` : ''}
+                                        </td>
                                     </tr>
                                 `;
                             }).join('')}
                         </tbody>
                         <tfoot>
-                            <tr style="background-color: #f1f5f9; font-weight: 900; border-top: 2px solid #94a3b8;">
-                                <td style="padding: 10px;" colspan="2">الإجمالي العام:</td>
-                                <td style="padding: 10px; color: #1e293b;">${formatMoney(totalCost)} ج.م</td>
-                                <td style="padding: 10px; color: #059669;">${formatMoney(totalPaid)} ج.م</td>
-                                <td style="padding: 10px; color: #d97706;">${formatMoney(totalRemaining)} ج.م</td>
+                            <tr style="background-color: #f1f5f9; font-weight: 900; border-top: 2px solid #6366f1; border-bottom: 2px solid #6366f1; page-break-inside: avoid;">
+                                <td style="padding: 10px 8px; text-align: center;" colspan="3">الإجمالي النهائي العام:</td>
+                                <td style="padding: 10px 8px; color: #312e81; font-size: 11.5px;">${formatMoney(totalCost)} ج.م</td>
+                                <td style="padding: 10px 8px; color: #059669; font-size: 11.5px;">${formatMoney(totalPaid)} ج.م</td>
+                                <td style="padding: 10px 8px; color: #d97706; font-size: 11.5px;">${formatMoney(totalRemaining)} ج.م</td>
+                                <td style="padding: 10px 8px; text-align: center; color: #475569; font-size: 9.5px;">${fullyPaidCount} خالص / ${pendingCount} متبقي</td>
                                 <td></td>
                             </tr>
                         </tfoot>
                     </table>
 
-                    <div style="text-align: center; font-size: 10px; color: #94a3b8; border-top: 1px dashed #cbd5e1; padding-top: 12px;">
-                        تم استخراج هذا الكشف تلقائياً عبر تطبيق حاسبة ومتابع مصاريف الشقة
+                    <!-- Report Footer Notes -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 9.5px; color: #94a3b8;">
+                        <div>تم إصدار هذا الكشف تلقائياً عبر تطبيق حاسبة ومتابع مصاريف الشقة</div>
+                        <div>البيانات مستخرجة وموثقة محلياً من جهازك</div>
                     </div>
+
                 </div>
             `;
 
             const pdfContainer = document.getElementById('pdfPrintableReport');
             pdfContainer.innerHTML = reportHTML;
 
+            // Ensure fonts and DOM calculations are fully ready before snapshot
+            if (document.fonts && document.fonts.ready) {
+                try { await document.fonts.ready; } catch (e) { /* ignore font errors */ }
+            }
+            await new Promise(resolve => setTimeout(resolve, 250));
+
             const opt = {
-                margin: 8,
+                margin: [8, 8, 8, 8],
                 filename: `تقرير_مصاريف_الشقة_${new Date().toISOString().split('T')[0]}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    scrollY: 0,
+                    scrollX: 0,
+                    windowWidth: 800
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
             };
 
             if (window.html2pdf) {
-                html2pdf().set(opt).from(pdfContainer).save().then(() => {
-                    pdfContainer.innerHTML = '';
-                    showToast('تم تحميل ملف PDF بنجاح', 'success');
-                }).catch(err => {
-                    console.error('PDF generation error:', err);
+                try {
+                    await html2pdf().set(opt).from(pdfContainer).save();
+                    showToast('تم تحميل ملف PDF بنجاح بكامل البيانات!', 'success');
+                } catch (err) {
+                    console.error('PDF export error:', err);
+                    showToast('حدث خطأ أثناء حفظ الـ PDF، جاري فتح نافذة الطباعة كبديل...', 'error');
                     window.print();
-                });
+                } finally {
+                    pdfContainer.innerHTML = '';
+                }
             } else {
                 window.print();
+                pdfContainer.innerHTML = '';
             }
         }
 
@@ -1995,42 +1509,71 @@
             if (!container) return;
 
             const toast = document.createElement('div');
-            let bg = 'bg-slate-800 text-white';
-            let icon = 'fa-info-circle text-sky-400';
+            const bgClass = type === 'success' ? 'bg-emerald-600 text-white' :
+                            type === 'error' ? 'bg-red-600 text-white' :
+                            'bg-slate-800 text-white';
 
-            if (type === 'success') {
-                bg = 'bg-emerald-700 text-white';
-                icon = 'fa-circle-check text-white';
-            } else if (type === 'error') {
-                bg = 'bg-rose-700 text-white';
-                icon = 'fa-triangle-exclamation text-white';
-            }
-
-            toast.className = `flex items-center gap-2.5 px-4 py-3 rounded-2xl shadow-xl ${bg} text-xs font-bold transform transition-all duration-300 translate-y-2 opacity-0 pointer-events-auto`;
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i><span>${escapeHtml(message)}</span>`;
-
+            toast.className = `px-4 py-2.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-2 pointer-events-auto transition-all transform duration-300 opacity-0 -translate-y-2 ${bgClass}`;
+            
+            const icon = type === 'success' ? 'fa-circle-check' :
+                         type === 'error' ? 'fa-circle-xmark' : 'fa-circle-info';
+            
+            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHtml(message)}</span>`;
             container.appendChild(toast);
 
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
+            requestAnimationFrame(() => {
+                toast.classList.remove('opacity-0', '-translate-y-2');
+            });
 
             setTimeout(() => {
                 toast.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
+                setTimeout(() => {
+                    if (toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 300);
+            }, 3000);
         }
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return String(text).replace(/[&<>"']/g, m => map[m]);
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function setupPwaPrompt() {
+            const isDismissed = localStorage.getItem(STORAGE_PWA_KEY);
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPwaPrompt = e;
+
+                if (!isDismissed && !isStandalone) {
+                    setTimeout(() => {
+                        const modal = document.getElementById('pwaOneTimeModal');
+                        if (modal) modal.classList.remove('pointer-events-none', 'opacity-0');
+                    }, 2000);
+                }
+            });
+        }
+
+        function triggerPwaInstall() {
+            if (deferredPwaPrompt) {
+                deferredPwaPrompt.prompt();
+                deferredPwaPrompt.userChoice.then(() => {
+                    deferredPwaPrompt = null;
+                    dismissPwaModal();
+                });
+            } else {
+                dismissPwaModal();
+                showToast('للتثبيت من هاتفك، اضغط على زر المشاركة ثم "إضافة إلى الشاشة الرئيسية"', 'info');
+            }
+        }
+
+        function dismissPwaModal() {
+            localStorage.setItem(STORAGE_PWA_KEY, 'true');
+            const modal = document.getElementById('pwaOneTimeModal');
+            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
         }
     </script>
 </body>
