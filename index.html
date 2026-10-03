@@ -105,6 +105,11 @@
             </div>
 
             <div class="flex items-center gap-2">
+                <button type="button" onclick="openGitHubSyncModal()" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs flex items-center gap-1.5 transition border border-purple-200" title="مزامنة سحابية مع GitHub">
+                    <i class="fa-brands fa-github text-sm text-purple-600"></i>
+                    <span class="hidden sm:inline">مزامنة</span>
+                    <span class="text-[10px] bg-purple-200 text-purple-800 px-1.5 py-0.2 rounded font-black">Cloud</span>
+                </button>
                 <button type="button" onclick="openBudgetModal()" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-wallet text-indigo-600"></i>
                     <span>الميزانية:</span>
@@ -144,6 +149,20 @@
                 </button>
             </div>
 
+            <!-- GitHub Cloud Sync Drawer Button -->
+            <button type="button" onclick="closeSidebar(); openGitHubSyncModal();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 border border-purple-200 bg-purple-50/40 text-slate-800 hover:text-purple-800 transition group text-right">
+                <div class="w-9 h-9 rounded-lg bg-purple-600 text-white flex items-center justify-center group-hover:scale-105 transition shadow-sm shadow-purple-200">
+                    <i class="fa-brands fa-github text-base"></i>
+                </div>
+                <div>
+                    <div class="text-sm font-black text-purple-950 flex items-center gap-1.5">
+                        <span>المزامنة مع GitHub</span>
+                        <span class="text-[9px] bg-purple-200 text-purple-800 px-1 rounded font-bold">سحابياً</span>
+                    </div>
+                    <div class="text-[11px] text-purple-600 font-semibold">حفظ واسترجاع البيانات بضغطة زر</div>
+                </div>
+            </button>
+
             <button type="button" onclick="closeSidebar(); generatePDFReport();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-rose-50 border border-slate-100 hover:border-rose-200 text-slate-700 hover:text-rose-700 transition group text-right">
                 <div class="w-9 h-9 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-105 transition">
                     <i class="fa-solid fa-file-pdf"></i>
@@ -159,8 +178,8 @@
                     <i class="fa-solid fa-cloud-arrow-down"></i>
                 </div>
                 <div>
-                    <div class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">تصدير نسخة احتياطية</div>
-                    <div class="text-[11px] text-slate-400">حفظ ملف البيانات على الهاتف</div>
+                    <div class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">تصدير ملف للجهاز</div>
+                    <div class="text-[11px] text-slate-400">حفظ ملف النسخة الاحتياطية محلياً</div>
                 </div>
             </button>
 
@@ -169,8 +188,8 @@
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                 </div>
                 <div>
-                    <div class="text-sm font-bold text-slate-800 group-hover:text-amber-700">استيراد نسخة سابقة</div>
-                    <div class="text-[11px] text-slate-400">استرجاع ملف من ذاكرة الجهاز</div>
+                    <div class="text-sm font-bold text-slate-800 group-hover:text-amber-700">استيراد من الجهاز</div>
+                    <div class="text-[11px] text-slate-400">استرجاع ملف من الهاتف أو لصق نص</div>
                 </div>
             </button>
 
@@ -199,7 +218,7 @@
         </div>
 
         <div class="p-3 border-t border-slate-100 text-center text-[11px] text-slate-400 bg-slate-50/50">
-            تطبيق محلي يحفظ البيانات على جهازك مباشرة
+            تطبيق محلي وسحابي يحفظ بياناتك بأمان
         </div>
     </aside>
 
@@ -530,6 +549,95 @@
         </div>
     </div>
 
+    <!-- GitHub Cloud Sync Modal (Token & Direct Cloud Push/Pull) -->
+    <div id="githubSyncModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto custom-scrollbar">
+            
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-100">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-800 text-base">المزامنة مع GitHub سحابياً</h3>
+                        <p class="text-[11px] text-slate-400">حفظ واسترجاع ملف backup.json بين أجهزتك</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeGitHubSyncModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Quick Action Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                <button type="button" onclick="saveDirectlyToGitHubAPI()" class="p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-purple-200 transition active:scale-95">
+                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+                    <span>حفظ وتحديث المستودع الآن ☁️</span>
+                </button>
+                <button type="button" onclick="fetchBackupFromGitHub()" class="p-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition active:scale-95">
+                    <i class="fa-solid fa-rotate text-sm"></i>
+                    <span>جلب وتطبيق البيانات 🔄</span>
+                </button>
+            </div>
+
+            <!-- GitHub Status Message Box -->
+            <div id="githubStatusBox" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
+
+            <!-- Direct Download Alternative -->
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl mb-4 flex items-center justify-between gap-2">
+                <div>
+                    <div class="text-xs font-bold text-slate-800">تنزيل ملف backup.json جاهز</div>
+                    <div class="text-[10px] text-slate-500">لرفعه يدوياً إلى المستودع بدون Token</div>
+                </div>
+                <button type="button" onclick="downloadGitHubBackupFile()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-xs font-bold transition flex items-center gap-1">
+                    <i class="fa-solid fa-download"></i> تنزيل
+                </button>
+            </div>
+
+            <!-- GitHub API Configuration Form -->
+            <div class="border-t border-slate-100 pt-3">
+                <div class="text-xs font-bold text-slate-700 mb-2.5 flex items-center gap-1.5">
+                    <i class="fa-solid fa-key text-purple-600"></i>
+                    <span>إعدادات الاتصال بمستودع GitHub (للمزامنة المباشرة):</span>
+                </div>
+
+                <div class="space-y-3 text-xs">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-slate-600 font-semibold mb-1">اسم الحساب (Owner)</label>
+                            <input type="text" id="githubRepoOwner" value="eghaegypt2025" placeholder="eghaegypt2025" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500">
+                        </div>
+                        <div>
+                            <label class="block text-slate-600 font-semibold mb-1">المستودع (Repo)</label>
+                            <input type="text" id="githubRepoName" value="flat15expenses" placeholder="flat15expenses" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-600 font-semibold mb-1">
+                            رمز الوصول الشخصي (GitHub Personal Access Token)
+                        </label>
+                        <input type="password" id="githubTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500 text-slate-800">
+                        <p class="text-[10px] text-slate-400 mt-1">يُحفظ بأمان داخل متصفحك محلياً لتمكين التطبيق من تعديل backup.json مباشرة.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-slate-600 font-semibold mb-1">رابط ملف النسخة لجلب البيانات (URL)</label>
+                        <input type="text" id="githubCustomUrlInput" value="./backup.json" placeholder="./backup.json" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500 text-slate-700">
+                        <p class="text-[10px] text-slate-400 mt-0.5">القيمة الافتراضية <code>./backup.json</code> تجلب النسخة المرفوعة مع موقعك تلقائياً.</p>
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-end gap-2">
+                        <button type="button" onclick="saveGitHubSettingsOnly()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition">
+                            حفظ إعدادات الربط
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Export Modal (Direct File Download + Copy Text fallback) -->
     <div id="exportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
@@ -562,7 +670,7 @@
         </div>
     </div>
 
-    <!-- Import Modal: Mobile-Friendly Native Label & Text Fallback with Diagnostics -->
+    <!-- Import Modal: Mobile-Friendly Native Label & Text Fallback with Diagnostics + GitHub fetch -->
     <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
             
@@ -579,6 +687,21 @@
             </div>
 
             <div class="space-y-4">
+                
+                <!-- Quick Fetch from GitHub -->
+                <div class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-brands fa-github text-purple-600 text-lg"></i>
+                        <div>
+                            <div class="text-xs font-bold text-purple-950">استرجاع مباشر من GitHub</div>
+                            <div class="text-[10px] text-purple-700">جلب ملف backup.json المرفوع على مستودعك</div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="fetchBackupFromGitHub()" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 active:scale-95">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> جلب الآن
+                    </button>
+                </div>
+
                 <!-- Native File Picker Label (100% reliable on Android & Xiaomi Downloads) -->
                 <div>
                     <label for="mobileNativeFileInput" class="w-full flex flex-col items-center justify-center p-5 border-2 border-dashed border-indigo-200 hover:border-indigo-400 bg-indigo-50/50 hover:bg-indigo-50 rounded-2xl cursor-pointer transition text-center group">
@@ -661,15 +784,23 @@
     <!-- Container for PDF Rendering (Off-screen with fixed A4 width so html2canvas renders full content and never a blank page) -->
     <div id="pdfPrintableReport" style="position: fixed; left: -9999px; top: 0; width: 780px; min-height: 200px; background: #ffffff; z-index: -999; pointer-events: none; overflow: visible;"></div>
 
+    <!-- JavaScript Application Logic -->
     <script>
         // Storage Keys
         const STORAGE_EXPENSES_KEY = 'apartment_expenses_data_v2';
         const STORAGE_SETTINGS_KEY = 'apartment_settings_data_v2';
         const STORAGE_PWA_KEY = 'apartment_pwa_dismissed_v1';
+        const STORAGE_GITHUB_KEY = 'apartment_github_sync_v1';
 
         // State
         let expenses = [];
         let appSettings = { budget: 0 };
+        let githubConfig = {
+            owner: 'eghaegypt2025',
+            repo: 'flat15expenses',
+            token: '',
+            customUrl: './backup.json'
+        };
         let deferredPwaPrompt = null;
         let pendingConfirmCallback = null;
 
@@ -696,6 +827,15 @@
                 console.error('Error loading settings:', e);
                 appSettings = { budget: 0 };
             }
+
+            try {
+                const savedGH = localStorage.getItem(STORAGE_GITHUB_KEY);
+                if (savedGH) {
+                    githubConfig = { ...githubConfig, ...JSON.parse(savedGH) };
+                }
+            } catch (e) {
+                console.error('Error loading GitHub config:', e);
+            }
         }
 
         function saveData() {
@@ -705,6 +845,14 @@
             } catch (e) {
                 console.error('Error saving data:', e);
                 showToast('خطأ أثناء الحفظ في ذاكرة الجهاز', 'error');
+            }
+        }
+
+        function saveGitHubConfig() {
+            try {
+                localStorage.setItem(STORAGE_GITHUB_KEY, JSON.stringify(githubConfig));
+            } catch (e) {
+                console.error('Error saving GitHub config:', e);
             }
         }
 
@@ -1163,6 +1311,201 @@
             if (input) input.value = '';
         }
 
+        function openGitHubSyncModal() {
+            document.getElementById('githubRepoOwner').value = githubConfig.owner || 'eghaegypt2025';
+            document.getElementById('githubRepoName').value = githubConfig.repo || 'flat15expenses';
+            document.getElementById('githubTokenInput').value = githubConfig.token || '';
+            document.getElementById('githubCustomUrlInput').value = githubConfig.customUrl || './backup.json';
+
+            const statusBox = document.getElementById('githubStatusBox');
+            statusBox.className = 'hidden';
+            statusBox.innerHTML = '';
+
+            const modal = document.getElementById('githubSyncModal');
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+        }
+
+        function closeGitHubSyncModal() {
+            const modal = document.getElementById('githubSyncModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function saveGitHubSettingsOnly() {
+            const owner = (document.getElementById('githubRepoOwner')?.value || '').trim();
+            const repo = (document.getElementById('githubRepoName')?.value || '').trim();
+            const token = (document.getElementById('githubTokenInput')?.value || '').trim();
+            const customUrl = (document.getElementById('githubCustomUrlInput')?.value || '').trim();
+
+            githubConfig = {
+                owner: owner || 'eghaegypt2025',
+                repo: repo || 'flat15expenses',
+                token: token,
+                customUrl: customUrl || './backup.json'
+            };
+            saveGitHubConfig();
+            showToast('تم حفظ إعدادات GitHub بنجاح', 'success');
+        }
+
+        function downloadGitHubBackupFile() {
+            try {
+                const payload = generateBackupPayload();
+                const blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
+                const fileName = 'backup.json';
+
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                showToast('تم تحميل backup.json، يمكنك رفعه الآن إلى المستودع', 'success');
+            } catch (err) {
+                console.error('Export backup.json error:', err);
+                showToast('حدث خطأ أثناء تحميل الملف', 'error');
+            }
+        }
+
+        async function fetchBackupFromGitHub() {
+            const customUrlEl = document.getElementById('githubCustomUrlInput');
+            let targetUrl = customUrlEl ? customUrlEl.value.trim() : (githubConfig.customUrl || './backup.json');
+            if (!targetUrl) targetUrl = './backup.json';
+
+            githubConfig.customUrl = targetUrl;
+            saveGitHubConfig();
+
+            // Cache-busting query parameter
+            const fetchUrl = targetUrl + (targetUrl.includes('?') ? '&' : '?') + '_t=' + Date.now();
+
+            const statusBox = document.getElementById('githubStatusBox');
+            const importStatusBox = document.getElementById('importStatusBox');
+
+            const showStatus = (msg, isError = false) => {
+                if (statusBox) {
+                    statusBox.className = `p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700' : 'bg-indigo-50 text-indigo-700'} block`;
+                    statusBox.innerHTML = msg;
+                }
+                if (importStatusBox) {
+                    importStatusBox.className = `p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700' : 'bg-indigo-50 text-indigo-700'} block`;
+                    importStatusBox.innerHTML = msg;
+                }
+            };
+
+            showStatus(`<i class="fa-solid fa-spinner fa-spin"></i> جاري جلب النسخة الاحتياطية من: <strong>${escapeHtml(targetUrl)}</strong>...`);
+
+            try {
+                const res = await fetch(fetchUrl, { cache: 'no-store' });
+                if (!res.ok) {
+                    throw new Error(`تعذر العثور على الملف (رمز الخطأ: ${res.status}). تأكد من رفع ملف backup.json داخل مستودع GitHub.`);
+                }
+                const jsonText = await res.text();
+                applyImportedJSON(jsonText);
+
+                showStatus(`<i class="fa-solid fa-circle-check"></i> تم جلب وتطبيق البيانات بنجاح من GitHub!`, false);
+                showToast('تم استيراد النسخة الاحتياطية من GitHub بنجاح', 'success');
+
+                setTimeout(() => {
+                    closeGitHubSyncModal();
+                    closeImportModal();
+                }, 1200);
+
+            } catch (err) {
+                console.error('GitHub fetch error:', err);
+                showStatus(`<i class="fa-solid fa-circle-xmark"></i> ${escapeHtml(err.message || 'فشل الاتصال بـ GitHub')}`, true);
+                showToast('فشل في جلب النسخة من GitHub', 'error');
+            }
+        }
+
+        async function saveDirectlyToGitHubAPI() {
+            const owner = (document.getElementById('githubRepoOwner')?.value || '').trim();
+            const repo = (document.getElementById('githubRepoName')?.value || '').trim();
+            const token = (document.getElementById('githubTokenInput')?.value || '').trim();
+            const path = 'backup.json';
+
+            const statusBox = document.getElementById('githubStatusBox');
+            const showStatus = (msg, isError = false) => {
+                if (statusBox) {
+                    statusBox.className = `p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700' : 'bg-purple-50 text-purple-700'} block`;
+                    statusBox.innerHTML = msg;
+                }
+            };
+
+            if (!owner || !repo || !token) {
+                showStatus('<i class="fa-solid fa-triangle-exclamation"></i> يرجى ملء اسم المستخدم، اسم المستودع، ورمز الـ Token أولاً', true);
+                return;
+            }
+
+            // Save config
+            githubConfig = { ...githubConfig, owner, repo, token };
+            saveGitHubConfig();
+
+            showStatus('<i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بـ GitHub وتحديث الملف سحابياً...');
+
+            try {
+                const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+                
+                // Step 1: Check if file already exists to get its SHA hash
+                let existingSha = null;
+                try {
+                    const checkRes = await fetch(apiUrl, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/vnd.github+json'
+                        }
+                    });
+                    if (checkRes.ok) {
+                        const fileInfo = await checkRes.json();
+                        existingSha = fileInfo.sha;
+                    }
+                } catch (e) {
+                    console.warn('Could not retrieve existing SHA:', e);
+                }
+
+                // Step 2: Encode backup payload into UTF-8 Base64
+                const jsonContent = generateBackupPayload();
+                const utf8Bytes = new TextEncoder().encode(jsonContent);
+                let binaryStr = '';
+                for (let i = 0; i < utf8Bytes.length; i++) {
+                    binaryStr += String.fromCharCode(utf8Bytes[i]);
+                }
+                const base64Content = btoa(binaryStr);
+
+                // Step 3: Put file via GitHub REST API
+                const commitBody = {
+                    message: `Update backup.json [${new Date().toISOString()}]`,
+                    content: base64Content
+                };
+                if (existingSha) {
+                    commitBody.sha = existingSha;
+                }
+
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(commitBody)
+                });
+
+                if (!putRes.ok) {
+                    const errData = await putRes.json().catch(() => ({}));
+                    throw new Error(errData.message || `خطأ من GitHub (رمز ${putRes.status})`);
+                }
+
+                showStatus('<i class="fa-solid fa-circle-check"></i> تم رفع وتحديث ملف backup.json على GitHub بنجاح تام!', false);
+                showToast('تم حفظ ومزامنة النسخة على GitHub مباشرة!', 'success');
+
+            } catch (err) {
+                console.error('GitHub API error:', err);
+                showStatus(`<i class="fa-solid fa-circle-xmark"></i> خطأ أثناء الحفظ على GitHub: ${escapeHtml(err.message)}`, true);
+                showToast('فشل الحفظ على GitHub', 'error');
+            }
+        }
+
         async function handleNativeFileSelect(event) {
             const file = event.target.files && event.target.files[0];
             if (!file) return;
@@ -1267,8 +1610,10 @@
                 saveData();
                 renderAll();
 
-                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 block';
-                statusBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> تم استيراد <strong>${expenses.length}</strong> بنود بنجاح!`;
+                if (statusBox) {
+                    statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 block';
+                    statusBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> تم استيراد <strong>${expenses.length}</strong> بنود بنجاح!`;
+                }
 
                 showToast(`تم استيراد ${expenses.length} بنود بنجاح`, 'success');
 
@@ -1278,8 +1623,10 @@
 
             } catch (err) {
                 console.error('Import parse error:', err);
-                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
-                statusBox.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ملف غير صالح: تأكد من أن الملف هو ملف نسخة احتياطية سليم.`;
+                if (statusBox) {
+                    statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
+                    statusBox.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ملف غير صالح: تأكد من أن الملف هو ملف نسخة احتياطية سليم.`;
+                }
                 showToast('الملف غير صالح أو تالف', 'error');
             }
         }
@@ -1462,7 +1809,6 @@
             const pdfContainer = document.getElementById('pdfPrintableReport');
             pdfContainer.innerHTML = reportHTML;
 
-            // Ensure fonts and DOM calculations are fully ready before snapshot
             if (document.fonts && document.fonts.ready) {
                 try { await document.fonts.ready; } catch (e) { /* ignore font errors */ }
             }
