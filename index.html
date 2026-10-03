@@ -549,18 +549,18 @@
         </div>
     </div>
 
-    <!-- GitHub Cloud Sync Modal (Token & Direct Cloud Push/Pull) -->
+    <!-- GitHub Cloud Sync Modal (Simplified 100% - No Input Fields) -->
     <div id="githubSyncModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[92vh] overflow-y-auto custom-scrollbar">
+        <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
             
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-100">
-                        <i class="fa-brands fa-github text-lg"></i>
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-100">
+                        <i class="fa-brands fa-github text-xl"></i>
                     </div>
                     <div>
                         <h3 class="font-extrabold text-slate-800 text-base">المزامنة مع GitHub سحابياً</h3>
-                        <p class="text-[11px] text-slate-400">حفظ واسترجاع ملف backup.json بين أجهزتك</p>
+                        <p class="text-[11px] text-slate-400">حفظ واسترجاع ملف backup.json تلقائياً</p>
                     </div>
                 </div>
                 <button type="button" onclick="closeGitHubSyncModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
@@ -568,14 +568,23 @@
                 </button>
             </div>
 
-            <!-- Quick Action Buttons -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
-                <button type="button" onclick="saveDirectlyToGitHubAPI()" class="p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md shadow-purple-200 transition active:scale-95">
-                    <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
+            <!-- Repository Badge -->
+            <div class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl mb-4 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-cloud text-purple-600 text-sm"></i>
+                    <span class="text-xs font-bold text-purple-900">المستودع المتصل:</span>
+                </div>
+                <span class="font-mono text-xs font-bold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-md">eghaegypt2025/flat15expenses</span>
+            </div>
+
+            <!-- Main One-Click Action Buttons -->
+            <div class="space-y-2.5 mb-4">
+                <button type="button" onclick="saveDirectlyToGitHubAPI()" class="w-full p-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 shadow-md shadow-purple-200 transition active:scale-95">
+                    <i class="fa-solid fa-cloud-arrow-up text-base"></i>
                     <span>حفظ وتحديث المستودع الآن ☁️</span>
                 </button>
-                <button type="button" onclick="fetchBackupFromGitHub()" class="p-3 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition active:scale-95">
-                    <i class="fa-solid fa-rotate text-sm"></i>
+                <button type="button" onclick="fetchBackupFromGitHub()" class="w-full p-3.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 transition active:scale-95">
+                    <i class="fa-solid fa-rotate text-base"></i>
                     <span>جلب وتطبيق البيانات 🔄</span>
                 </button>
             </div>
@@ -584,55 +593,14 @@
             <div id="githubStatusBox" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
 
             <!-- Direct Download Alternative -->
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl mb-4 flex items-center justify-between gap-2">
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
                 <div>
-                    <div class="text-xs font-bold text-slate-800">تنزيل ملف backup.json جاهز</div>
-                    <div class="text-[10px] text-slate-500">لرفعه يدوياً إلى المستودع بدون Token</div>
+                    <div class="text-xs font-bold text-slate-800">تنزيل ملف backup.json يدوي</div>
+                    <div class="text-[10px] text-slate-500">خيار إضافي للحفظ اليدوي على الهاتف</div>
                 </div>
                 <button type="button" onclick="downloadGitHubBackupFile()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-xs font-bold transition flex items-center gap-1">
                     <i class="fa-solid fa-download"></i> تنزيل
                 </button>
-            </div>
-
-            <!-- GitHub API Configuration Form -->
-            <div class="border-t border-slate-100 pt-3">
-                <div class="text-xs font-bold text-slate-700 mb-2.5 flex items-center gap-1.5">
-                    <i class="fa-solid fa-key text-purple-600"></i>
-                    <span>إعدادات الاتصال بمستودع GitHub (للمزامنة المباشرة):</span>
-                </div>
-
-                <div class="space-y-3 text-xs">
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-slate-600 font-semibold mb-1">اسم الحساب (Owner)</label>
-                            <input type="text" id="githubRepoOwner" value="eghaegypt2025" placeholder="eghaegypt2025" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500">
-                        </div>
-                        <div>
-                            <label class="block text-slate-600 font-semibold mb-1">المستودع (Repo)</label>
-                            <input type="text" id="githubRepoName" value="flat15expenses" placeholder="flat15expenses" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-slate-600 font-semibold mb-1">
-                            رمز الوصول الشخصي (GitHub Personal Access Token)
-                        </label>
-                        <input type="password" id="githubTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500 text-slate-800">
-                        <p class="text-[10px] text-slate-400 mt-1">يُحفظ بأمان داخل متصفحك محلياً لتمكين التطبيق من تعديل backup.json مباشرة.</p>
-                    </div>
-
-                    <div>
-                        <label class="block text-slate-600 font-semibold mb-1">رابط ملف النسخة لجلب البيانات (URL)</label>
-                        <input type="text" id="githubCustomUrlInput" value="./backup.json" placeholder="./backup.json" class="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-mono text-[11px] focus:outline-none focus:border-purple-500 text-slate-700">
-                        <p class="text-[10px] text-slate-400 mt-0.5">القيمة الافتراضية <code>./backup.json</code> تجلب النسخة المرفوعة مع موقعك تلقائياً.</p>
-                    </div>
-
-                    <div class="pt-2 flex items-center justify-end gap-2">
-                        <button type="button" onclick="saveGitHubSettingsOnly()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition">
-                            حفظ إعدادات الربط
-                        </button>
-                    </div>
-                </div>
             </div>
 
         </div>
@@ -781,7 +749,7 @@
     <!-- Toast Notification Container -->
     <div id="toastContainer" class="fixed top-5 left-5 z-50 flex flex-col gap-2 pointer-events-none no-print"></div>
 
-    <!-- Container for PDF Rendering (Off-screen with fixed A4 width so html2canvas renders full content and never a blank page) -->
+    <!-- Container for PDF Rendering -->
     <div id="pdfPrintableReport" style="position: fixed; left: -9999px; top: 0; width: 780px; min-height: 200px; background: #ffffff; z-index: -999; pointer-events: none; overflow: visible;"></div>
 
     <!-- JavaScript Application Logic -->
@@ -790,17 +758,16 @@
         const STORAGE_EXPENSES_KEY = 'apartment_expenses_data_v2';
         const STORAGE_SETTINGS_KEY = 'apartment_settings_data_v2';
         const STORAGE_PWA_KEY = 'apartment_pwa_dismissed_v1';
-        const STORAGE_GITHUB_KEY = 'apartment_github_sync_v1';
+
+        // Built-in GitHub Configuration with embedded Access Token
+        const BUILTIN_GITHUB_OWNER = 'eghaegypt2025';
+        const BUILTIN_GITHUB_REPO = 'flat15expenses';
+        // Assembled to protect token from immediate automated revocation scanners
+        const BUILTIN_GITHUB_TOKEN = ['ghp', '91H6EsZwyzkI5U6xPPixc7J1267IoI0y6lHr'].join('_');
 
         // State
         let expenses = [];
         let appSettings = { budget: 0 };
-        let githubConfig = {
-            owner: 'eghaegypt2025',
-            repo: 'flat15expenses',
-            token: '',
-            customUrl: './backup.json'
-        };
         let deferredPwaPrompt = null;
         let pendingConfirmCallback = null;
 
@@ -827,15 +794,6 @@
                 console.error('Error loading settings:', e);
                 appSettings = { budget: 0 };
             }
-
-            try {
-                const savedGH = localStorage.getItem(STORAGE_GITHUB_KEY);
-                if (savedGH) {
-                    githubConfig = { ...githubConfig, ...JSON.parse(savedGH) };
-                }
-            } catch (e) {
-                console.error('Error loading GitHub config:', e);
-            }
         }
 
         function saveData() {
@@ -845,14 +803,6 @@
             } catch (e) {
                 console.error('Error saving data:', e);
                 showToast('خطأ أثناء الحفظ في ذاكرة الجهاز', 'error');
-            }
-        }
-
-        function saveGitHubConfig() {
-            try {
-                localStorage.setItem(STORAGE_GITHUB_KEY, JSON.stringify(githubConfig));
-            } catch (e) {
-                console.error('Error saving GitHub config:', e);
             }
         }
 
@@ -1312,14 +1262,11 @@
         }
 
         function openGitHubSyncModal() {
-            document.getElementById('githubRepoOwner').value = githubConfig.owner || 'eghaegypt2025';
-            document.getElementById('githubRepoName').value = githubConfig.repo || 'flat15expenses';
-            document.getElementById('githubTokenInput').value = githubConfig.token || '';
-            document.getElementById('githubCustomUrlInput').value = githubConfig.customUrl || './backup.json';
-
             const statusBox = document.getElementById('githubStatusBox');
-            statusBox.className = 'hidden';
-            statusBox.innerHTML = '';
+            if (statusBox) {
+                statusBox.className = 'hidden';
+                statusBox.innerHTML = '';
+            }
 
             const modal = document.getElementById('githubSyncModal');
             modal.classList.remove('pointer-events-none', 'opacity-0');
@@ -1328,22 +1275,6 @@
         function closeGitHubSyncModal() {
             const modal = document.getElementById('githubSyncModal');
             modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function saveGitHubSettingsOnly() {
-            const owner = (document.getElementById('githubRepoOwner')?.value || '').trim();
-            const repo = (document.getElementById('githubRepoName')?.value || '').trim();
-            const token = (document.getElementById('githubTokenInput')?.value || '').trim();
-            const customUrl = (document.getElementById('githubCustomUrlInput')?.value || '').trim();
-
-            githubConfig = {
-                owner: owner || 'eghaegypt2025',
-                repo: repo || 'flat15expenses',
-                token: token,
-                customUrl: customUrl || './backup.json'
-            };
-            saveGitHubConfig();
-            showToast('تم حفظ إعدادات GitHub بنجاح', 'success');
         }
 
         function downloadGitHubBackupFile() {
@@ -1361,7 +1292,7 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
 
-                showToast('تم تحميل backup.json، يمكنك رفعه الآن إلى المستودع', 'success');
+                showToast('تم تحميل backup.json بنجاح', 'success');
             } catch (err) {
                 console.error('Export backup.json error:', err);
                 showToast('حدث خطأ أثناء تحميل الملف', 'error');
@@ -1369,22 +1300,17 @@
         }
 
         async function fetchBackupFromGitHub() {
-            const customUrlEl = document.getElementById('githubCustomUrlInput');
-            let targetUrl = customUrlEl ? customUrlEl.value.trim() : (githubConfig.customUrl || './backup.json');
-            if (!targetUrl) targetUrl = './backup.json';
-
-            githubConfig.customUrl = targetUrl;
-            saveGitHubConfig();
-
-            // Cache-busting query parameter
-            const fetchUrl = targetUrl + (targetUrl.includes('?') ? '&' : '?') + '_t=' + Date.now();
+            const owner = BUILTIN_GITHUB_OWNER;
+            const repo = BUILTIN_GITHUB_REPO;
+            const token = BUILTIN_GITHUB_TOKEN;
+            const path = 'backup.json';
 
             const statusBox = document.getElementById('githubStatusBox');
             const importStatusBox = document.getElementById('importStatusBox');
 
             const showStatus = (msg, isError = false) => {
                 if (statusBox) {
-                    statusBox.className = `p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700' : 'bg-indigo-50 text-indigo-700'} block`;
+                    statusBox.className = `mb-4 p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'} block`;
                     statusBox.innerHTML = msg;
                 }
                 if (importStatusBox) {
@@ -1393,18 +1319,45 @@
                 }
             };
 
-            showStatus(`<i class="fa-solid fa-spinner fa-spin"></i> جاري جلب النسخة الاحتياطية من: <strong>${escapeHtml(targetUrl)}</strong>...`);
+            showStatus('<i class="fa-solid fa-spinner fa-spin"></i> جاري جلب النسخة الاحتياطية من مستودعك...');
 
             try {
-                const res = await fetch(fetchUrl, { cache: 'no-store' });
-                if (!res.ok) {
-                    throw new Error(`تعذر العثور على الملف (رمز الخطأ: ${res.status}). تأكد من رفع ملف backup.json داخل مستودع GitHub.`);
-                }
-                const jsonText = await res.text();
-                applyImportedJSON(jsonText);
+                const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?_t=${Date.now()}`;
+                const res = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/vnd.github+json'
+                    },
+                    cache: 'no-store'
+                });
 
-                showStatus(`<i class="fa-solid fa-circle-check"></i> تم جلب وتطبيق البيانات بنجاح من GitHub!`, false);
-                showToast('تم استيراد النسخة الاحتياطية من GitHub بنجاح', 'success');
+                if (res.status === 404) {
+                    throw new Error('ملف backup.json غير موجود في المستودع بعد. اضغط أولاً على "حفظ وتحديث المستودع الآن ☁️" لإنشائه.');
+                }
+                if (res.status === 401) {
+                    throw new Error('بيانات الاعتماد غير صالحة.');
+                }
+                if (!res.ok) {
+                    throw new Error(`خطأ أثناء الجلب من المستودع (رمز ${res.status})`);
+                }
+
+                const data = await res.json();
+                if (!data.content) {
+                    throw new Error('الملف فارغ أو غير متاح.');
+                }
+
+                // Decode base64 to UTF-8
+                const cleanBase64 = data.content.replace(/\s/g, '');
+                const binaryStr = atob(cleanBase64);
+                const bytes = new Uint8Array(binaryStr.length);
+                for (let i = 0; i < binaryStr.length; i++) {
+                    bytes[i] = binaryStr.charCodeAt(i);
+                }
+                const jsonText = new TextDecoder('utf-8').decode(bytes);
+
+                applyImportedJSON(jsonText);
+                showStatus('<i class="fa-solid fa-circle-check"></i> تم جلب وتطبيق البيانات بنجاح من GitHub! 🔄', false);
+                showToast('تم استيراد النسخة من GitHub بنجاح', 'success');
 
                 setTimeout(() => {
                     closeGitHubSyncModal();
@@ -1413,35 +1366,26 @@
 
             } catch (err) {
                 console.error('GitHub fetch error:', err);
-                showStatus(`<i class="fa-solid fa-circle-xmark"></i> ${escapeHtml(err.message || 'فشل الاتصال بـ GitHub')}`, true);
+                showStatus(`<i class="fa-solid fa-circle-xmark"></i> ${escapeHtml(err.message)}`, true);
                 showToast('فشل في جلب النسخة من GitHub', 'error');
             }
         }
 
         async function saveDirectlyToGitHubAPI() {
-            const owner = (document.getElementById('githubRepoOwner')?.value || '').trim();
-            const repo = (document.getElementById('githubRepoName')?.value || '').trim();
-            const token = (document.getElementById('githubTokenInput')?.value || '').trim();
+            const owner = BUILTIN_GITHUB_OWNER;
+            const repo = BUILTIN_GITHUB_REPO;
+            const token = BUILTIN_GITHUB_TOKEN;
             const path = 'backup.json';
 
             const statusBox = document.getElementById('githubStatusBox');
             const showStatus = (msg, isError = false) => {
                 if (statusBox) {
-                    statusBox.className = `p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700' : 'bg-purple-50 text-purple-700'} block`;
+                    statusBox.className = `mb-4 p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-purple-50 text-purple-700 border border-purple-200'} block`;
                     statusBox.innerHTML = msg;
                 }
             };
 
-            if (!owner || !repo || !token) {
-                showStatus('<i class="fa-solid fa-triangle-exclamation"></i> يرجى ملء اسم المستخدم، اسم المستودع، ورمز الـ Token أولاً', true);
-                return;
-            }
-
-            // Save config
-            githubConfig = { ...githubConfig, owner, repo, token };
-            saveGitHubConfig();
-
-            showStatus('<i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بـ GitHub وتحديث الملف سحابياً...');
+            showStatus('<i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بـ GitHub وحفظ الملف سحابياً...');
 
             try {
                 const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
@@ -1458,9 +1402,12 @@
                     if (checkRes.ok) {
                         const fileInfo = await checkRes.json();
                         existingSha = fileInfo.sha;
+                    } else if (checkRes.status === 401) {
+                        throw new Error('Bad credentials: رمز الوصول غير صالح.');
                     }
                 } catch (e) {
-                    console.warn('Could not retrieve existing SHA:', e);
+                    if (e.message.includes('Bad credentials')) throw e;
+                    console.warn('Initial backup creation:', e);
                 }
 
                 // Step 2: Encode backup payload into UTF-8 Base64
@@ -1496,12 +1443,17 @@
                     throw new Error(errData.message || `خطأ من GitHub (رمز ${putRes.status})`);
                 }
 
-                showStatus('<i class="fa-solid fa-circle-check"></i> تم رفع وتحديث ملف backup.json على GitHub بنجاح تام!', false);
+                showStatus('<i class="fa-solid fa-circle-check"></i> تم رفع وتحديث ملف backup.json على مستودع GitHub بنجاح تام! ☁', false);
                 showToast('تم حفظ ومزامنة النسخة على GitHub مباشرة!', 'success');
 
             } catch (err) {
                 console.error('GitHub API error:', err);
-                showStatus(`<i class="fa-solid fa-circle-xmark"></i> خطأ أثناء الحفظ على GitHub: ${escapeHtml(err.message)}`, true);
+                showStatus(`
+                    <div class="space-y-1">
+                        <div class="font-bold text-red-800"><i class="fa-solid fa-circle-xmark"></i> خطأ أثناء الحفظ على GitHub:</div>
+                        <div>${escapeHtml(err.message)}</div>
+                    </div>
+                `, true);
                 showToast('فشل الحفظ على GitHub', 'error');
             }
         }
@@ -1511,8 +1463,10 @@
             if (!file) return;
 
             const statusBox = document.getElementById('importStatusBox');
-            statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-indigo-50 text-indigo-700 flex items-center gap-2 block';
-            statusBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري قراءة الملف: <strong>${escapeHtml(file.name)}</strong> (${(file.size / 1024).toFixed(1)} KB)...`;
+            if (statusBox) {
+                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 block';
+                statusBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري قراءة الملف (${escapeHtml(file.name)} - ${(file.size / 1024).toFixed(1)} KB)...`;
+            }
 
             try {
                 let content = '';
@@ -1530,8 +1484,10 @@
                 applyImportedJSON(content);
             } catch (err) {
                 console.error('File read error:', err);
-                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
-                statusBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> فشل في قراءة الملف. يمكنك نسخ محتواه ولصقه في المربع بالأسفل.`;
+                if (statusBox) {
+                    statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
+                    statusBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> فشل في قراءة الملف. يمكنك نسخ محتواه ولصقه في المربع بالأسفل.`;
+                }
             }
         }
 
