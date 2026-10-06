@@ -1,1931 +1,251 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حاسبة ومتابع مصاريف تجهيز وفرش الشقة</title>
-
-    <!-- PWA & Mobile Web Capabilities -->
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="مصاريف الشقة">
-
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Cairo', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            800: '#3730a3',
-                            900: '#312e81',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Chart.js & html2pdf.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-    <style>
-        * {
-            font-family: 'Cairo', sans-serif;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: #f8fafc;
-            color: #0f172a;
-            overflow-x: hidden;
-            width: 100%;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 9999px;
-        }
-
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-            body {
-                background: white !important;
-            }
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased overflow-x-hidden">
-
-    <!-- Main Top Header -->
-    <header class="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-            
-            <div class="flex items-center gap-3">
-                <button type="button" onclick="openSidebar()" aria-label="فتح القائمة" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition active:scale-95 focus:outline-none">
-                    <i class="fa-solid fa-bars text-lg"></i>
-                </button>
-                <div class="flex items-center gap-2">
-                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 text-white flex items-center justify-center shadow-md shadow-indigo-100">
-                        <i class="fa-solid fa-house-chimney text-base"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-base sm:text-lg font-black text-slate-900 leading-tight">مصاريف تجهيز الشقة</h1>
-                        <p class="text-[11px] text-slate-500 hidden sm:block">تتبع كاش وأقساط التجهيز والفرش</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-2">
-                <button type="button" onclick="openGitHubSyncModal()" class="px-2.5 sm:px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold text-xs flex items-center gap-1.5 transition border border-purple-200" title="مزامنة سحابية مع GitHub">
-                    <i class="fa-brands fa-github text-sm text-purple-600"></i>
-                    <span class="hidden sm:inline">مزامنة</span>
-                    <span class="text-[10px] bg-purple-200 text-purple-800 px-1.5 py-0.2 rounded font-black">Cloud</span>
-                </button>
-                <button type="button" onclick="openBudgetModal()" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs sm:text-sm flex items-center gap-1.5 transition">
-                    <i class="fa-solid fa-wallet text-indigo-600"></i>
-                    <span>الميزانية:</span>
-                    <span id="headerBudgetDisplay" class="font-black text-indigo-900">0 ج.م</span>
-                </button>
-            </div>
-
-        </div>
-    </header>
-
-    <!-- Sidebar Drawer (Backdrop & Content) -->
-    <div id="sidebarBackdrop" onclick="closeSidebar()" class="fixed inset-0 bg-slate-900/40 z-40 backdrop-blur-xs transition-opacity duration-300 opacity-0 pointer-events-none no-print"></div>
-    <aside id="sidebarDrawer" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 translate-x-full no-print">
-        <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-sliders text-sm"></i>
-                </div>
-                <h2 class="font-extrabold text-slate-900 text-base">خيارات وإدارة البيانات</h2>
-            </div>
-            <button type="button" onclick="closeSidebar()" class="w-8 h-8 rounded-lg hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
-        </div>
-
-        <div class="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
-            
-            <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-xl">
-                <div class="text-xs font-bold text-indigo-800 mb-1 flex items-center gap-1.5">
-                    <i class="fa-solid fa-calculator"></i>
-                    <span>الميزانية الإجمالية</span>
-                </div>
-                <div class="text-lg font-black text-indigo-950" id="drawerBudgetValue">0 ج.م</div>
-                <button type="button" onclick="closeSidebar(); openBudgetModal();" class="mt-2 w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    تعديل الميزانية
-                </button>
-            </div>
-
-            <!-- GitHub Cloud Sync Drawer Button -->
-            <button type="button" onclick="closeSidebar(); openGitHubSyncModal();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-purple-50 border border-purple-200 bg-purple-50/40 text-slate-800 hover:text-purple-800 transition group text-right">
-                <div class="w-9 h-9 rounded-lg bg-purple-600 text-white flex items-center justify-center group-hover:scale-105 transition shadow-sm shadow-purple-200">
-                    <i class="fa-brands fa-github text-base"></i>
-                </div>
-                <div>
-                    <div class="text-sm font-black text-purple-950 flex items-center gap-1.5">
-                        <span>المزامنة مع GitHub</span>
-                        <span class="text-[9px] bg-purple-200 text-purple-800 px-1 rounded font-bold">سحابياً</span>
-                    </div>
-                    <div class="text-[11px] text-purple-600 font-semibold">حفظ واسترجاع البيانات بضغطة زر</div>
-                </div>
-            </button>
-
-            <button type="button" onclick="closeSidebar(); generatePDFReport();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-rose-50 border border-slate-100 hover:border-rose-200 text-slate-700 hover:text-rose-700 transition group text-right">
-                <div class="w-9 h-9 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center group-hover:scale-105 transition">
-                    <i class="fa-solid fa-file-pdf"></i>
-                </div>
-                <div>
-                    <div class="text-sm font-bold text-slate-800 group-hover:text-rose-700">تنزيل تقرير PDF</div>
-                    <div class="text-[11px] text-slate-400">كشف مالي كامل وجاهز للطباعة</div>
-                </div>
-            </button>
-
-            <button type="button" onclick="closeSidebar(); openExportModal();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-emerald-50 border border-slate-100 hover:border-emerald-200 text-slate-700 hover:text-emerald-700 transition group text-right">
-                <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">
-                    <i class="fa-solid fa-cloud-arrow-down"></i>
-                </div>
-                <div>
-                    <div class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">تصدير ملف للجهاز</div>
-                    <div class="text-[11px] text-slate-400">حفظ ملف النسخة الاحتياطية محلياً</div>
-                </div>
-            </button>
-
-            <button type="button" onclick="closeSidebar(); openImportModal();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-amber-50 border border-slate-100 hover:border-amber-200 text-slate-700 hover:text-amber-700 transition group text-right">
-                <div class="w-9 h-9 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center group-hover:scale-105 transition">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                </div>
-                <div>
-                    <div class="text-sm font-bold text-slate-800 group-hover:text-amber-700">استيراد من الجهاز</div>
-                    <div class="text-[11px] text-slate-400">استرجاع ملف من الهاتف أو لصق نص</div>
-                </div>
-            </button>
-
-            <button type="button" onclick="window.print();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 border border-slate-100 text-slate-700 transition group text-right">
-                <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center group-hover:scale-105 transition">
-                    <i class="fa-solid fa-print"></i>
-                </div>
-                <div>
-                    <div class="text-sm font-bold text-slate-800">طباعة عادية</div>
-                    <div class="text-[11px] text-slate-400">إرسال مباشر للطابعة</div>
-                </div>
-            </button>
-
-            <div class="pt-4 border-t border-slate-200">
-                <button type="button" onclick="closeSidebar(); confirmResetAll();" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-red-50 border border-red-100 text-red-600 transition group text-right">
-                    <div class="w-9 h-9 rounded-lg bg-red-100 text-red-600 flex items-center justify-center group-hover:scale-105 transition">
-                        <i class="fa-solid fa-rotate-left"></i>
-                    </div>
-                    <div>
-                        <div class="text-sm font-bold">تصفير كافة البيانات</div>
-                        <div class="text-[11px] text-red-400">حذف المصاريف والبدء من جديد</div>
-                    </div>
-                </button>
-            </div>
-
-        </div>
-
-        <div class="p-3 border-t border-slate-100 text-center text-[11px] text-slate-400 bg-slate-50/50">
-            تطبيق محلي وسحابي يحفظ بياناتك بأمان
-        </div>
-    </aside>
-
-    <!-- Main Content Area -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
-
-        <!-- Stat Cards Grid (Replaced Budget Status Card with Paid By Eid Card) -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold">إجمالي التكلفة</span>
-                    <span class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs">
-                        <i class="fa-solid fa-coins"></i>
-                    </span>
-                </div>
-                <div>
-                    <div id="statTotalCost" class="text-lg sm:text-2xl font-black text-slate-900">0 ج.م</div>
-                    <div class="text-[10px] text-slate-400 mt-1 font-semibold" id="statItemsCount">0 بند مسجل</div>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
-                <div class="flex items-center justify-between text-emerald-600 mb-2">
-                    <span class="text-xs font-bold text-slate-500">المدفوع كاش</span>
-                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xs">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </span>
-                </div>
-                <div>
-                    <div id="statTotalPaid" class="text-lg sm:text-2xl font-black text-emerald-600">0 ج.م</div>
-                    <div class="text-[10px] text-emerald-500 mt-1 font-bold" id="statPaidPercent">0% تم دفعه</div>
-                </div>
-            </div>
-
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
-                <div class="flex items-center justify-between text-amber-600 mb-2">
-                    <span class="text-xs font-bold text-slate-500">المتبقي (أقساط)</span>
-                    <span class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xs">
-                        <i class="fa-solid fa-clock-rotate-left"></i>
-                    </span>
-                </div>
-                <div>
-                    <div id="statTotalRemaining" class="text-lg sm:text-2xl font-black text-amber-600">0 ج.م</div>
-                    <div class="text-[10px] text-amber-500 mt-1 font-bold" id="statPendingCount">0 بنود متبقية</div>
-                </div>
-            </div>
-
-            <!-- PROMINENT EID STAT CARD REPLACING BUDGET STATUS -->
-            <div class="bg-white p-4 rounded-2xl border border-violet-200 shadow-xs flex flex-col justify-between bg-gradient-to-br from-white to-violet-50/40">
-                <div class="flex items-center justify-between text-violet-600 mb-2">
-                    <span class="text-xs font-bold text-slate-700">المدفوع من طرف عيد</span>
-                    <span class="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center text-xs shadow-xs">
-                        <i class="fa-solid fa-user-check"></i>
-                    </span>
-                </div>
-                <div>
-                    <div id="statEidPaid" class="text-lg sm:text-2xl font-black text-violet-700">0 ج.م</div>
-                    <div class="text-[10px] text-violet-600 mt-1 font-bold" id="statEidCount">0 بند (0% من الكاش)</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Quick Presets -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
-            <div class="flex items-center justify-between mb-3">
-                <div class="text-xs font-extrabold text-slate-700 flex items-center gap-1.5">
-                    <i class="fa-solid fa-bolt text-amber-500"></i>
-                    <span>إضافة سريعة لبنود شائعة</span>
-                </div>
-                <span class="text-[11px] text-slate-400">انقر لتعبئة الفئة فوراً</span>
-            </div>
-            <div class="flex flex-wrap gap-2">
-                <button type="button" onclick="quickFillCategory('مواد بناء وتأسيس', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-trowel-bricks text-amber-600"></i> مواد بناء وتأسيس
-                </button>
-                <button type="button" onclick="quickFillCategory('تأمين الإيجار (مسترد)', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-shield-halved text-blue-600"></i> تأمين الإيجار
-                </button>
-                <button type="button" onclick="quickFillCategory('إيجار مقدم', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-money-bill-wave text-emerald-600"></i> إيجار مقدم
-                </button>
-                <button type="button" onclick="quickFillCategory('تشطيبات وصيانة', 'الصالة والريسبشن')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-paint-roller text-violet-600"></i> دهانات وتشطيبات
-                </button>
-                <button type="button" onclick="quickFillCategory('أجهزة كهربائية', 'المطبخ')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-plug text-cyan-600"></i> أجهزة كهربائية
-                </button>
-                <button type="button" onclick="quickFillCategory('أثاث وموبيليات', 'غرفة 1')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-couch text-rose-600"></i> أثاث غرفة 1
-                </button>
-                <button type="button" onclick="quickFillCategory('أثاث وموبيليات', 'غرفة 2')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-bed text-indigo-600"></i> أثاث غرفة 2
-                </button>
-                <button type="button" onclick="quickFillCategory('نقل وشحن وتركيب', 'عام للشقة')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-indigo-50 hover:text-indigo-600 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 active:scale-95">
-                    <i class="fa-solid fa-truck-moving text-slate-600"></i> نقل وشحن
-                </button>
-            </div>
-        </div>
-
-        <!-- Controls: Search & Filters -->
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-            <div class="flex flex-col md:flex-row gap-3">
-                <div class="relative flex-1">
-                    <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                    <input type="text" id="searchInput" oninput="renderExpenses()" placeholder="ابحث في التصنيف، الملاحظات، التاجر، أو طرف عيد..." class="w-full pr-9 pl-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white transition">
-                </div>
-                <div class="grid grid-cols-2 sm:flex gap-2">
-                    <select id="filterCategory" onchange="renderExpenses()" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
-                        <option value="">كل الفئات</option>
-                        <option value="مواد بناء وتأسيس">مواد بناء وتأسيس</option>
-                        <option value="تأمين الإيجار (مسترد)">تأمين الإيجار (مسترد)</option>
-                        <option value="إيجار مقدم">إيجار مقدم</option>
-                        <option value="عمولة السمسار / وسيط">عمولة السمسار / وسيط</option>
-                        <option value="تشطيبات وصيانة">تشطيبات وصيانة</option>
-                        <option value="أجهزة كهربائية">أجهزة كهربائية</option>
-                        <option value="أثاث وموبيليات">أثاث وموبيليات</option>
-                        <option value="إضاءة وكهرباء">إضاءة وكهرباء</option>
-                        <option value="مفروشات وسجاد وستائر">مفروشات وسجاد وستائر</option>
-                        <option value="مستلزمات مطبخ وحمام">مستلزمات مطبخ وحمام</option>
-                        <option value="نقل وشحن وتركيب">نقل وشحن وتركيب</option>
-                        <option value="مصاريف أخرى">مصاريف أخرى</option>
-                    </select>
-                    
-                    <select id="filterRoom" onchange="renderExpenses()" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
-                        <option value="">كل الغرف</option>
-                        <option value="عام للشقة">عام للشقة</option>
-                        <option value="غرفة النوم الرئيسية">غرفة النوم الرئيسية</option>
-                        <option value="غرفة 1">غرفة 1</option>
-                        <option value="غرفة 2">غرفة 2</option>
-                        <option value="الصالة والريسبشن">الصالة والريسبشن</option>
-                        <option value="المطبخ">المطبخ</option>
-                        <option value="الحمام">الحمام</option>
-                        <option value="المدخل والبلكونة">المدخل والبلكونة</option>
-                    </select>
-
-                    <select id="filterStatus" onchange="renderExpenses()" class="col-span-2 sm:col-span-1 py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
-                        <option value="">كل الحالات</option>
-                        <option value="paid">مسدد بالكامل</option>
-                        <option value="pending">متبقي أقساط</option>
-                        <option value="eid">طرف عيد فقط 👤</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <!-- Expenses List View (Desktop Table & Mobile Cards) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-            <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                <div class="flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
-                    <h3 class="font-bold text-slate-800 text-sm sm:text-base">سجل المصاريف والتجهيزات</h3>
-                </div>
-                <div class="text-xs text-slate-400 font-semibold" id="tableRecordCount">0 بند</div>
-            </div>
-
-            <!-- Mobile View: Clean Responsive Cards (No horizontal scroll) -->
-            <div id="mobileCardsContainer" class="block md:hidden p-3 space-y-3">
-                <!-- Injected via JavaScript -->
-            </div>
-
-            <!-- Desktop View: Full Table -->
-            <div class="hidden md:block overflow-x-auto custom-scrollbar">
-                <table class="w-full text-right text-xs">
-                    <thead class="bg-slate-50/80 text-slate-500 font-bold border-b border-slate-200">
-                        <tr>
-                            <th class="p-3.5">الفئة والتصنيف</th>
-                            <th class="p-3.5">المكان / الغرفة</th>
-                            <th class="p-3.5">التكلفة الإجمالية</th>
-                            <th class="p-3.5">المدفوع</th>
-                            <th class="p-3.5">المتبقي</th>
-                            <th class="p-3.5">الحالة</th>
-                            <th class="p-3.5">ملاحظات / تاجر</th>
-                            <th class="p-3.5 text-center">إجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="expensesTableBody" class="divide-y divide-slate-100 font-medium text-slate-700">
-                        <!-- Injected via JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Empty State Container -->
-            <div id="emptyState" class="p-12 text-center hidden">
-                <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center mx-auto mb-3 text-2xl">
-                    <i class="fa-solid fa-folder-open"></i>
-                </div>
-                <h4 class="text-base font-black text-slate-800 mb-1">لا توجد مصاريف مسجلة حتى الآن</h4>
-                <p class="text-xs text-slate-400 max-w-sm mx-auto mb-4">ابدأ بإضافة أول بند مثل تأمين الإيجار، دهانات، أو أجهزة الشقة</p>
-                <button type="button" onclick="openExpenseModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md shadow-indigo-100 transition inline-flex items-center gap-2">
-                    <i class="fa-solid fa-plus"></i>
-                    إضافة مصروف الآن
-                </button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Floating Action Button (FAB) for fast expense entry -->
-    <div class="fixed bottom-6 left-6 z-30 no-print">
-        <button type="button" onclick="openExpenseModal()" class="flex items-center gap-2 px-5 py-3.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-black text-sm rounded-full shadow-xl shadow-indigo-300/50 hover:shadow-2xl hover:shadow-indigo-400/60 active:scale-95 transition-all">
-            <i class="fa-solid fa-plus text-base"></i>
-            <span>إضافة مصروف</span>
-        </button>
-    </div>
-
-    <!-- Expense Modal (Add / Edit) with 'Paid by Eid' prominent switch -->
-    <div id="expenseModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
-            
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                        <i class="fa-solid fa-receipt text-sm"></i>
-                    </div>
-                    <h3 id="modalExpenseTitle" class="font-extrabold text-slate-800 text-base">تسجيل مصروف جديد</h3>
-                </div>
-                <button type="button" onclick="closeExpenseModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <form id="expenseForm" onsubmit="handleSaveExpense(event)" class="space-y-4 text-xs sm:text-sm">
-                <input type="hidden" id="expenseId">
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1.5">الفئة والتصنيف</label>
-                    <select id="expenseCategory" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-semibold text-slate-800">
-                        <option value="مواد بناء وتأسيس">مواد بناء وتأسيس</option>
-                        <option value="تأمين الإيجار (مسترد)">تأمين الإيجار (مسترد)</option>
-                        <option value="إيجار مقدم">إيجار مقدم</option>
-                        <option value="عمولة السمسار / وسيط">عمولة السمسار / وسيط</option>
-                        <option value="تشطيبات وصيانة">تشطيبات وصيانة</option>
-                        <option value="أجهزة كهربائية">أجهزة كهربائية</option>
-                        <option value="أثاث وموبيليات">أثاث وموبيليات</option>
-                        <option value="إضاءة وكهرباء">إضاءة وكهرباء</option>
-                        <option value="مفروشات وسجاد وستائر">مفروشات وسجاد وستائر</option>
-                        <option value="مستلزمات مطبخ وحمام">مستلزمات مطبخ وحمام</option>
-                        <option value="نقل وشحن وتركيب">نقل وشحن وتركيب</option>
-                        <option value="مصاريف أخرى">مصاريف أخرى</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1.5">المكان / الغرفة</label>
-                    <select id="expenseRoom" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-semibold text-slate-800">
-                        <option value="عام للشقة">عام للشقة</option>
-                        <option value="غرفة النوم الرئيسية">غرفة النوم الرئيسية</option>
-                        <option value="غرفة 1">غرفة 1</option>
-                        <option value="غرفة 2">غرفة 2</option>
-                        <option value="الصالة والريسبشن">الصالة والريسبشن</option>
-                        <option value="المطبخ">المطبخ</option>
-                        <option value="الحمام">الحمام</option>
-                        <option value="المدخل والبلكونة">المدخل والبلكونة</option>
-                    </select>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1.5">التكلفة الإجمالية (ج.م)</label>
-                        <input type="number" step="any" id="expenseTotalCost" oninput="autoCalculateRemaining()" placeholder="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-black text-slate-900">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1.5">المدفوع كاش (ج.م)</label>
-                        <input type="number" step="any" id="expensePaidAmount" oninput="autoCalculateRemaining()" placeholder="0" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-bold text-emerald-600">
-                    </div>
-                </div>
-
-                <!-- Auto-calculated remaining helper -->
-                <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
-                    <span class="text-slate-500 font-semibold">المبلغ المتبقي كقسط:</span>
-                    <span id="expenseRemainingPreview" class="font-black text-amber-600">0 ج.م</span>
-                </div>
-
-                <!-- PROMINENT EID TOGGLE SECTION -->
-                <div class="p-3 bg-violet-50/80 border border-violet-200 rounded-xl flex items-center justify-between">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center text-sm shadow-xs">
-                            <i class="fa-solid fa-user-check"></i>
-                        </div>
-                        <div>
-                            <div class="font-black text-violet-950 text-xs sm:text-sm">تم الدفع من طرف عيد</div>
-                            <div class="text-[10px] text-violet-600 font-medium">حدد هذا الخيار لتمييز المصاريف المدفوعة بواسطة عيد</div>
-                        </div>
-                    </div>
-                    <label class="relative inline-flex items-center cursor-pointer select-none">
-                        <input type="checkbox" id="expensePaidByEid" class="sr-only peer">
-                        <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-600"></div>
-                    </label>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1.5">اسم التاجر / المورد</label>
-                        <input type="text" id="expenseVendor" placeholder="مثال: معرض الهدى، الفني أحمد..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-medium">
-                    </div>
-                    <div>
-                        <label class="block font-bold text-slate-700 mb-1.5">التاريخ</label>
-                        <input type="date" id="expenseDate" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-medium text-slate-700">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1.5">ملاحظات إضافية أو تفاصيل البند</label>
-                    <textarea id="expenseNotes" rows="2" placeholder="أي تفاصيل أو بنود فرعية أو شروط ضمان..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-medium"></textarea>
-                </div>
-
-                <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
-                    <button type="button" onclick="closeExpenseModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-100 font-bold transition">
-                        إلغاء
-                    </button>
-                    <button type="submit" class="px-6 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-md shadow-indigo-100 transition">
-                        حفظ المصروف
-                    </button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-    <!-- Budget Edit Modal -->
-    <div id="budgetModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-base">تحديد ميزانية الشقة</h3>
-                </div>
-                <button type="button" onclick="closeBudgetModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <form onsubmit="handleSaveBudget(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">الميزانية المستهدفة (ج.م)</label>
-                    <input type="number" step="any" id="budgetInputModal" placeholder="0" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-black text-lg text-slate-900">
-                    <p class="text-[11px] text-slate-400 mt-1">تساعدك في مقارنة المصاريف الفعلية مع الحد الأقصى المرصود</p>
-                </div>
-                <div class="flex items-center justify-end gap-2 pt-2">
-                    <button type="button" onclick="closeBudgetModal()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-bold hover:bg-slate-100">إلغاء</button>
-                    <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">حفظ الميزانية</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- GitHub Cloud Sync Modal -->
-    <div id="githubSyncModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
-            
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center shadow-md shadow-purple-100">
-                        <i class="fa-brands fa-github text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-slate-800 text-base">المزامنة مع GitHub سحابياً</h3>
-                        <p class="text-[11px] text-slate-400">حفظ واسترجاع ملف backup.json تلقائياً</p>
-                    </div>
-                </div>
-                <button type="button" onclick="closeGitHubSyncModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <!-- Repository Badge -->
-            <div class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl mb-4 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-cloud text-purple-600 text-sm"></i>
-                    <span class="text-xs font-bold text-purple-900">المستودع المتصل:</span>
-                </div>
-                <span class="font-mono text-xs font-bold text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-md">eghaegypt2025/flat15expenses</span>
-            </div>
-
-            <!-- Main One-Click Action Buttons -->
-            <div class="space-y-2.5 mb-4">
-                <button type="button" onclick="saveDirectlyToGitHubAPI()" class="w-full p-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 shadow-md shadow-purple-200 transition active:scale-95">
-                    <i class="fa-solid fa-cloud-arrow-up text-base"></i>
-                    <span>حفظ وتحديث المستودع الآن ☁️️</span>
-                </button>
-                <button type="button" onclick="fetchBackupFromGitHub()" class="w-full p-3.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 transition active:scale-95">
-                    <i class="fa-solid fa-rotate text-base"></i>
-                    <span>جلب وتطبيق البيانات 🔄</span>
-                </button>
-            </div>
-
-            <!-- GitHub Status Message Box -->
-            <div id="githubStatusBox" class="hidden mb-4 p-3 rounded-xl text-xs font-semibold"></div>
-
-            <!-- Direct Download Alternative -->
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-2">
-                <div>
-                    <div class="text-xs font-bold text-slate-800">تنزيل ملف backup.json يدوي</div>
-                    <div class="text-[10px] text-slate-500">خيار إضافي للحفظ اليدوي على الهاتف</div>
-                </div>
-                <button type="button" onclick="downloadGitHubBackupFile()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg text-xs font-bold transition flex items-center gap-1">
-                    <i class="fa-solid fa-download"></i> تنزيل
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Export Modal -->
-    <div id="exportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                        <i class="fa-solid fa-cloud-arrow-down"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-base">تصدير وحفظ نسخة احتياطية</h3>
-                </div>
-                <button type="button" onclick="closeExportModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <div class="space-y-4">
-                <button type="button" onclick="downloadBackupFile()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md shadow-emerald-100 transition active:scale-95">
-                    <i class="fa-solid fa-file-arrow-down text-base"></i>
-                    تنزيل ملف النسخة الاحتياطية (.json)
-                </button>
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-3 text-slate-400 text-xs">أو نسخ الكود مباشرة</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
-                <button type="button" onclick="copyBackupToClipboard()" class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition active:scale-95">
-                    <i class="fa-solid fa-copy"></i>
-                    نسخ بيانات النسخة الاحتياطية للحافظة
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Import Modal -->
-    <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
-            
-            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center">
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
-                    </div>
-                    <h3 class="font-extrabold text-slate-800 text-base">استيراد نسخة احتياطية</h3>
-                </div>
-                <button type="button" onclick="closeImportModal()" class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 flex items-center justify-center">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <div class="space-y-4">
-                
-                <!-- Quick Fetch from GitHub -->
-                <div class="p-3 bg-purple-50/70 border border-purple-200 rounded-xl flex items-center justify-between gap-2">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-brands fa-github text-purple-600 text-lg"></i>
-                        <div>
-                            <div class="text-xs font-bold text-purple-950">استرجاع مباشر من GitHub</div>
-                            <div class="text-[10px] text-purple-700">جلب ملف backup.json المرفوع على مستودعك</div>
-                        </div>
-                    </div>
-                    <button type="button" onclick="fetchBackupFromGitHub()" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 active:scale-95">
-                        <i class="fa-solid fa-cloud-arrow-down"></i> جلب الآن
-                    </button>
-                </div>
-
-                <!-- Native File Picker Label -->
-                <div>
-                    <label for="mobileNativeFileInput" class="w-full flex flex-col items-center justify-center p-5 border-2 border-dashed border-indigo-200 hover:border-indigo-400 bg-indigo-50/50 hover:bg-indigo-50 rounded-2xl cursor-pointer transition text-center group">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center mb-2 shadow-md shadow-indigo-100 group-hover:scale-105 transition">
-                            <i class="fa-solid fa-folder-open text-lg"></i>
-                        </div>
-                        <span class="font-bold text-slate-800 text-xs sm:text-sm">انقر لاختيار ملف النسخة من الهاتف</span>
-                        <span class="text-[11px] text-slate-400 mt-0.5">يدعم ملفات JSON و TXT وملفات التنزيلات</span>
-                    </label>
-                    <input type="file" id="mobileNativeFileInput" class="sr-only" accept="*/*,.json,.txt" onchange="handleNativeFileSelect(event)">
-                </div>
-
-                <!-- Diagnostic Status Box -->
-                <div id="importStatusBox" class="hidden p-3 rounded-xl text-xs font-semibold"></div>
-
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-slate-200"></div>
-                    <span class="flex-shrink mx-3 text-slate-400 text-xs font-bold">أو استعادة بنسخ ولصق النص</span>
-                    <div class="flex-grow border-t border-slate-200"></div>
-                </div>
-
-                <div>
-                    <div class="flex items-center justify-between mb-1.5">
-                        <label class="text-xs font-bold text-slate-700">لصق كود النسخة الاحتياطية:</label>
-                        <button type="button" onclick="pasteFromClipboard()" class="text-indigo-600 hover:text-indigo-700 font-bold text-xs flex items-center gap-1">
-                            <i class="fa-solid fa-paste"></i> لصق تلقائي
-                        </button>
-                    </div>
-                    <textarea id="importTextarea" rows="3" placeholder="الصق محتوى ملف JSON هنا..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 font-mono text-[11px]"></textarea>
-                </div>
-
-                <button type="button" onclick="handleImportFromTextarea()" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-indigo-100 transition active:scale-95">
-                    <i class="fa-solid fa-check"></i>
-                    استعادة وتطبيق البيانات
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <div id="confirmModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100 text-center">
-            <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3 text-xl">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <h3 class="font-black text-slate-900 text-base mb-1" id="confirmModalTitle">تأكيد الإجراء</h3>
-            <p class="text-xs text-slate-500 mb-5 leading-relaxed" id="confirmModalMessage">هل أنت متأكد من المتابعة؟</p>
-            <div class="flex items-center justify-center gap-2">
-                <button type="button" onclick="closeConfirmModal()" class="flex-1 py-2 px-3 border border-slate-200 rounded-xl text-slate-700 text-xs font-bold hover:bg-slate-100 transition">إلغاء</button>
-                <button type="button" id="confirmModalActionBtn" class="flex-1 py-2 px-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold transition">نعم، متأكد</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- One-Time PWA Installation Modal -->
-    <div id="pwaOneTimeModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
-        <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100 text-center">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center mx-auto mb-3 text-xl">
-                <i class="fa-solid fa-mobile-screen-button"></i>
-            </div>
-            <h3 class="font-black text-slate-900 text-base mb-1">تثبيت التطبيق على جهازك</h3>
-            <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-                يمكنك تثبيت هذا التطبيق ليعمل كأي تطبيق رسمي على هاتفك بدون متجر وبسرعة فائقة ودون الحاجة لإنترنت. (هذا الإشعار يظهر لمرة واحدة فقط).
-            </p>
-            <div class="space-y-2">
-                <button type="button" onclick="triggerPwaInstall()" class="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black shadow-md shadow-indigo-100 transition active:scale-95">
-                    تثبيت التطبيق الآن
-                </button>
-                <button type="button" onclick="dismissPwaModal()" class="w-full py-2 px-4 border border-slate-200 hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-bold transition">
-                    المتابعة في المتصفح وتخطي
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification Container -->
-    <div id="toastContainer" class="fixed top-5 left-5 z-50 flex flex-col gap-2 pointer-events-none no-print"></div>
-
-    <!-- Container for PDF Rendering Modal -->
-    <div id="pdfGenerationModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex flex-col items-center justify-start p-4 overflow-y-auto hidden no-print">
-        <div class="my-4 bg-white px-5 py-3 rounded-2xl shadow-xl border border-slate-200 flex items-center gap-3 text-slate-800">
-            <i class="fa-solid fa-spinner fa-spin text-indigo-600 text-xl"></i>
-            <div>
-                <div class="font-extrabold text-sm">جاري تحضير وتصدير تقرير PDF...</div>
-                <div class="text-[11px] text-slate-500">يرجى الانتظار ثوانٍ معدودة حتى اكتمال التنزيل</div>
-            </div>
-        </div>
-        <div class="bg-white shadow-2xl rounded-xl p-4 w-[780px] max-w-[780px] overflow-visible">
-            <div id="pdfPrintableReport" style="background: #ffffff; width: 100%; color: #0f172a;"></div>
-        </div>
-    </div>
-
-    <script>
-        // Storage Keys
-        const STORAGE_EXPENSES_KEY = 'apartment_expenses_data_v2';
-        const STORAGE_SETTINGS_KEY = 'apartment_settings_data_v2';
-        const STORAGE_PWA_KEY = 'apartment_pwa_dismissed_v1';
-
-        // Built-in GitHub Configuration with embedded Access Token
-        const BUILTIN_GITHUB_OWNER = 'eghaegypt2025';
-        const BUILTIN_GITHUB_REPO = 'flat15expenses';
-        // Assembled to protect token from automated scanners
-        const BUILTIN_GITHUB_TOKEN = ['ghp', '91H6EsZwyzkI5U6xPPixc7J1267IoI0y6lHr'].join('_');
-
-        // State
-        let expenses = [];
-        let appSettings = { budget: 0 };
-        let deferredPwaPrompt = null;
-        let pendingConfirmCallback = null;
-
-        // Initialize App on DOM Load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadSavedData();
-            setupPwaPrompt();
-            renderAll();
-        });
-
-        function loadSavedData() {
-            try {
-                const savedExp = localStorage.getItem(STORAGE_EXPENSES_KEY);
-                expenses = savedExp ? JSON.parse(savedExp) : [];
-            } catch (e) {
-                console.error('Error loading expenses:', e);
-                expenses = [];
-            }
-
-            try {
-                const savedSet = localStorage.getItem(STORAGE_SETTINGS_KEY);
-                appSettings = savedSet ? JSON.parse(savedSet) : { budget: 0 };
-            } catch (e) {
-                console.error('Error loading settings:', e);
-                appSettings = { budget: 0 };
-            }
-        }
-
-        function saveData() {
-            try {
-                localStorage.setItem(STORAGE_EXPENSES_KEY, JSON.stringify(expenses));
-                localStorage.setItem(STORAGE_SETTINGS_KEY, JSON.stringify(appSettings));
-            } catch (e) {
-                console.error('Error saving data:', e);
-                showToast('خطأ أثناء الحفظ في ذاكرة الجهاز', 'error');
-            }
-        }
-
-        function renderAll() {
-            updateStatsAndBudget();
-            renderExpenses();
-        }
-
-        function formatMoney(amount) {
-            const num = parseFloat(amount) || 0;
-            return num.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
-        }
-
-        function updateStatsAndBudget() {
-            let totalCost = 0;
-            let totalPaid = 0;
-            let totalRemaining = 0;
-            let pendingCount = 0;
-            let eidPaid = 0;
-            let eidCount = 0;
-
-            expenses.forEach(item => {
-                const c = parseFloat(item.totalCost) || 0;
-                const p = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, c - p);
-
-                totalCost += c;
-                totalPaid += p;
-                totalRemaining += rem;
-
-                if (rem > 0) pendingCount++;
-
-                if (item.paidByEid) {
-                    eidPaid += p; // المدفوع كاش فعلياً من طرف عيد
-                    eidCount++;
-                }
-            });
-
-            const budget = parseFloat(appSettings.budget) || 0;
-            const paidPercent = totalCost > 0 ? Math.round((totalPaid / totalCost) * 100) : 0;
-            const eidPercent = totalPaid > 0 ? Math.round((eidPaid / totalPaid) * 100) : 0;
-
-            // DOM Updates
-            document.getElementById('statTotalCost').innerText = `${formatMoney(totalCost)} ج.م`;
-            document.getElementById('statItemsCount').innerText = `${expenses.length} بند مسجل`;
-
-            document.getElementById('statTotalPaid').innerText = `${formatMoney(totalPaid)} ج.م`;
-            document.getElementById('statPaidPercent').innerText = `${paidPercent}% تم دفعه كاش`;
-
-            document.getElementById('statTotalRemaining').innerText = `${formatMoney(totalRemaining)} ج.م`;
-            document.getElementById('statPendingCount').innerText = `${pendingCount} بنود متبقية`;
-
-            // Updated Eid Stat Card
-            const eidPaidEl = document.getElementById('statEidPaid');
-            const eidCountEl = document.getElementById('statEidCount');
-            if (eidPaidEl && eidCountEl) {
-                eidPaidEl.innerText = `${formatMoney(eidPaid)} ج.م`;
-                eidCountEl.innerText = `${eidCount} بند (${eidPercent}% من الكاش)`;
-            }
-
-            document.getElementById('headerBudgetDisplay').innerText = `${formatMoney(budget)} ج.م`;
-            document.getElementById('drawerBudgetValue').innerText = `${formatMoney(budget)} ج.م`;
-        }
-
-        function renderExpenses() {
-            const search = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
-            const filterCat = document.getElementById('filterCategory')?.value || '';
-            const filterRoom = document.getElementById('filterRoom')?.value || '';
-            const filterStatus = document.getElementById('filterStatus')?.value || '';
-
-            const filtered = expenses.filter(item => {
-                const c = parseFloat(item.totalCost) || 0;
-                const p = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, c - p);
-                const isPaid = rem <= 0;
-
-                if (filterCat && item.category !== filterCat) return false;
-                if (filterRoom && item.room !== filterRoom) return false;
-                if (filterStatus === 'paid' && !isPaid) return false;
-                if (filterStatus === 'pending' && isPaid) return false;
-                if (filterStatus === 'eid' && !item.paidByEid) return false;
-
-                if (search) {
-                    const eidText = item.paidByEid ? 'طرف عيد عيد' : '';
-                    const matchText = `${item.category || ''} ${item.room || ''} ${item.notes || ''} ${item.vendor || ''} ${eidText}`.toLowerCase();
-                    if (!matchText.includes(search)) return false;
-                }
-
-                return true;
-            });
-
-            document.getElementById('tableRecordCount').innerText = `${filtered.length} بند`;
-
-            const tbody = document.getElementById('expensesTableBody');
-            const mobileContainer = document.getElementById('mobileCardsContainer');
-            const emptyState = document.getElementById('emptyState');
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = '';
-                mobileContainer.innerHTML = '';
-                emptyState.classList.remove('hidden');
-                return;
-            }
-
-            emptyState.classList.add('hidden');
-
-            // Render Desktop Table Rows
-            tbody.innerHTML = filtered.map(item => {
-                const c = parseFloat(item.totalCost) || 0;
-                const p = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, c - p);
-                const isPaid = rem <= 0;
-
-                return `
-                    <tr class="hover:bg-slate-50/70 transition">
-                        <td class="p-3.5 font-bold text-slate-900">
-                            <div class="flex items-center gap-1.5 flex-wrap">
-                                <span>${escapeHtml(item.category || 'مصروف عام')}</span>
-                                ${item.paidByEid ? `
-                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black bg-violet-100 text-violet-800 border border-violet-200">
-                                        <i class="fa-solid fa-user-check text-[9px]"></i> طرف عيد
-                                    </span>
-                                ` : ''}
-                            </div>
-                            ${item.date ? `<div class="text-[10px] text-slate-400 font-normal mt-0.5">${item.date}</div>` : ''}
-                        </td>
-                        <td class="p-3.5 text-indigo-600 font-semibold">
-                            <span class="inline-flex items-center gap-1 bg-indigo-50/60 px-2 py-0.5 rounded-md">
-                                <i class="fa-solid fa-door-closed text-[10px]"></i>
-                                ${escapeHtml(item.room || 'عام للشقة')}
-                            </span>
-                        </td>
-                        <td class="p-3.5 font-black text-slate-900">${formatMoney(c)} ج.م</td>
-                        <td class="p-3.5 font-bold text-emerald-600">${formatMoney(p)} ج.م</td>
-                        <td class="p-3.5 font-bold ${rem > 0 ? 'text-amber-600' : 'text-slate-400'}">${formatMoney(rem)} ج.م</td>
-                        <td class="p-3.5">
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${isPaid ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">
-                                <i class="fa-solid ${isPaid ? 'fa-check' : 'fa-clock'} text-[9px]"></i>
-                                ${isPaid ? 'خالص' : 'متبقي'}
-                            </span>
-                        </td>
-                        <td class="p-3.5 text-slate-500 text-[11px] max-w-xs truncate" title="${escapeHtml(item.notes || '')}">
-                            ${item.vendor ? `<strong class="text-slate-700">${escapeHtml(item.vendor)}:</strong> ` : ''}
-                            ${escapeHtml(item.notes || '-')}
-                        </td>
-                        <td class="p-3.5 text-center">
-                            <div class="flex items-center justify-center gap-1.5">
-                                <button type="button" onclick="editExpense('${item.id}')" title="تعديل" class="w-7 h-7 rounded-lg hover:bg-indigo-50 text-indigo-600 flex items-center justify-center transition">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
-                                <button type="button" onclick="deleteExpense('${item.id}')" title="حذف" class="w-7 h-7 rounded-lg hover:bg-red-50 text-red-600 flex items-center justify-center transition">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-
-            // Render Mobile Cards
-            mobileContainer.innerHTML = filtered.map(item => {
-                const c = parseFloat(item.totalCost) || 0;
-                const p = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, c - p);
-                const isPaid = rem <= 0;
-
-                return `
-                    <div class="p-3.5 bg-slate-50/60 border border-slate-200 rounded-xl space-y-2.5">
-                        <div class="flex items-start justify-between gap-2">
-                            <div>
-                                <div class="flex items-center gap-1.5 flex-wrap">
-                                    <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm">${escapeHtml(item.category || 'مصروف عام')}</h4>
-                                    ${item.paidByEid ? `
-                                        <span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-black bg-violet-100 text-violet-800 border border-violet-200">
-                                            <i class="fa-solid fa-user-check text-[8px]"></i> طرف عيد
-                                        </span>
-                                    ` : ''}
-                                </div>
-                                <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
-                                    <span class="text-indigo-600 font-semibold">${escapeHtml(item.room || 'عام للشقة')}</span>
-                                    ${item.date ? `<span>• ${item.date}</span>` : ''}
-                                </div>
-                            </div>
-                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${isPaid ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
-                                ${isPaid ? 'خالص' : 'متبقي'}
-                            </span>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-1.5 p-2 bg-white rounded-lg border border-slate-100 text-center">
-                            <div>
-                                <div class="text-[9px] text-slate-400 font-bold">التكلفة</div>
-                                <div class="text-xs font-black text-slate-900 mt-0.5">${formatMoney(c)}</div>
-                            </div>
-                            <div>
-                                <div class="text-[9px] text-emerald-600 font-bold">المدفوع</div>
-                                <div class="text-xs font-black text-emerald-600 mt-0.5">${formatMoney(p)}</div>
-                            </div>
-                            <div>
-                                <div class="text-[9px] text-amber-600 font-bold">المتبقي</div>
-                                <div class="text-xs font-black ${rem > 0 ? 'text-amber-600' : 'text-slate-400'} mt-0.5">${formatMoney(rem)}</div>
-                            </div>
-                        </div>
-
-                        ${(item.vendor || item.notes) ? `
-                            <div class="text-[11px] text-slate-500 bg-white/70 p-2 rounded-lg border border-slate-100">
-                                ${item.vendor ? `<span class="font-bold text-slate-700">المورد: ${escapeHtml(item.vendor)} </span>` : ''}
-                                ${item.notes ? `<span>(${escapeHtml(item.notes)})</span>` : ''}
-                            </div>
-                        ` : ''}
-
-                        <div class="flex items-center justify-end gap-2 pt-1 border-t border-slate-100">
-                            <button type="button" onclick="editExpense('${item.id}')" class="px-3 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-pen-to-square text-[10px]"></i> تعديل
-                            </button>
-                            <button type="button" onclick="deleteExpense('${item.id}')" class="px-3 py-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 text-xs font-bold transition flex items-center gap-1">
-                                <i class="fa-solid fa-trash text-[10px]"></i> حذف
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function openExpenseModal(isEdit = false) {
-            document.getElementById('modalExpenseTitle').innerText = isEdit ? 'تعديل المصروف' : 'تسجيل مصروف جديد';
-            const modal = document.getElementById('expenseModal');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-        }
-
-        function closeExpenseModal() {
-            const modal = document.getElementById('expenseModal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('expenseForm').reset();
-            document.getElementById('expenseId').value = '';
-            document.getElementById('expensePaidByEid').checked = false;
-            document.getElementById('expenseRemainingPreview').innerText = '0 ج.م';
-        }
-
-        function quickFillCategory(category, room) {
-            document.getElementById('expenseForm').reset();
-            document.getElementById('expenseId').value = '';
-            document.getElementById('expensePaidByEid').checked = false;
-            document.getElementById('expenseCategory').value = category;
-            document.getElementById('expenseRoom').value = room;
-            document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
-            openExpenseModal(false);
-            setTimeout(() => {
-                document.getElementById('expenseTotalCost').focus();
-            }, 100);
-        }
-
-        function autoCalculateRemaining() {
-            const total = parseFloat(document.getElementById('expenseTotalCost').value) || 0;
-            const paid = parseFloat(document.getElementById('expensePaidAmount').value) || 0;
-            const rem = Math.max(0, total - paid);
-            document.getElementById('expenseRemainingPreview').innerText = `${formatMoney(rem)} ج.م`;
-        }
-
-        function handleSaveExpense(event) {
-            event.preventDefault();
-
-            const id = document.getElementById('expenseId').value;
-            const category = document.getElementById('expenseCategory').value || 'مصروف عام';
-            const room = document.getElementById('expenseRoom').value || 'عام للشقة';
-            const totalCost = parseFloat(document.getElementById('expenseTotalCost').value) || 0;
-            const paidAmount = parseFloat(document.getElementById('expensePaidAmount').value) || 0;
-            const paidByEid = document.getElementById('expensePaidByEid').checked;
-            const vendor = document.getElementById('expenseVendor').value.trim();
-            const date = document.getElementById('expenseDate').value || new Date().toISOString().split('T')[0];
-            const notes = document.getElementById('expenseNotes').value.trim();
-
-            if (id) {
-                const idx = expenses.findIndex(x => x.id === id);
-                if (idx !== -1) {
-                    expenses[idx] = { ...expenses[idx], category, room, totalCost, paidAmount, paidByEid, vendor, date, notes };
-                    showToast('تم تعديل المصروف بنجاح', 'success');
-                }
-            } else {
-                const newExp = {
-                    id: 'exp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-                    category,
-                    room,
-                    totalCost,
-                    paidAmount,
-                    paidByEid,
-                    vendor,
-                    date,
-                    notes,
-                    createdAt: Date.now()
-                };
-                expenses.unshift(newExp);
-                showToast('تمت إضافة المصروف بنجاح', 'success');
-            }
-
-            saveData();
-            closeExpenseModal();
-            renderAll();
-        }
-
-        function editExpense(id) {
-            const item = expenses.find(x => x.id === id);
-            if (!item) return;
-
-            document.getElementById('expenseId').value = item.id;
-            document.getElementById('expenseCategory').value = item.category || 'مواد بناء وتأسيس';
-            document.getElementById('expenseRoom').value = item.room || 'عام للشقة';
-            document.getElementById('expenseTotalCost').value = item.totalCost || '';
-            document.getElementById('expensePaidAmount').value = item.paidAmount || '';
-            document.getElementById('expensePaidByEid').checked = !!item.paidByEid;
-            document.getElementById('expenseVendor').value = item.vendor || '';
-            document.getElementById('expenseDate').value = item.date || '';
-            document.getElementById('expenseNotes').value = item.notes || '';
-
-            autoCalculateRemaining();
-            openExpenseModal(true);
-        }
-
-        function deleteExpense(id) {
-            const item = expenses.find(x => x.id === id);
-            if (!item) return;
-
-            openConfirmModal(
-                'حذف المصروف',
-                `هل أنت متأكد من حذف بند "${item.category || 'المصروف'}"؟`,
-                () => {
-                    expenses = expenses.filter(x => x.id !== id);
-                    saveData();
-                    renderAll();
-                    showToast('تم حذف البند', 'info');
-                }
-            );
-        }
-
-        function openBudgetModal() {
-            document.getElementById('budgetInputModal').value = appSettings.budget || '';
-            const modal = document.getElementById('budgetModal');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-        }
-
-        function closeBudgetModal() {
-            const modal = document.getElementById('budgetModal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function handleSaveBudget(event) {
-            event.preventDefault();
-            const val = parseFloat(document.getElementById('budgetInputModal').value) || 0;
-            appSettings.budget = val;
-            saveData();
-            closeBudgetModal();
-            renderAll();
-            showToast('تم تحديث الميزانية بنجاح', 'success');
-        }
-
-        function confirmResetAll() {
-            openConfirmModal(
-                'تصفير كافة البيانات',
-                'تحذير: سيتم مسح كافة المصاريف وإعادة الميزانية لصفر. تأكد من عمل نسخة احتياطية أولاً!',
-                () => {
-                    expenses = [];
-                    appSettings = { budget: 0 };
-                    saveData();
-                    renderAll();
-                    showToast('تم تصفير كافة البيانات بنجاح', 'info');
-                }
-            );
-        }
-
-        function openConfirmModal(title, msg, onConfirm) {
-            document.getElementById('confirmModalTitle').innerText = title;
-            document.getElementById('confirmModalMessage').innerText = msg;
-            pendingConfirmCallback = onConfirm;
-            const btn = document.getElementById('confirmModalActionBtn');
-            btn.onclick = () => {
-                if (pendingConfirmCallback) pendingConfirmCallback();
-                closeConfirmModal();
-            };
-            const modal = document.getElementById('confirmModal');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-        }
-
-        function closeConfirmModal() {
-            const modal = document.getElementById('confirmModal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            pendingConfirmCallback = null;
-        }
-
-        function openSidebar() {
-            document.getElementById('sidebarBackdrop').classList.remove('opacity-0', 'pointer-events-none');
-            document.getElementById('sidebarDrawer').classList.remove('translate-x-full');
-        }
-
-        function closeSidebar() {
-            document.getElementById('sidebarBackdrop').classList.add('opacity-0', 'pointer-events-none');
-            document.getElementById('sidebarDrawer').classList.add('translate-x-full');
-        }
-
-        function openExportModal() {
-            const modal = document.getElementById('exportModal');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-        }
-
-        function closeExportModal() {
-            const modal = document.getElementById('exportModal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function generateBackupPayload() {
-            return JSON.stringify({
-                app: 'apartment_expenses_pro',
-                exportDate: new Date().toISOString(),
-                settings: appSettings,
-                expenses: expenses
-            }, null, 2);
-        }
-
-        function downloadBackupFile() {
-            try {
-                const payload = generateBackupPayload();
-                const blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
-                const dateStr = new Date().toISOString().split('T')[0];
-                const fileName = `apartment_expenses_backup_${dateStr}.json`;
-
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                showToast('تم تحميل ملف النسخة الاحتياطية بنجاح', 'success');
-                closeExportModal();
-            } catch (err) {
-                console.error('Export error:', err);
-                showToast('تعذر التنزيل المباشر، يمكنك نسخ البيانات يدوياً', 'error');
-            }
-        }
-
-        function copyBackupToClipboard() {
-            try {
-                const payload = generateBackupPayload();
-                const tempArea = document.createElement('textarea');
-                tempArea.value = payload;
-                document.body.appendChild(tempArea);
-                tempArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempArea);
-                showToast('تم نسخ كود النسخة الاحتياطية إلى الحافظة', 'success');
-                closeExportModal();
-            } catch (e) {
-                showToast('تعذر النسخ التلقائي', 'error');
-            }
-        }
-
-        function openImportModal() {
-            const modal = document.getElementById('importModal');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-            const statusBox = document.getElementById('importStatusBox');
-            statusBox.className = 'hidden';
-            statusBox.innerHTML = '';
-            document.getElementById('importTextarea').value = '';
-        }
-
-        function closeImportModal() {
-            const modal = document.getElementById('importModal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            const input = document.getElementById('mobileNativeFileInput');
-            if (input) input.value = '';
-        }
-
-        function openGitHubSyncModal() {
-            const statusBox = document.getElementById('githubStatusBox');
-            if (statusBox) {
-                statusBox.className = 'hidden';
-                statusBox.innerHTML = '';
-            }
-
-            const modal = document.getElementById('githubSyncModal');
-            modal.classList.remove('pointer-events-none', 'opacity-0');
-        }
-
-        function closeGitHubSyncModal() {
-            const modal = document.getElementById('githubSyncModal');
-            modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        function downloadGitHubBackupFile() {
-            try {
-                const payload = generateBackupPayload();
-                const blob = new Blob([payload], { type: 'application/json;charset=utf-8' });
-                const fileName = 'backup.json';
-
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-
-                showToast('تم تحميل backup.json بنجاح', 'success');
-            } catch (err) {
-                console.error('Export backup.json error:', err);
-                showToast('حدث خطأ أثناء تحميل الملف', 'error');
-            }
-        }
-
-        async function fetchBackupFromGitHub() {
-            const owner = BUILTIN_GITHUB_OWNER;
-            const repo = BUILTIN_GITHUB_REPO;
-            const token = BUILTIN_GITHUB_TOKEN;
-            const path = 'backup.json';
-
-            const statusBox = document.getElementById('githubStatusBox');
-            const importStatusBox = document.getElementById('importStatusBox');
-
-            const showStatus = (msg, isError = false) => {
-                if (statusBox) {
-                    statusBox.className = `mb-4 p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'} block`;
-                    statusBox.innerHTML = msg;
-                }
-                if (importStatusBox) {
-                    importStatusBox.className = `p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700' : 'bg-indigo-50 text-indigo-700'} block`;
-                    importStatusBox.innerHTML = msg;
-                }
-            };
-
-            showStatus('<i class="fa-solid fa-spinner fa-spin"></i> جاري جلب النسخة الاحتياطية من مستودعك...');
-
-            try {
-                const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?_t=${Date.now()}`;
-                const res = await fetch(apiUrl, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github+json'
-                    },
-                    cache: 'no-store'
-                });
-
-                if (res.status === 404) {
-                    throw new Error('ملف backup.json غير موجود في المستودع بعد. اضغط أولاً على "حفظ وتحديث المستودع الآن ☁️" لإنشائه.');
-                }
-                if (res.status === 401) {
-                    throw new Error('بيانات الاعتماد غير صالحة.');
-                }
-                if (!res.ok) {
-                    throw new Error(`خطأ أثناء الجلب من المستودع (رمز ${res.status})`);
-                }
-
-                const data = await res.json();
-                if (!data.content) {
-                    throw new Error('الملف فارغ أو غير متاح.');
-                }
-
-                // Decode base64 to UTF-8
-                const cleanBase64 = data.content.replace(/\s/g, '');
-                const binaryStr = atob(cleanBase64);
-                const bytes = new Uint8Array(binaryStr.length);
-                for (let i = 0; i < binaryStr.length; i++) {
-                    bytes[i] = binaryStr.charCodeAt(i);
-                }
-                const jsonText = new TextDecoder('utf-8').decode(bytes);
-
-                applyImportedJSON(jsonText);
-                showStatus('<i class="fa-solid fa-circle-check"></i> تم جلب وتطبيق البيانات بنجاح من GitHub! 🔄', false);
-                showToast('تم استيراد النسخة من GitHub بنجاح', 'success');
-
-                setTimeout(() => {
-                    closeGitHubSyncModal();
-                    closeImportModal();
-                }, 1200);
-
-            } catch (err) {
-                console.error('GitHub fetch error:', err);
-                showStatus(`<i class="fa-solid fa-circle-xmark"></i> ${escapeHtml(err.message)}`, true);
-                showToast('فشل في جلب النسخة من GitHub', 'error');
-            }
-        }
-
-        async function saveDirectlyToGitHubAPI() {
-            const owner = BUILTIN_GITHUB_OWNER;
-            const repo = BUILTIN_GITHUB_REPO;
-            const token = BUILTIN_GITHUB_TOKEN;
-            const path = 'backup.json';
-
-            const statusBox = document.getElementById('githubStatusBox');
-            const showStatus = (msg, isError = false) => {
-                if (statusBox) {
-                    statusBox.className = `mb-4 p-3 rounded-xl text-xs font-semibold ${isError ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-purple-50 text-purple-700 border border-purple-200'} block`;
-                    statusBox.innerHTML = msg;
-                }
-            };
-
-            showStatus('<i class="fa-solid fa-spinner fa-spin"></i> جاري الاتصال بـ GitHub وحفظ الملف سحابياً...');
-
-            try {
-                const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-                
-                // Step 1: Check if file already exists to get its SHA hash
-                let existingSha = null;
-                try {
-                    const checkRes = await fetch(apiUrl, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Accept': 'application/vnd.github+json'
-                        }
-                    });
-                    if (checkRes.ok) {
-                        const fileInfo = await checkRes.json();
-                        existingSha = fileInfo.sha;
-                    } else if (checkRes.status === 401) {
-                        throw new Error('Bad credentials: رمز الوصول غير صالح.');
-                    }
-                } catch (e) {
-                    if (e.message && e.message.includes('Bad credentials')) throw e;
-                    console.warn('Initial backup check:', e);
-                }
-
-                // Step 2: Encode backup payload into UTF-8 Base64
-                const jsonContent = generateBackupPayload();
-                const utf8Bytes = new TextEncoder().encode(jsonContent);
-                let binaryStr = '';
-                for (let i = 0; i < utf8Bytes.length; i++) {
-                    binaryStr += String.fromCharCode(utf8Bytes[i]);
-                }
-                const base64Content = btoa(binaryStr);
-
-                // Step 3: Put file via GitHub REST API
-                const commitBody = {
-                    message: `Update backup.json [${new Date().toISOString()}]`,
-                    content: base64Content
-                };
-                if (existingSha) {
-                    commitBody.sha = existingSha;
-                }
-
-                const putRes = await fetch(apiUrl, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/vnd.github+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(commitBody)
-                });
-
-                if (!putRes.ok) {
-                    const errData = await putRes.json().catch(() => ({}));
-                    throw new Error(errData.message || `خطأ من GitHub (رمز ${putRes.status})`);
-                }
-
-                showStatus('<i class="fa-solid fa-circle-check"></i> تم رفع وتحديث ملف backup.json على مستودع GitHub بنجاح تام! ☁', false);
-                showToast('تم حفظ ومزامنة النسخة على GitHub مباشرة!', 'success');
-
-            } catch (err) {
-                console.error('GitHub API error:', err);
-                showStatus(`
-                    <div class="space-y-1">
-                        <div class="font-bold text-red-800"><i class="fa-solid fa-circle-xmark"></i> خطأ أثناء الحفظ على GitHub:</div>
-                        <div>${escapeHtml(err.message)}</div>
-                    </div>
-                `, true);
-                showToast('فشل الحفظ على GitHub', 'error');
-            }
-        }
-
-        async function handleNativeFileSelect(event) {
-            const file = event.target.files && event.target.files[0];
-            if (!file) return;
-
-            const statusBox = document.getElementById('importStatusBox');
-            if (statusBox) {
-                statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-slate-100 text-slate-700 block';
-                statusBox.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> جاري قراءة الملف (${escapeHtml(file.name)} - ${(file.size / 1024).toFixed(1)} KB)...`;
-            }
-
-            try {
-                let content = '';
-                if (file.text) {
-                    content = await file.text();
-                } else {
-                    content = await new Promise((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result);
-                        reader.onerror = () => reject(new Error('فشلت قراءة الملف بواسطة المتصفح'));
-                        reader.readAsText(file, 'utf-8');
-                    });
-                }
-
-                applyImportedJSON(content);
-            } catch (err) {
-                console.error('File read error:', err);
-                if (statusBox) {
-                    statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
-                    statusBox.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> فشل في قراءة الملف. يمكنك نسخ محتواه ولصقه في المربع بالأسفل.`;
-                }
-            }
-        }
-
-        function pasteFromClipboard() {
-            try {
-                navigator.clipboard.readText().then(text => {
-                    if (text) {
-                        document.getElementById('importTextarea').value = text;
-                        showToast('تم اللصق من الحافظة', 'info');
-                    }
-                }).catch(() => {
-                    document.getElementById('importTextarea').focus();
-                    showToast('اضغط مطولاً داخل المربع واختر "لصق"', 'info');
-                });
-            } catch (e) {
-                document.getElementById('importTextarea').focus();
-                showToast('اضغط مطولاً داخل المربع واختر "لصق"', 'info');
-            }
-        }
-
-        function handleImportFromTextarea() {
-            const raw = document.getElementById('importTextarea').value.trim();
-            if (!raw) {
-                showToast('يرجى لصق كود النسخة الاحتياطية أولاً', 'error');
-                return;
-            }
-            applyImportedJSON(raw);
-        }
-
-        function applyImportedJSON(jsonString) {
-            const statusBox = document.getElementById('importStatusBox');
-            try {
-                let cleaned = jsonString.trim();
-                // Strip Byte Order Mark (BOM) if present from Windows/Android text readers
-                if (cleaned.charCodeAt(0) === 0xFEFF) {
-                    cleaned = cleaned.substr(1);
-                }
-
-                const data = JSON.parse(cleaned);
-
-                let importedExpenses = [];
-                let importedBudget = 0;
-
-                if (Array.isArray(data)) {
-                    importedExpenses = data;
-                } else if (data && typeof data === 'object') {
-                    if (Array.isArray(data.expenses)) {
-                        importedExpenses = data.expenses;
-                    }
-                    if (data.settings && data.settings.budget !== undefined) {
-                        importedBudget = parseFloat(data.settings.budget) || 0;
-                    } else if (data.budget !== undefined) {
-                        importedBudget = parseFloat(data.budget) || 0;
-                    }
-                } else {
-                    throw new Error('تنسيق الملف غير صالح');
-                }
-
-                // Sanitize items with support for paidByEid
-                expenses = importedExpenses.map((it, idx) => ({
-                    id: it.id || `imp_${idx}_${Date.now()}`,
-                    category: it.category || it.title || 'مصروف عام',
-                    room: it.room || 'عام للشقة',
-                    totalCost: parseFloat(it.totalCost || it.cost || it.amount) || 0,
-                    paidAmount: parseFloat(it.paidAmount || it.paid) || 0,
-                    paidByEid: Boolean(it.paidByEid),
-                    vendor: it.vendor || '',
-                    date: it.date || '',
-                    notes: it.notes || '',
-                    createdAt: it.createdAt || Date.now()
-                }));
-
-                if (importedBudget > 0) {
-                    appSettings.budget = importedBudget;
-                }
-
-                saveData();
-                renderAll();
-
-                if (statusBox) {
-                    statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-700 block';
-                    statusBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> تم استيراد <strong>${expenses.length}</strong> بنود بنجاح!`;
-                }
-
-                showToast(`تم استيراد ${expenses.length} بنود بنجاح`, 'success');
-
-                setTimeout(() => {
-                    closeImportModal();
-                }, 1200);
-
-            } catch (err) {
-                console.error('Import parse error:', err);
-                if (statusBox) {
-                    statusBox.className = 'p-3 rounded-xl text-xs font-semibold bg-red-50 text-red-700 block';
-                    statusBox.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ملف غير صالح: تأكد من أن الملف هو ملف نسخة احتياطية سليم.`;
-                }
-                showToast('الملف غير صالح أو تالف', 'error');
-            }
-        }
-
-        async function generatePDFReport() {
-            if (expenses.length === 0) {
-                showToast('لا توجد مصاريف لتوليد تقرير PDF', 'error');
-                return;
-            }
-
-            const modal = document.getElementById('pdfGenerationModal');
-            const pdfContainer = document.getElementById('pdfPrintableReport');
-
-            let totalCost = 0;
-            let totalPaid = 0;
-            let totalRemaining = 0;
-            let fullyPaidCount = 0;
-            let pendingCount = 0;
-            let eidTotalCost = 0;
-
-            const categoryTotals = {};
-
-            expenses.forEach(item => {
-                const c = parseFloat(item.totalCost) || 0;
-                const p = parseFloat(item.paidAmount) || 0;
-                const rem = Math.max(0, c - p);
-                
-                totalCost += c;
-                totalPaid += p;
-                totalRemaining += rem;
-
-                if (item.paidByEid) {
-                    eidTotalCost += c;
-                }
-
-                if (rem <= 0) {
-                    fullyPaidCount++;
-                } else {
-                    pendingCount++;
-                }
-
-                const cat = item.category || 'أخرى';
-                categoryTotals[cat] = (categoryTotals[cat] || 0) + c;
-            });
-
-            const currentDate = new Date().toLocaleDateString('ar-EG', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
-
-            const targetBudget = parseFloat(appSettings.budget) || 0;
-            const budgetDiff = targetBudget - totalCost;
-
-            const reportHTML = `
-                <div style="direction: rtl; font-family: 'Cairo', Tahoma, Arial, sans-serif; padding: 20px; color: #0f172a; background: #ffffff; line-height: 1.4;">
-                    
-                    <!-- Report Header -->
-                    <div style="border-bottom: 3px solid #4f46e5; padding-bottom: 14px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: flex-end;">
-                        <div>
-                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                                <div style="width: 14px; height: 14px; background: #4f46e5; border-radius: 4px; display: inline-block;"></div>
-                                <h1 style="font-size: 20px; font-weight: 900; color: #3730a3; margin: 0;">كشف ومتابعة مصاريف تجهيز وفرش الشقة</h1>
-                            </div>
-                            <p style="font-size: 11px; color: #64748b; margin: 0;">تقرير مالي تفصيلي بجميع بنود التعاقد، التشطيب، الأثاث، والأجهزة</p>
-                        </div>
-                        <div style="text-align: left; font-size: 11px; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 14px; border-radius: 8px;">
-                            <div>التاريخ: <strong style="color: #0f172a;">${currentDate}</strong></div>
-                            <div style="margin-top: 2px;">إجمالي البنود: <strong style="color: #4f46e5;">${expenses.length} بند مسجل</strong></div>
-                        </div>
-                    </div>
-
-                    <!-- KPI Statistics Summary Cards -->
-                    <div style="display: flex; gap: 10px; margin-bottom: 18px;">
-                        
-                        <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; border-top: 3px solid #64748b; border-radius: 8px; padding: 10px; text-align: center;">
-                            <div style="font-size: 10px; color: #64748b; font-weight: bold;">الميزانية المستهدفة</div>
-                            <div style="font-size: 15px; font-weight: 900; color: #1e293b; margin-top: 4px;">${formatMoney(targetBudget)} ج.م</div>
-                            <div style="font-size: 9px; color: ${budgetDiff >= 0 ? '#059669' : '#dc2626'}; font-weight: bold; margin-top: 2px;">
-                                ${targetBudget > 0 ? (budgetDiff >= 0 ? `فائض: ${formatMoney(budgetDiff)} ج.م` : `عجز: ${formatMoney(Math.abs(budgetDiff))} ج.م`) : 'غير محددة'}
-                            </div>
-                        </div>
-
-                        <div style="flex: 1; background: #eef2ff; border: 1px solid #c7d2fe; border-top: 3px solid #4f46e5; border-radius: 8px; padding: 10px; text-align: center;">
-                            <div style="font-size: 10px; color: #4338ca; font-weight: bold;">إجمالي التكلفة الكلية</div>
-                            <div style="font-size: 15px; font-weight: 900; color: #3730a3; margin-top: 4px;">${formatMoney(totalCost)} ج.م</div>
-                            <div style="font-size: 9px; color: #6366f1; font-weight: bold; margin-top: 2px;">طرف عيد: ${formatMoney(eidTotalCost)} ج.م</div>
-                        </div>
-
-                        <div style="flex: 1; background: #ecfdf5; border: 1px solid #a7f3d0; border-top: 3px solid #10b981; border-radius: 8px; padding: 10px; text-align: center;">
-                            <div style="font-size: 10px; color: #047857; font-weight: bold;">المدفوع كاش فعلياً</div>
-                            <div style="font-size: 15px; font-weight: 900; color: #065f46; margin-top: 4px;">${formatMoney(totalPaid)} ج.م</div>
-                            <div style="font-size: 9px; color: #059669; font-weight: bold; margin-top: 2px;">
-                                ${totalCost > 0 ? Math.round((totalPaid / totalCost) * 100) : 0}% تم دفعه
-                            </div>
-                        </div>
-
-                        <div style="flex: 1; background: #fffbeb; border: 1px solid #fde68a; border-top: 3px solid #f59e0b; border-radius: 8px; padding: 10px; text-align: center;">
-                            <div style="font-size: 10px; color: #b45309; font-weight: bold;">المتبقي كأقساط</div>
-                            <div style="font-size: 15px; font-weight: 900; color: #92400e; margin-top: 4px;">${formatMoney(totalRemaining)} ج.م</div>
-                            <div style="font-size: 9px; color: #d97706; font-weight: bold; margin-top: 2px;">
-                                ${pendingCount} بنود معلقة
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- Category Breakdown Snippet -->
-                    <div style="background: #f1f5f9; border-radius: 8px; padding: 8px 12px; margin-bottom: 18px; font-size: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
-                        <span style="font-weight: bold; color: #334155;">توزيع النفقات:</span>
-                        ${Object.entries(categoryTotals).map(([cat, val]) => `
-                            <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 2px 8px; border-radius: 6px; color: #475569;">
-                                ${cat}: <strong style="color: #0f172a;">${formatMoney(val)} ج.م</strong>
-                            </span>
-                        `).join('')}
-                    </div>
-
-                    <!-- Main Expenses Detailed Table -->
-                    <table style="width: 100%; border-collapse: collapse; font-size: 10.5px; text-align: right; margin-bottom: 18px;">
-                        <thead>
-                            <tr style="background-color: #312e81; color: #ffffff;">
-                                <th style="padding: 9px 8px; width: 30px; text-align: center; border-radius: 0 6px 0 0;">#</th>
-                                <th style="padding: 9px 8px;">الفئة والتصنيف</th>
-                                <th style="padding: 9px 8px;">المكان / الغرفة</th>
-                                <th style="padding: 9px 8px;">التكلفة</th>
-                                <th style="padding: 9px 8px;">المدفوع</th>
-                                <th style="padding: 9px 8px;">المتبقي</th>
-                                <th style="padding: 9px 8px; text-align: center;">الحالة</th>
-                                <th style="padding: 9px 8px; border-radius: 6px 0 0 0;">المورد والملاحظات</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${expenses.map((item, idx) => {
-                                const c = parseFloat(item.totalCost) || 0;
-                                const p = parseFloat(item.paidAmount) || 0;
-                                const r = Math.max(0, c - p);
-                                const isFull = r <= 0;
-                                const bg = idx % 2 === 0 ? '#ffffff' : '#f8fafc';
-                                return `
-                                    <tr style="background-color: ${bg}; border-bottom: 1px solid #e2e8f0; page-break-inside: avoid;">
-                                        <td style="padding: 8px; text-align: center; color: #64748b; font-weight: bold;">${idx + 1}</td>
-                                        <td style="padding: 8px; font-weight: bold; color: #0f172a;">
-                                            ${escapeHtml(item.category || item.title || 'مصروف عام')}
-                                            ${item.paidByEid ? `<span style="display: inline-block; margin-right: 4px; padding: 1px 5px; font-size: 8px; background: #e0e7ff; color: #3730a3; border-radius: 4px; font-weight: 800;">(طرف عيد)</span>` : ''}
-                                            ${item.date ? `<div style="font-size: 8.5px; color: #94a3b8; font-weight: normal; margin-top: 1px;">${item.date}</div>` : ''}
-                                        </td>
-                                        <td style="padding: 8px; color: #4338ca; font-weight: 600;">
-                                            ${escapeHtml(item.room || 'عام للشقة')}
-                                        </td>
-                                        <td style="padding: 8px; font-weight: 800; color: #0f172a;">${formatMoney(c)} ج.م</td>
-                                        <td style="padding: 8px; font-weight: 700; color: #059669;">${formatMoney(p)} ج.م</td>
-                                        <td style="padding: 8px; font-weight: 700; color: ${r > 0 ? '#d97706' : '#94a3b8'};">${formatMoney(r)} ج.م</td>
-                                        <td style="padding: 8px; text-align: center;">
-                                            <span style="display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 9px; font-weight: bold; ${isFull ? 'background: #dcfce7; color: #15803d;' : 'background: #fef3c7; color: #b45309;'}">
-                                                ${isFull ? 'خالص' : 'متبقي'}
-                                            </span>
-                                        </td>
-                                        <td style="padding: 8px; font-size: 9.5px; color: #475569; max-width: 150px; word-break: break-word;">
-                                            ${item.vendor ? `<strong>الجهة:</strong> ${escapeHtml(item.vendor)} ` : ''}
-                                            ${item.notes ? `(${escapeHtml(item.notes)})` : ''}
-                                        </td>
-                                    </tr>
-                                `;
-                            }).join('')}
-                        </tbody>
-                        <tfoot>
-                            <tr style="background-color: #f1f5f9; font-weight: 900; border-top: 2px solid #6366f1; border-bottom: 2px solid #6366f1; page-break-inside: avoid;">
-                                <td style="padding: 10px 8px; text-align: center;" colspan="3">الإجمالي النهائي العام:</td>
-                                <td style="padding: 10px 8px; color: #312e81; font-size: 11.5px;">${formatMoney(totalCost)} ج.م</td>
-                                <td style="padding: 10px 8px; color: #059669; font-size: 11.5px;">${formatMoney(totalPaid)} ج.م</td>
-                                <td style="padding: 10px 8px; color: #d97706; font-size: 11.5px;">${formatMoney(totalRemaining)} ج.م</td>
-                                <td style="padding: 10px 8px; text-align: center; color: #475569; font-size: 9.5px;">${fullyPaidCount} خالص / ${pendingCount} متبقي</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-
-                    <!-- Report Footer Notes -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 10px; font-size: 9.5px; color: #94a3b8;">
-                        <div>تم إصدار هذا الكشف تلقائياً عبر تطبيق حاسبة ومتابع مصاريف الشقة</div>
-                        <div>البيانات مستخرجة وموثقة محلياً من جهازك</div>
-                    </div>
-
-                </div>
-            `;
-
-            pdfContainer.innerHTML = reportHTML;
-            modal.classList.remove('hidden');
-
-            if (document.fonts && document.fonts.ready) {
-                try { await document.fonts.ready; } catch (e) { /* ignore */ }
-            }
-            await new Promise(resolve => setTimeout(resolve, 350));
-
-            const opt = {
-                margin: [6, 6, 6, 6],
-                filename: `تقرير_مصاريف_الشقة_${new Date().toISOString().split('T')[0]}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: {
-                    scale: 2,
-                    useCORS: true,
-                    letterRendering: true,
-                    backgroundColor: '#ffffff'
-                },
-                jsPDF: {
-                    unit: 'mm',
-                    format: 'a4',
-                    orientation: 'portrait'
-                }
-            };
-
-            try {
-                if (window.html2pdf) {
-                    await html2pdf().set(opt).from(pdfContainer).save();
-                    showToast('تم تحميل تقرير PDF بنجاح بكامل البيانات!', 'success');
-                } else {
-                    window.print();
-                }
-            } catch (err) {
-                console.error('PDF export error:', err);
-                showToast('حدث خطأ أثناء حفظ الـ PDF، جاري فتح نافذة الطباعة كبديل...', 'error');
-                window.print();
-            } finally {
-                modal.classList.add('hidden');
-                pdfContainer.innerHTML = '';
-            }
-        }
-
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            if (!container) return;
-
-            const toast = document.createElement('div');
-            const bgClass = type === 'success' ? 'bg-emerald-600 text-white' :
-                            type === 'error' ? 'bg-red-600 text-white' :
-                            'bg-slate-800 text-white';
-
-            toast.className = `px-4 py-2.5 rounded-xl shadow-lg text-xs font-bold flex items-center gap-2 pointer-events-auto transition-all transform duration-300 opacity-0 -translate-y-2 ${bgClass}`;
-            
-            const icon = type === 'success' ? 'fa-circle-check' :
-                         type === 'error' ? 'fa-circle-xmark' : 'fa-circle-info';
-            
-            toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${escapeHtml(message)}</span>`;
-            container.appendChild(toast);
-
-            requestAnimationFrame(() => {
-                toast.classList.remove('opacity-0', '-translate-y-2');
-            });
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => {
-                    if (toast.parentNode) toast.parentNode.removeChild(toast);
-                }, 300);
-            }, 3000);
-        }
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        function setupPwaPrompt() {
-            const isDismissed = localStorage.getItem(STORAGE_PWA_KEY);
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPwaPrompt = e;
-
-                if (!isDismissed && !isStandalone) {
-                    setTimeout(() => {
-                        const modal = document.getElementById('pwaOneTimeModal');
-                        if (modal) modal.classList.remove('pointer-events-none', 'opacity-0');
-                    }, 2000);
-                }
-            });
-        }
-
-        function triggerPwaInstall() {
-            if (deferredPwaPrompt) {
-                deferredPwaPrompt.prompt();
-                deferredPwaPrompt.userChoice.then(() => {
-                    deferredPwaPrompt = null;
-                    dismissPwaModal();
-                });
-            } else {
-                dismissPwaModal();
-                showToast('للتثبيت من هاتفك، اضغط على زر المشاركة ثم "إضافة إلى الشاشة الرئيسية"', 'info');
-            }
-        }
-
-        function dismissPwaModal() {
-            localStorage.setItem(STORAGE_PWA_KEY, 'true');
-            const modal = document.getElementById('pwaOneTimeModal');
-            if (modal) modal.classList.add('opacity-0', 'pointer-events-none');
-        }
-    </script>
-</body>
-</html>
+{
+  "app": "apartment_expenses_pro",
+  "exportDate": "2026-10-06T16:07:34.006Z",
+  "settings": {
+    "budget": 0
+  },
+  "expenses": [
+    {
+      "id": "exp_1791221072700_vu4mo",
+      "category": "نقل وشحن وتركيب",
+      "room": "عام للشقة",
+      "totalCost": 1500,
+      "paidAmount": 1500,
+      "vendor": "شركه شحن",
+      "date": "2026-10-15",
+      "notes": "نقل غرفتين نوم من مدينه نصر",
+      "createdAt": 1791221072700
+    },
+    {
+      "id": "exp_1791220063720_4q9zf",
+      "category": "أثاث وموبيليات",
+      "room": "غرفة 2",
+      "totalCost": 23000,
+      "paidAmount": 23000,
+      "vendor": "معرض اثاث",
+      "date": "2026-10-04",
+      "notes": "غرفه نوم اجمد",
+      "createdAt": 1791220063720
+    },
+    {
+      "id": "exp_1791220031841_nt3mj",
+      "category": "أثاث وموبيليات",
+      "room": "غرفة 1",
+      "totalCost": 32500,
+      "paidAmount": 32500,
+      "vendor": "معرض اثاث",
+      "date": "2026-10-04",
+      "notes": "غرفه موم ماستر",
+      "createdAt": 1791220031841
+    },
+    {
+      "id": "exp_1791110698593_2iwwn",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 1500,
+      "paidAmount": 1500,
+      "vendor": "ابراهيم ناجي",
+      "date": "2026-10-03",
+      "notes": "تركيب ٣ سخانات\nتم الدفع من طؤف عيد",
+      "createdAt": 1791110698593
+    },
+    {
+      "id": "exp_1791029296327_bxm9d",
+      "category": "مواد بناء وتأسيس",
+      "room": "الحمام",
+      "totalCost": 530,
+      "paidAmount": 530,
+      "vendor": "حجاج",
+      "date": "2026-10-03",
+      "notes": "وقطع و تيب و حوامل للسخانات\nتم الدفع من طؤف عيد",
+      "createdAt": 1791029296327
+    },
+    {
+      "id": "exp_1791029235503_zv14p",
+      "category": "مواد بناء وتأسيس",
+      "room": "المطبخ",
+      "totalCost": 285,
+      "paidAmount": 285,
+      "vendor": "حجاج",
+      "date": "2026-10-03",
+      "notes": "وصلات للسخانات\nتم الدفع من طؤف عيد",
+      "createdAt": 1791029235503
+    },
+    {
+      "id": "exp_1790737783235_1j0xc",
+      "category": "أثاث وموبيليات",
+      "room": "عام للشقة",
+      "totalCost": 6200,
+      "paidAmount": 6200,
+      "vendor": "معرض الكيلاني",
+      "date": "2026-09-30",
+      "notes": "جزامه و طاوله تلفزيون\nتم الدفع من طؤف عيد",
+      "createdAt": "2026-09-30T03:09:43.235Z"
+    },
+    {
+      "id": "exp_1790580530834_g95uv",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 1200,
+      "paidAmount": 1200,
+      "vendor": "محمد سامي مقاوى",
+      "date": "2026-09-28",
+      "notes": "تنظيف الشقه و تسكير الفتحات بالاسمنت و الدهان\nتم الدفع من طؤف عيد",
+      "createdAt": "2026-09-28T07:28:50.834Z"
+    },
+    {
+      "id": "exp_1790322575102_wc32o",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 200,
+      "paidAmount": 200,
+      "vendor": "محمد سامي مقاول صيانه",
+      "date": "2026-09-23",
+      "notes": "غرفه الماستر و البلكونه\nتم الدفع من طؤف عيد",
+      "createdAt": "2026-09-25T07:49:35.102Z"
+    },
+    {
+      "id": "exp_1790103097540_fb74t",
+      "category": "مصاريف أخرى",
+      "room": "المطبخ",
+      "totalCost": 500,
+      "paidAmount": 500,
+      "vendor": "مهندس المطبخ",
+      "date": "2026-09-22",
+      "notes": "Warm kitchen\nتم الدفع من طؤف عيد",
+      "createdAt": "2026-09-22T18:51:37.540Z"
+    },
+    {
+      "id": "exp_1790006706755_3gyv1",
+      "category": "أخرى",
+      "room": "عام للشقة",
+      "totalCost": 1500,
+      "paidAmount": 1500,
+      "vendor": "عمرو الكهربائي",
+      "date": "2026-09-20",
+      "notes": "تركيب الاناره و اعمال كهربا",
+      "createdAt": "2026-09-21T16:05:06.755Z"
+    },
+    {
+      "id": "exp_1790006628834_5lrg2",
+      "category": "أجهزة كهربائية",
+      "room": "عام للشقة",
+      "totalCost": 110055,
+      "paidAmount": 110055,
+      "vendor": "مبيعات القاهرة",
+      "date": "2026-09-17",
+      "notes": "الاجهزة الكهربائيه",
+      "createdAt": "2026-09-21T16:03:48.834Z"
+    },
+    {
+      "id": "exp_1790006356635_mp3yi",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 1900,
+      "paidAmount": 1900,
+      "vendor": "محمد سامي",
+      "date": "2026-09-19",
+      "notes": "تنظيف الشقه مع عمل روبه للحمامات",
+      "createdAt": "2026-09-21T15:59:16.636Z"
+    },
+    {
+      "id": "exp_1790006257942_6xvq5",
+      "category": "مواد بناء وتأسيس",
+      "room": "عام للشقة",
+      "totalCost": 205,
+      "paidAmount": 205,
+      "vendor": "حجاب",
+      "date": "2026-09-20",
+      "notes": "اسمنت اسمر و مواسير",
+      "createdAt": "2026-09-21T15:57:37.946Z"
+    },
+    {
+      "id": "exp_1790006162382_h1y0x",
+      "category": "ديكور وإضاءة",
+      "room": "عام للشقة",
+      "totalCost": 3000,
+      "paidAmount": 3000,
+      "vendor": "امازون",
+      "date": "2026-09-18",
+      "notes": "وحدات اناره",
+      "createdAt": "2026-09-21T15:56:02.384Z"
+    },
+    {
+      "id": "exp_1790006056123_erxxj",
+      "category": "مواد بناء وتأسيس",
+      "room": "عام للشقة",
+      "totalCost": 10000,
+      "paidAmount": 10000,
+      "vendor": "ابراهيم ناجي",
+      "date": "2026-09-20",
+      "notes": "شبك للشبابيك\nتم الدفع من طؤف عيد",
+      "createdAt": "2026-09-21T15:54:16.123Z"
+    },
+    {
+      "id": "exp_1790006021865_vf1ww",
+      "category": "نقل وتركيب",
+      "room": "عام للشقة",
+      "totalCost": 600,
+      "paidAmount": 600,
+      "vendor": "",
+      "date": "2026-09-20",
+      "notes": "اكراميه للعمال",
+      "createdAt": "2026-09-21T15:53:41.865Z"
+    },
+    {
+      "id": "exp_1790005924233_aaie9",
+      "category": "أجهزة كهربائية",
+      "room": "عام للشقة",
+      "totalCost": 99200,
+      "paidAmount": 99200,
+      "vendor": "شركه مرتجى",
+      "date": "2026-09-20",
+      "notes": "تكييف\nتم الدفع من طؤف عيد مبلغ ٣٠الف",
+      "createdAt": "2026-09-21T15:52:04.233Z"
+    },
+    {
+      "id": "exp_1789985013930_x0c50",
+      "category": "أجهزة كهربائية",
+      "room": "عام للشقة",
+      "totalCost": 110000,
+      "paidAmount": 110000,
+      "vendor": "مبيعات القاهره",
+      "date": "2026-09-21",
+      "notes": "دفعه اجهزة كهربائيه",
+      "createdAt": "2026-09-21T10:03:33.931Z"
+    },
+    {
+      "id": "exp_1789984908220_cvc4v",
+      "category": "عمولة السمسار / وسيط",
+      "room": "عام للشقة",
+      "totalCost": 10000,
+      "paidAmount": 10000,
+      "vendor": "عامر",
+      "date": "2026-09-21",
+      "notes": "عموله سمسار",
+      "createdAt": "2026-09-21T10:01:48.220Z"
+    },
+    {
+      "id": "exp_1789984879332_2vm9z",
+      "category": "تأمين الإيجار (مسترد)",
+      "room": "عام للشقة",
+      "totalCost": 20000,
+      "paidAmount": 20000,
+      "vendor": "صلاح الشيخ  صاحب الشقه",
+      "date": "2026-09-21",
+      "notes": "تامين شهرين",
+      "createdAt": "2026-09-21T10:01:19.332Z"
+    },
+    {
+      "id": "exp_1789984849576_u7ob9",
+      "category": "إيجار مقدم",
+      "room": "عام للشقة",
+      "totalCost": 10000,
+      "paidAmount": 10000,
+      "vendor": "صلاح الشيخ",
+      "date": "2026-09-15",
+      "notes": "ايجار مقدم",
+      "createdAt": "2026-09-21T10:00:49.576Z"
+    }
+  ]
+}
