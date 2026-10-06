@@ -225,7 +225,7 @@
     <!-- Main Content Area -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
 
-        <!-- Stat Cards Grid -->
+        <!-- Stat Cards Grid (Replaced Budget Status Card with Paid By Eid Card) -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             
             <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
@@ -267,16 +267,17 @@
                 </div>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between">
-                <div class="flex items-center justify-between text-slate-500 mb-2">
-                    <span class="text-xs font-bold">حالة الميزانية</span>
-                    <span class="w-8 h-8 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center text-xs">
-                        <i class="fa-solid fa-chart-pie"></i>
+            <!-- PROMINENT EID STAT CARD REPLACING BUDGET STATUS -->
+            <div class="bg-white p-4 rounded-2xl border border-violet-200 shadow-xs flex flex-col justify-between bg-gradient-to-br from-white to-violet-50/40">
+                <div class="flex items-center justify-between text-violet-600 mb-2">
+                    <span class="text-xs font-bold text-slate-700">المدفوع من طرف عيد</span>
+                    <span class="w-8 h-8 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center text-xs shadow-xs">
+                        <i class="fa-solid fa-user-check"></i>
                     </span>
                 </div>
                 <div>
-                    <div id="statBudgetStatus" class="text-lg sm:text-2xl font-black text-slate-900">0 ج.م</div>
-                    <div class="text-[10px] text-slate-400 mt-1 font-semibold" id="statBudgetPercent">حدد ميزانيتك للمقارنة</div>
+                    <div id="statEidPaid" class="text-lg sm:text-2xl font-black text-violet-700">0 ج.م</div>
+                    <div class="text-[10px] text-violet-600 mt-1 font-bold" id="statEidCount">0 بند (0% من الكاش)</div>
                 </div>
             </div>
 
@@ -324,7 +325,7 @@
             <div class="flex flex-col md:flex-row gap-3">
                 <div class="relative flex-1">
                     <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-                    <input type="text" id="searchInput" oninput="renderExpenses()" placeholder="ابحث في التصنيف، الملاحظات، أو التاجر..." class="w-full pr-9 pl-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white transition">
+                    <input type="text" id="searchInput" oninput="renderExpenses()" placeholder="ابحث في التصنيف، الملاحظات، التاجر، أو طرف عيد..." class="w-full pr-9 pl-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:bg-white transition">
                 </div>
                 <div class="grid grid-cols-2 sm:flex gap-2">
                     <select id="filterCategory" onchange="renderExpenses()" class="py-2 px-3 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-indigo-500 text-slate-700">
@@ -359,6 +360,7 @@
                         <option value="">كل الحالات</option>
                         <option value="paid">مسدد بالكامل</option>
                         <option value="pending">متبقي أقساط</option>
+                        <option value="eid">طرف عيد فقط 👤</option>
                     </select>
                 </div>
             </div>
@@ -424,7 +426,7 @@
         </button>
     </div>
 
-    <!-- Expense Modal (Add / Edit) - Clean & No Mandatory Fields -->
+    <!-- Expense Modal (Add / Edit) with 'Paid by Eid' prominent switch -->
     <div id="expenseModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
             
@@ -492,6 +494,23 @@
                     <span id="expenseRemainingPreview" class="font-black text-amber-600">0 ج.م</span>
                 </div>
 
+                <!-- PROMINENT EID TOGGLE SECTION -->
+                <div class="p-3 bg-violet-50/80 border border-violet-200 rounded-xl flex items-center justify-between">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center text-sm shadow-xs">
+                            <i class="fa-solid fa-user-check"></i>
+                        </div>
+                        <div>
+                            <div class="font-black text-violet-950 text-xs sm:text-sm">تم الدفع من طرف عيد</div>
+                            <div class="text-[10px] text-violet-600 font-medium">حدد هذا الخيار لتمييز المصاريف المدفوعة بواسطة عيد</div>
+                        </div>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="expensePaidByEid" class="sr-only peer">
+                        <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-violet-600"></div>
+                    </label>
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 mb-1.5">اسم التاجر / المورد</label>
@@ -549,7 +568,7 @@
         </div>
     </div>
 
-    <!-- GitHub Cloud Sync Modal (Simplified 100% - No Input Fields) -->
+    <!-- GitHub Cloud Sync Modal -->
     <div id="githubSyncModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
             
@@ -581,7 +600,7 @@
             <div class="space-y-2.5 mb-4">
                 <button type="button" onclick="saveDirectlyToGitHubAPI()" class="w-full p-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 shadow-md shadow-purple-200 transition active:scale-95">
                     <i class="fa-solid fa-cloud-arrow-up text-base"></i>
-                    <span>حفظ وتحديث المستودع الآن ☁️</span>
+                    <span>حفظ وتحديث المستودع الآن ☁️️</span>
                 </button>
                 <button type="button" onclick="fetchBackupFromGitHub()" class="w-full p-3.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs sm:text-sm font-black flex items-center justify-center gap-2.5 transition active:scale-95">
                     <i class="fa-solid fa-rotate text-base"></i>
@@ -606,7 +625,7 @@
         </div>
     </div>
 
-    <!-- Export Modal (Direct File Download + Copy Text fallback) -->
+    <!-- Export Modal -->
     <div id="exportModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl border border-slate-100">
             <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
@@ -638,7 +657,7 @@
         </div>
     </div>
 
-    <!-- Import Modal: Mobile-Friendly Native Label & Text Fallback with Diagnostics + GitHub fetch -->
+    <!-- Import Modal -->
     <div id="importModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-100 max-h-[90vh] overflow-y-auto custom-scrollbar">
             
@@ -670,7 +689,7 @@
                     </button>
                 </div>
 
-                <!-- Native File Picker Label (100% reliable on Android & Xiaomi Downloads) -->
+                <!-- Native File Picker Label -->
                 <div>
                     <label for="mobileNativeFileInput" class="w-full flex flex-col items-center justify-center p-5 border-2 border-dashed border-indigo-200 hover:border-indigo-400 bg-indigo-50/50 hover:bg-indigo-50 rounded-2xl cursor-pointer transition text-center group">
                         <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center mb-2 shadow-md shadow-indigo-100 group-hover:scale-105 transition">
@@ -710,7 +729,7 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal (Zero / Reset) -->
+    <!-- Confirmation Modal -->
     <div id="confirmModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 transition-opacity duration-200 opacity-0 pointer-events-none no-print">
         <div class="bg-white rounded-2xl max-w-sm w-full p-5 sm:p-6 shadow-2xl border border-slate-100 text-center">
             <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-3 text-xl">
@@ -763,7 +782,6 @@
         </div>
     </div>
 
-    <!-- JavaScript Application Logic -->
     <script>
         // Storage Keys
         const STORAGE_EXPENSES_KEY = 'apartment_expenses_data_v2';
@@ -773,7 +791,7 @@
         // Built-in GitHub Configuration with embedded Access Token
         const BUILTIN_GITHUB_OWNER = 'eghaegypt2025';
         const BUILTIN_GITHUB_REPO = 'flat15expenses';
-        // Assembled to protect token from immediate automated revocation scanners
+        // Assembled to protect token from automated scanners
         const BUILTIN_GITHUB_TOKEN = ['ghp', '91H6EsZwyzkI5U6xPPixc7J1267IoI0y6lHr'].join('_');
 
         // State
@@ -832,6 +850,8 @@
             let totalPaid = 0;
             let totalRemaining = 0;
             let pendingCount = 0;
+            let eidPaid = 0;
+            let eidCount = 0;
 
             expenses.forEach(item => {
                 const c = parseFloat(item.totalCost) || 0;
@@ -843,11 +863,16 @@
                 totalRemaining += rem;
 
                 if (rem > 0) pendingCount++;
+
+                if (item.paidByEid) {
+                    eidPaid += p; // المدفوع كاش فعلياً من طرف عيد
+                    eidCount++;
+                }
             });
 
             const budget = parseFloat(appSettings.budget) || 0;
-            const budgetDiff = budget - totalCost;
             const paidPercent = totalCost > 0 ? Math.round((totalPaid / totalCost) * 100) : 0;
+            const eidPercent = totalPaid > 0 ? Math.round((eidPaid / totalPaid) * 100) : 0;
 
             // DOM Updates
             document.getElementById('statTotalCost').innerText = `${formatMoney(totalCost)} ج.م`;
@@ -859,30 +884,16 @@
             document.getElementById('statTotalRemaining').innerText = `${formatMoney(totalRemaining)} ج.م`;
             document.getElementById('statPendingCount').innerText = `${pendingCount} بنود متبقية`;
 
+            // Updated Eid Stat Card
+            const eidPaidEl = document.getElementById('statEidPaid');
+            const eidCountEl = document.getElementById('statEidCount');
+            if (eidPaidEl && eidCountEl) {
+                eidPaidEl.innerText = `${formatMoney(eidPaid)} ج.م`;
+                eidCountEl.innerText = `${eidCount} بند (${eidPercent}% من الكاش)`;
+            }
+
             document.getElementById('headerBudgetDisplay').innerText = `${formatMoney(budget)} ج.م`;
             document.getElementById('drawerBudgetValue').innerText = `${formatMoney(budget)} ج.م`;
-
-            const budgetStatEl = document.getElementById('statBudgetStatus');
-            const budgetPercentEl = document.getElementById('statBudgetPercent');
-
-            if (budget > 0) {
-                if (budgetDiff >= 0) {
-                    budgetStatEl.innerText = `${formatMoney(budgetDiff)} ج.م`;
-                    budgetStatEl.className = 'text-lg sm:text-2xl font-black text-emerald-600';
-                    budgetPercentEl.innerText = `فائض متاح بالميزانية (${Math.round((totalCost / budget) * 100)}% مستهلك)`;
-                    budgetPercentEl.className = 'text-[10px] text-emerald-600 mt-1 font-bold';
-                } else {
-                    budgetStatEl.innerText = `${formatMoney(Math.abs(budgetDiff))} ج.م`;
-                    budgetStatEl.className = 'text-lg sm:text-2xl font-black text-red-600';
-                    budgetPercentEl.innerText = `تجاوز وعجز بالميزانية (+${formatMoney(Math.abs(budgetDiff))})`;
-                    budgetPercentEl.className = 'text-[10px] text-red-500 mt-1 font-bold';
-                }
-            } else {
-                budgetStatEl.innerText = 'غير محددة';
-                budgetStatEl.className = 'text-lg sm:text-2xl font-black text-slate-400';
-                budgetPercentEl.innerText = 'انقر على الميزانية لتحديدها';
-                budgetPercentEl.className = 'text-[10px] text-slate-400 mt-1 font-semibold';
-            }
         }
 
         function renderExpenses() {
@@ -901,9 +912,11 @@
                 if (filterRoom && item.room !== filterRoom) return false;
                 if (filterStatus === 'paid' && !isPaid) return false;
                 if (filterStatus === 'pending' && isPaid) return false;
+                if (filterStatus === 'eid' && !item.paidByEid) return false;
 
                 if (search) {
-                    const matchText = `${item.category || ''} ${item.room || ''} ${item.notes || ''} ${item.vendor || ''}`.toLowerCase();
+                    const eidText = item.paidByEid ? 'طرف عيد عيد' : '';
+                    const matchText = `${item.category || ''} ${item.room || ''} ${item.notes || ''} ${item.vendor || ''} ${eidText}`.toLowerCase();
                     if (!matchText.includes(search)) return false;
                 }
 
@@ -935,7 +948,14 @@
                 return `
                     <tr class="hover:bg-slate-50/70 transition">
                         <td class="p-3.5 font-bold text-slate-900">
-                            ${escapeHtml(item.category || 'مصروف عام')}
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span>${escapeHtml(item.category || 'مصروف عام')}</span>
+                                ${item.paidByEid ? `
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black bg-violet-100 text-violet-800 border border-violet-200">
+                                        <i class="fa-solid fa-user-check text-[9px]"></i> طرف عيد
+                                    </span>
+                                ` : ''}
+                            </div>
                             ${item.date ? `<div class="text-[10px] text-slate-400 font-normal mt-0.5">${item.date}</div>` : ''}
                         </td>
                         <td class="p-3.5 text-indigo-600 font-semibold">
@@ -971,7 +991,7 @@
                 `;
             }).join('');
 
-            // Render Mobile Cards (Fully responsive, no horizontal scroll)
+            // Render Mobile Cards
             mobileContainer.innerHTML = filtered.map(item => {
                 const c = parseFloat(item.totalCost) || 0;
                 const p = parseFloat(item.paidAmount) || 0;
@@ -982,7 +1002,14 @@
                     <div class="p-3.5 bg-slate-50/60 border border-slate-200 rounded-xl space-y-2.5">
                         <div class="flex items-start justify-between gap-2">
                             <div>
-                                <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm">${escapeHtml(item.category || 'مصروف عام')}</h4>
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <h4 class="font-extrabold text-slate-900 text-xs sm:text-sm">${escapeHtml(item.category || 'مصروف عام')}</h4>
+                                    ${item.paidByEid ? `
+                                        <span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-black bg-violet-100 text-violet-800 border border-violet-200">
+                                            <i class="fa-solid fa-user-check text-[8px]"></i> طرف عيد
+                                        </span>
+                                    ` : ''}
+                                </div>
                                 <div class="flex items-center gap-2 text-[10px] text-slate-400 mt-0.5">
                                     <span class="text-indigo-600 font-semibold">${escapeHtml(item.room || 'عام للشقة')}</span>
                                     ${item.date ? `<span>• ${item.date}</span>` : ''}
@@ -1039,12 +1066,14 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
             document.getElementById('expenseForm').reset();
             document.getElementById('expenseId').value = '';
+            document.getElementById('expensePaidByEid').checked = false;
             document.getElementById('expenseRemainingPreview').innerText = '0 ج.م';
         }
 
         function quickFillCategory(category, room) {
             document.getElementById('expenseForm').reset();
             document.getElementById('expenseId').value = '';
+            document.getElementById('expensePaidByEid').checked = false;
             document.getElementById('expenseCategory').value = category;
             document.getElementById('expenseRoom').value = room;
             document.getElementById('expenseDate').value = new Date().toISOString().split('T')[0];
@@ -1069,6 +1098,7 @@
             const room = document.getElementById('expenseRoom').value || 'عام للشقة';
             const totalCost = parseFloat(document.getElementById('expenseTotalCost').value) || 0;
             const paidAmount = parseFloat(document.getElementById('expensePaidAmount').value) || 0;
+            const paidByEid = document.getElementById('expensePaidByEid').checked;
             const vendor = document.getElementById('expenseVendor').value.trim();
             const date = document.getElementById('expenseDate').value || new Date().toISOString().split('T')[0];
             const notes = document.getElementById('expenseNotes').value.trim();
@@ -1076,7 +1106,7 @@
             if (id) {
                 const idx = expenses.findIndex(x => x.id === id);
                 if (idx !== -1) {
-                    expenses[idx] = { ...expenses[idx], category, room, totalCost, paidAmount, vendor, date, notes };
+                    expenses[idx] = { ...expenses[idx], category, room, totalCost, paidAmount, paidByEid, vendor, date, notes };
                     showToast('تم تعديل المصروف بنجاح', 'success');
                 }
             } else {
@@ -1086,6 +1116,7 @@
                     room,
                     totalCost,
                     paidAmount,
+                    paidByEid,
                     vendor,
                     date,
                     notes,
@@ -1109,6 +1140,7 @@
             document.getElementById('expenseRoom').value = item.room || 'عام للشقة';
             document.getElementById('expenseTotalCost').value = item.totalCost || '';
             document.getElementById('expensePaidAmount').value = item.paidAmount || '';
+            document.getElementById('expensePaidByEid').checked = !!item.paidByEid;
             document.getElementById('expenseVendor').value = item.vendor || '';
             document.getElementById('expenseDate').value = item.date || '';
             document.getElementById('expenseNotes').value = item.notes || '';
@@ -1417,8 +1449,8 @@
                         throw new Error('Bad credentials: رمز الوصول غير صالح.');
                     }
                 } catch (e) {
-                    if (e.message.includes('Bad credentials')) throw e;
-                    console.warn('Initial backup creation:', e);
+                    if (e.message && e.message.includes('Bad credentials')) throw e;
+                    console.warn('Initial backup check:', e);
                 }
 
                 // Step 2: Encode backup payload into UTF-8 Base64
@@ -1557,13 +1589,14 @@
                     throw new Error('تنسيق الملف غير صالح');
                 }
 
-                // Sanitize items
+                // Sanitize items with support for paidByEid
                 expenses = importedExpenses.map((it, idx) => ({
                     id: it.id || `imp_${idx}_${Date.now()}`,
                     category: it.category || it.title || 'مصروف عام',
                     room: it.room || 'عام للشقة',
                     totalCost: parseFloat(it.totalCost || it.cost || it.amount) || 0,
                     paidAmount: parseFloat(it.paidAmount || it.paid) || 0,
+                    paidByEid: Boolean(it.paidByEid),
                     vendor: it.vendor || '',
                     date: it.date || '',
                     notes: it.notes || '',
@@ -1612,6 +1645,7 @@
             let totalRemaining = 0;
             let fullyPaidCount = 0;
             let pendingCount = 0;
+            let eidTotalCost = 0;
 
             const categoryTotals = {};
 
@@ -1623,6 +1657,10 @@
                 totalCost += c;
                 totalPaid += p;
                 totalRemaining += rem;
+
+                if (item.paidByEid) {
+                    eidTotalCost += c;
+                }
 
                 if (rem <= 0) {
                     fullyPaidCount++;
@@ -1661,7 +1699,7 @@
                         </div>
                     </div>
 
-                    <!-- KPI Statistics Summary Cards (Flexbox for 100% PDF compatibility) -->
+                    <!-- KPI Statistics Summary Cards -->
                     <div style="display: flex; gap: 10px; margin-bottom: 18px;">
                         
                         <div style="flex: 1; background: #f8fafc; border: 1px solid #cbd5e1; border-top: 3px solid #64748b; border-radius: 8px; padding: 10px; text-align: center;">
@@ -1675,7 +1713,7 @@
                         <div style="flex: 1; background: #eef2ff; border: 1px solid #c7d2fe; border-top: 3px solid #4f46e5; border-radius: 8px; padding: 10px; text-align: center;">
                             <div style="font-size: 10px; color: #4338ca; font-weight: bold;">إجمالي التكلفة الكلية</div>
                             <div style="font-size: 15px; font-weight: 900; color: #3730a3; margin-top: 4px;">${formatMoney(totalCost)} ج.م</div>
-                            <div style="font-size: 9px; color: #6366f1; font-weight: bold; margin-top: 2px;">100% من المسجل</div>
+                            <div style="font-size: 9px; color: #6366f1; font-weight: bold; margin-top: 2px;">طرف عيد: ${formatMoney(eidTotalCost)} ج.م</div>
                         </div>
 
                         <div style="flex: 1; background: #ecfdf5; border: 1px solid #a7f3d0; border-top: 3px solid #10b981; border-radius: 8px; padding: 10px; text-align: center;">
@@ -1732,6 +1770,7 @@
                                         <td style="padding: 8px; text-align: center; color: #64748b; font-weight: bold;">${idx + 1}</td>
                                         <td style="padding: 8px; font-weight: bold; color: #0f172a;">
                                             ${escapeHtml(item.category || item.title || 'مصروف عام')}
+                                            ${item.paidByEid ? `<span style="display: inline-block; margin-right: 4px; padding: 1px 5px; font-size: 8px; background: #e0e7ff; color: #3730a3; border-radius: 4px; font-weight: 800;">(طرف عيد)</span>` : ''}
                                             ${item.date ? `<div style="font-size: 8.5px; color: #94a3b8; font-weight: normal; margin-top: 1px;">${item.date}</div>` : ''}
                                         </td>
                                         <td style="padding: 8px; color: #4338ca; font-weight: 600;">
@@ -1774,7 +1813,6 @@
                 </div>
             `;
 
-            // Display modal and render inside visible DOM tree
             pdfContainer.innerHTML = reportHTML;
             modal.classList.remove('hidden');
 
