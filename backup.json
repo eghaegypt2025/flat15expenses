@@ -1,10 +1,34 @@
 {
   "app": "apartment_expenses_pro",
-  "exportDate": "2026-10-06T21:49:28.842Z",
+  "exportDate": "2026-10-18T16:12:41.733Z",
   "settings": {
-    "budget": 0
+    "budget": 22628
   },
   "expenses": [
+    {
+      "id": "exp_1792330710688_jdc9q",
+      "category": "نقل وشحن وتركيب",
+      "room": "غرفة النوم الرئيسية",
+      "totalCost": 400,
+      "paidAmount": 400,
+      "paidByEid": true,
+      "vendor": "شركه تيكلا للاثاث",
+      "date": "2026-10-18",
+      "notes": "فع ايجار العمال وتركيب الغرف",
+      "createdAt": 1792330710690
+    },
+    {
+      "id": "exp_1792248111348_d53jb",
+      "category": "مستلزمات مطبخ وحمام",
+      "room": "عام للشقة",
+      "totalCost": 60700,
+      "paidAmount": 30000,
+      "paidByEid": false,
+      "vendor": "Worn kitxhen",
+      "date": "2026-10-17",
+      "notes": "تصميم و تنفيذ مطبخ",
+      "createdAt": 1792248111348
+    },
     {
       "id": "exp_1791323243047_s7iv9",
       "category": "أجهزة كهربائية",
@@ -27,7 +51,7 @@
       "date": "2026-10-15",
       "notes": "نقل غرفتين نوم من مدينه نصر",
       "createdAt": 1791221072700,
-      "paidByEid": true
+      "paidByEid": false
     },
     {
       "id": "exp_1791220063720_4q9zf",
@@ -137,14 +161,15 @@
     },
     {
       "id": "exp_1790006706755_3gyv1",
-      "category": "أخرى",
+      "category": "إضاءة وكهرباء",
       "room": "عام للشقة",
       "totalCost": 1500,
       "paidAmount": 1500,
       "vendor": "عمرو الكهربائي",
       "date": "2026-09-20",
       "notes": "تركيب الاناره و اعمال كهربا",
-      "createdAt": "2026-09-21T16:05:06.755Z"
+      "createdAt": "2026-09-21T16:05:06.755Z",
+      "paidByEid": false
     },
     {
       "id": "exp_1790006628834_5lrg2",
@@ -217,23 +242,13 @@
       "id": "exp_1790005924233_aaie9",
       "category": "أجهزة كهربائية",
       "room": "عام للشقة",
-      "totalCost": 99200,
-      "paidAmount": 99200,
+      "totalCost": 69200,
+      "paidAmount": 69200,
       "vendor": "شركه مرتجى",
       "date": "2026-09-20",
       "notes": "تكييف\nتم الدفع من طؤف عيد مبلغ ٣٠الف",
-      "createdAt": "2026-09-21T15:52:04.233Z"
-    },
-    {
-      "id": "exp_1789985013930_x0c50",
-      "category": "أجهزة كهربائية",
-      "room": "عام للشقة",
-      "totalCost": 110000,
-      "paidAmount": 110000,
-      "vendor": "مبيعات القاهره",
-      "date": "2026-09-21",
-      "notes": "دفعه اجهزة كهربائيه",
-      "createdAt": "2026-09-21T10:03:33.931Z"
+      "createdAt": "2026-09-21T15:52:04.233Z",
+      "paidByEid": false
     },
     {
       "id": "exp_1789984908220_cvc4v",
