@@ -1,10 +1,82 @@
 {
   "app": "apartment_expenses_pro",
-  "exportDate": "2026-10-18T16:12:41.733Z",
+  "exportDate": "2026-10-31T09:46:54.984Z",
   "settings": {
     "budget": 22628
   },
   "expenses": [
+    {
+      "id": "exp_1793439773507_z8wgb",
+      "category": "مصاريف أخرى",
+      "room": "المطبخ",
+      "totalCost": 200,
+      "paidAmount": 200,
+      "paidByEid": true,
+      "vendor": "عمال نقل وتركيب",
+      "date": "2026-10-29",
+      "notes": "اكراميه للعمال",
+      "createdAt": 1793439773507
+    },
+    {
+      "id": "exp_1793439506537_ky6dw",
+      "category": "نقل وشحن وتركيب",
+      "room": "المطبخ",
+      "totalCost": 8000,
+      "paidAmount": 8000,
+      "paidByEid": true,
+      "vendor": "Worm kitchen",
+      "date": "2026-10-31",
+      "notes": "تم جفع ٨٠٠٠ ج بقيه تكلفه المطبخ\nربا دفعت ٥٢٠٠٠ ج\nالإجمالي ٦٠٠٠٠ ج",
+      "createdAt": 1793439506537
+    },
+    {
+      "id": "exp_1793439418797_cidpc",
+      "category": "نقل وشحن وتركيب",
+      "room": "عام للشقة",
+      "totalCost": 5000,
+      "paidAmount": 5000,
+      "paidByEid": true,
+      "vendor": "Tikle furniture",
+      "date": "2026-10-04",
+      "notes": "تم دفع ٥٠٠٠ ج بقيه سعر غرف النوم\n٥٢٠٠٠ ج من ربا\nاجمالي الغرف مع التوصيل ٥٧٠٠٠",
+      "createdAt": 1793439418797
+    },
+    {
+      "id": "exp_1793438889593_lops1",
+      "category": "تشطيبات وصيانة",
+      "room": "المطبخ",
+      "totalCost": 700,
+      "paidAmount": 700,
+      "paidByEid": true,
+      "vendor": "عمرو الكهربائي",
+      "date": "2026-10-31",
+      "notes": "كهربائي شغل المطبخ",
+      "createdAt": 1793438889593
+    },
+    {
+      "id": "exp_1793438827816_5ok6b",
+      "category": "إضاءة وكهرباء",
+      "room": "المطبخ",
+      "totalCost": 805,
+      "paidAmount": 805,
+      "paidByEid": true,
+      "vendor": "حجاب",
+      "date": "2026-10-31",
+      "notes": "شراء اسلاك  و اباريز للمطبخ",
+      "createdAt": 1793438827816
+    },
+    {
+      "id": "exp_1793011076364_wvqas",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 740,
+      "paidAmount": 740,
+      "paidByEid": true,
+      "vendor": "حجاب لادوات البناء",
+      "date": "2026-10-25",
+      "notes": "شراء حنفيات و رقبه حنفيه حمام",
+      "createdAt": 1793011076364
+    },
     {
       "id": "exp_1792330710688_jdc9q",
       "category": "نقل وشحن وتركيب",
@@ -20,11 +92,11 @@
     {
       "id": "exp_1792248111348_d53jb",
       "category": "مستلزمات مطبخ وحمام",
-      "room": "عام للشقة",
-      "totalCost": 60700,
-      "paidAmount": 30000,
+      "room": "المطبخ",
+      "totalCost": 52000,
+      "paidAmount": 52000,
       "paidByEid": false,
-      "vendor": "Worn kitxhen",
+      "vendor": "Worn kitchen",
       "date": "2026-10-17",
       "notes": "تصميم و تنفيذ مطبخ",
       "createdAt": 1792248111348
@@ -47,11 +119,11 @@
       "room": "عام للشقة",
       "totalCost": 1500,
       "paidAmount": 1500,
+      "paidByEid": false,
       "vendor": "شركه شحن",
       "date": "2026-10-15",
       "notes": "نقل غرفتين نوم من مدينه نصر",
-      "createdAt": 1791221072700,
-      "paidByEid": false
+      "createdAt": 1791221072700
     },
     {
       "id": "exp_1791220063720_4q9zf",
@@ -59,6 +131,7 @@
       "room": "غرفة 2",
       "totalCost": 23000,
       "paidAmount": 23000,
+      "paidByEid": false,
       "vendor": "معرض اثاث",
       "date": "2026-10-04",
       "notes": "غرفه نوم اجمد",
@@ -68,8 +141,9 @@
       "id": "exp_1791220031841_nt3mj",
       "category": "أثاث وموبيليات",
       "room": "غرفة 1",
-      "totalCost": 32500,
-      "paidAmount": 32500,
+      "totalCost": 27500,
+      "paidAmount": 27500,
+      "paidByEid": false,
       "vendor": "معرض اثاث",
       "date": "2026-10-04",
       "notes": "غرفه موم ماستر",
@@ -81,11 +155,11 @@
       "room": "عام للشقة",
       "totalCost": 1500,
       "paidAmount": 1500,
+      "paidByEid": true,
       "vendor": "ابراهيم ناجي",
       "date": "2026-10-03",
       "notes": "تركيب ٣ سخانات\nتم الدفع من طؤف عيد",
-      "createdAt": 1791110698593,
-      "paidByEid": true
+      "createdAt": 1791110698593
     },
     {
       "id": "exp_1791029296327_bxm9d",
@@ -93,11 +167,11 @@
       "room": "الحمام",
       "totalCost": 530,
       "paidAmount": 530,
+      "paidByEid": true,
       "vendor": "حجاج",
       "date": "2026-10-03",
       "notes": "وقطع و تيب و حوامل للسخانات\nتم الدفع من طؤف عيد",
-      "createdAt": 1791029296327,
-      "paidByEid": true
+      "createdAt": 1791029296327
     },
     {
       "id": "exp_1791029235503_zv14p",
@@ -105,11 +179,11 @@
       "room": "المطبخ",
       "totalCost": 285,
       "paidAmount": 285,
+      "paidByEid": true,
       "vendor": "حجاج",
       "date": "2026-10-03",
       "notes": "وصلات للسخانات\nتم الدفع من طؤف عيد",
-      "createdAt": 1791029235503,
-      "paidByEid": true
+      "createdAt": 1791029235503
     },
     {
       "id": "exp_1790737783235_1j0xc",
@@ -117,11 +191,11 @@
       "room": "عام للشقة",
       "totalCost": 6200,
       "paidAmount": 6200,
+      "paidByEid": true,
       "vendor": "معرض الكيلاني",
       "date": "2026-09-30",
       "notes": "جزامه و طاوله تلفزيون\nتم الدفع من طؤف عيد",
-      "createdAt": "2026-09-30T03:09:43.235Z",
-      "paidByEid": true
+      "createdAt": "2026-09-30T03:09:43.235Z"
     },
     {
       "id": "exp_1790580530834_g95uv",
@@ -129,11 +203,11 @@
       "room": "عام للشقة",
       "totalCost": 1200,
       "paidAmount": 1200,
+      "paidByEid": true,
       "vendor": "محمد سامي مقاوى",
       "date": "2026-09-28",
       "notes": "تنظيف الشقه و تسكير الفتحات بالاسمنت و الدهان\nتم الدفع من طؤف عيد",
-      "createdAt": "2026-09-28T07:28:50.834Z",
-      "paidByEid": true
+      "createdAt": "2026-09-28T07:28:50.834Z"
     },
     {
       "id": "exp_1790322575102_wc32o",
@@ -141,11 +215,11 @@
       "room": "عام للشقة",
       "totalCost": 200,
       "paidAmount": 200,
+      "paidByEid": true,
       "vendor": "محمد سامي مقاول صيانه",
       "date": "2026-09-23",
       "notes": "غرفه الماستر و البلكونه\nتم الدفع من طؤف عيد",
-      "createdAt": "2026-09-25T07:49:35.102Z",
-      "paidByEid": true
+      "createdAt": "2026-09-25T07:49:35.102Z"
     },
     {
       "id": "exp_1790103097540_fb74t",
@@ -153,11 +227,11 @@
       "room": "المطبخ",
       "totalCost": 500,
       "paidAmount": 500,
+      "paidByEid": true,
       "vendor": "مهندس المطبخ",
       "date": "2026-09-22",
       "notes": "Warm kitchen\nتم الدفع من طؤف عيد",
-      "createdAt": "2026-09-22T18:51:37.540Z",
-      "paidByEid": true
+      "createdAt": "2026-09-22T18:51:37.540Z"
     },
     {
       "id": "exp_1790006706755_3gyv1",
@@ -165,11 +239,11 @@
       "room": "عام للشقة",
       "totalCost": 1500,
       "paidAmount": 1500,
+      "paidByEid": false,
       "vendor": "عمرو الكهربائي",
       "date": "2026-09-20",
       "notes": "تركيب الاناره و اعمال كهربا",
-      "createdAt": "2026-09-21T16:05:06.755Z",
-      "paidByEid": false
+      "createdAt": "2026-09-21T16:05:06.755Z"
     },
     {
       "id": "exp_1790006628834_5lrg2",
@@ -177,6 +251,7 @@
       "room": "عام للشقة",
       "totalCost": 110055,
       "paidAmount": 110055,
+      "paidByEid": false,
       "vendor": "مبيعات القاهرة",
       "date": "2026-09-17",
       "notes": "الاجهزة الكهربائيه",
@@ -188,6 +263,7 @@
       "room": "عام للشقة",
       "totalCost": 1900,
       "paidAmount": 1900,
+      "paidByEid": false,
       "vendor": "محمد سامي",
       "date": "2026-09-19",
       "notes": "تنظيف الشقه مع عمل روبه للحمامات",
@@ -199,6 +275,7 @@
       "room": "عام للشقة",
       "totalCost": 205,
       "paidAmount": 205,
+      "paidByEid": false,
       "vendor": "حجاب",
       "date": "2026-09-20",
       "notes": "اسمنت اسمر و مواسير",
@@ -210,6 +287,7 @@
       "room": "عام للشقة",
       "totalCost": 3000,
       "paidAmount": 3000,
+      "paidByEid": false,
       "vendor": "امازون",
       "date": "2026-09-18",
       "notes": "وحدات اناره",
@@ -221,11 +299,11 @@
       "room": "عام للشقة",
       "totalCost": 10000,
       "paidAmount": 10000,
+      "paidByEid": true,
       "vendor": "ابراهيم ناجي",
       "date": "2026-09-20",
       "notes": "شبك للشبابيك\nتم الدفع من طؤف عيد",
-      "createdAt": "2026-09-21T15:54:16.123Z",
-      "paidByEid": true
+      "createdAt": "2026-09-21T15:54:16.123Z"
     },
     {
       "id": "exp_1790006021865_vf1ww",
@@ -233,6 +311,7 @@
       "room": "عام للشقة",
       "totalCost": 600,
       "paidAmount": 600,
+      "paidByEid": false,
       "vendor": "",
       "date": "2026-09-20",
       "notes": "اكراميه للعمال",
@@ -244,11 +323,11 @@
       "room": "عام للشقة",
       "totalCost": 69200,
       "paidAmount": 69200,
+      "paidByEid": false,
       "vendor": "شركه مرتجى",
       "date": "2026-09-20",
       "notes": "تكييف\nتم الدفع من طؤف عيد مبلغ ٣٠الف",
-      "createdAt": "2026-09-21T15:52:04.233Z",
-      "paidByEid": false
+      "createdAt": "2026-09-21T15:52:04.233Z"
     },
     {
       "id": "exp_1789984908220_cvc4v",
@@ -256,6 +335,7 @@
       "room": "عام للشقة",
       "totalCost": 10000,
       "paidAmount": 10000,
+      "paidByEid": false,
       "vendor": "عامر",
       "date": "2026-09-21",
       "notes": "عموله سمسار",
@@ -267,6 +347,7 @@
       "room": "عام للشقة",
       "totalCost": 20000,
       "paidAmount": 20000,
+      "paidByEid": false,
       "vendor": "صلاح الشيخ  صاحب الشقه",
       "date": "2026-09-21",
       "notes": "تامين شهرين",
@@ -278,6 +359,7 @@
       "room": "عام للشقة",
       "totalCost": 10000,
       "paidAmount": 10000,
+      "paidByEid": false,
       "vendor": "صلاح الشيخ",
       "date": "2026-09-15",
       "notes": "ايجار مقدم",
