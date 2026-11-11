@@ -1,10 +1,70 @@
 {
   "app": "apartment_expenses_pro",
-  "exportDate": "2026-10-31T09:46:54.984Z",
+  "exportDate": "2026-11-11T06:10:35.638Z",
   "settings": {
-    "budget": 22628
+    "budget": 0
   },
   "expenses": [
+    {
+      "id": "exp_1794377365178_9ge7u",
+      "category": "تشطيبات وصيانة",
+      "room": "عام للشقة",
+      "totalCost": 800,
+      "paidAmount": 800,
+      "paidByEid": true,
+      "vendor": "محمد سامي",
+      "date": "2026-11-09",
+      "notes": "تنظيف الشقه وعمل روبه للمطبخ",
+      "createdAt": 1794377365178
+    },
+    {
+      "id": "exp_1794377267344_s7x2x",
+      "category": "نقل وشحن وتركيب",
+      "room": "عام للشقة",
+      "totalCost": 400,
+      "paidAmount": 400,
+      "paidByEid": true,
+      "vendor": "مراتب الشروق",
+      "date": "2026-11-10",
+      "notes": "اكراميه للعامل رفع فرشتين للدور الثالث",
+      "createdAt": 1794377267347
+    },
+    {
+      "id": "exp_1794232475445_sz7fe",
+      "category": "مفروشات وسجاد وستائر",
+      "room": "عام للشقة",
+      "totalCost": 14000,
+      "paidAmount": 14000,
+      "paidByEid": true,
+      "vendor": "عبده و امين",
+      "date": "2026-11-07",
+      "notes": "ستاير و بلاك اوت",
+      "createdAt": 1794232475445
+    },
+    {
+      "id": "exp_1794232434165_9i75u",
+      "category": "مفروشات وسجاد وستائر",
+      "room": "عام للشقة",
+      "totalCost": 11170,
+      "paidAmount": 11170,
+      "paidByEid": true,
+      "vendor": "مراتب الشروق",
+      "date": "2026-11-06",
+      "notes": "فرشتين ١٤٠ سم و ١٢٠ سم",
+      "createdAt": 1794232434165
+    },
+    {
+      "id": "exp_1793462427876_x7hej",
+      "category": "إيجار مقدم",
+      "room": "عام للشقة",
+      "totalCost": 10000,
+      "paidAmount": 10000,
+      "paidByEid": true,
+      "vendor": "صاحب ااشقه",
+      "date": "2026-11-01",
+      "notes": "ايجار شهر ١١",
+      "createdAt": 1793462427876
+    },
     {
       "id": "exp_1793439773507_z8wgb",
       "category": "مصاريف أخرى",
