@@ -1,10 +1,34 @@
 {
   "app": "apartment_expenses_pro",
-  "exportDate": "2026-11-11T06:10:35.638Z",
+  "exportDate": "2026-11-17T12:24:46.006Z",
   "settings": {
     "budget": 0
   },
   "expenses": [
+    {
+      "id": "exp_1794918277445_1ndba",
+      "category": "مصاريف أخرى",
+      "room": "عام للشقة",
+      "totalCost": 100,
+      "paidAmount": 100,
+      "paidByEid": true,
+      "vendor": "فني شركه  heir",
+      "date": "2026-11-12",
+      "notes": "تفعيل صمان الغساله",
+      "createdAt": 1794918277445
+    },
+    {
+      "id": "exp_1794918161956_6dj30",
+      "category": "أثاث وموبيليات",
+      "room": "عام للشقة",
+      "totalCost": 5000,
+      "paidAmount": 5000,
+      "paidByEid": true,
+      "vendor": "منجره الحلبي",
+      "date": "2026-11-17",
+      "notes": "شراء طاوله سفره",
+      "createdAt": 1794918161956
+    },
     {
       "id": "exp_1794377365178_9ge7u",
       "category": "تشطيبات وصيانة",
